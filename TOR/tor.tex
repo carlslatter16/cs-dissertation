@@ -51,14 +51,14 @@ I can gain an even deeper understanding.
 \begin{enumerate}
 	\item \textbf{Explanation of entry vectors & profiling}
 	\item \textbf{Explantaiton of expliotation}
-	\item \textbf{Analyis of historic threats & malware}
 	\item \textbf{Explantaiton of obfuscation}
 	\item \textbf{Explantaiton of exflitration}
+	\item \textbf{Analyis of historic threats & malware}
 	\item \textbf{Investigate IDS/IPS systems w/ comparison}
 	\item \textbf{Illustrate proof of concept IDS}
 	\item \textbf{Investigate antivirus systems w/ comparison}
 	\item \textbf{Analyse modern attack:defence landscape}
-	\item \textbf{Describe meaningfull defence (defence-in-depth, social engineering resilience)}
+	\item \textbf{Discussion of meaningfull defence (defence-in-depth, social engineering resilience)}
 \end{enumerate}
 
 
@@ -92,28 +92,67 @@ I can gain an even deeper understanding.
 \section{Structure and Contents of the Report}
 \subsection{Report Structure}
 
-\paragraph{Introduction}  Sets out the background and motivation for the project.  Summarises the work done, the results, the conclusions, and the recommendations for future work.  It is a one chapter summary of the \emph{entire} project.
+\paragraph{Introduction}  -  This chapter sets out the basis of the project, the motivations behind it and what I am looking Investigate. 
+It will summarise the whole project.
 
-\paragraph{Defining the problem}  Objective \ref{understand-problem} requires a precise definition of the problem you are solving.  Don't forget to reference good source material \citep{henning_schulzrinne} and \citep{talbot2013}.  See section \ref{proposed}.
+\paragraph{Explanation of entry vectors & profiling} - This chapter covers the idea of what a vulnerability is at it's core, how they are found
+and the commonalities amoung vulnerabilities. It will include the discussion of tools like NMAP, vulnerability scanners like OPENVAS, nikto, wpscan, sqlmap and nessus.
 
-\paragraph{Possible Solutions} Discuss the possible solutions, compare the
-alternatives, and select the one to use for the  implementation.
+\paragraph{Explantaiton of malware mechanisms} - This chapter covers the common mechanisms of expliotation and stealth that malware makes use of. 
+This includes the use of obfuscation, encryption, exflitratio and the impacts they have. This covers a description of the methods, rather than histroic implementation
+
+\paragraph{Analyis of historic threats & malware} - This chapter covers cases of past incidents, how they happened, why they were effective and what we can learn from them.
+I will cover, emotet, loverletter, heartbleed, wannacry among others.
+
+\paragraph{Investigate IDS/IPS systems w/ comparison} - This chapter is to lay out my experiment methedology, why I did what I did, what i'd expect vs what I got and an analysis of the results themselves.
+
+\paragraph{Illustrate proof of concept IDS} - This chapter describes my motivation for creating this, how I went about it and how it operates. I will talk about what can be learned from it, in relation to the scale of commerical products.
+
+\paragraph{Investigate antivirus systems w/ comparison} - This chapter is to lay out my experiment methedology, why I did what I did, what i'd expect vs what I got and an analysis of the results themselves.
+
+\paragraph{Analyse modern attack:defence landscape} - This chapter is a broad overview of the cat and mouse game, with a focus on how both sides evolve over time, and how to tip the scales in the defences favour.
+
+\paragraph{Discussion of meaningfull defence (defence-in-depth, social engineering resilience)} - This chapter encompasses what can be done to aid defence to it's maximum. I will focus on defense in depth and diversification of defence mechanisms. 
+Topics include, proper training, access control, security positive culture, adequate funding, regular security testing, development infrastructure and a wide variety of hardware solutions.
+
+\subsection{Conclusion} - This chapter summarises all that was found, how it relates to what I set out to discover and what it means for the future of defence. 
 
 \subsection{List of Appendices}
-What Appendices you will include.  A copy of the TOR should be the first, followed by the Ethics form and the Risk Assessment.
 
-Others might include design documentation, code listings, tables of results (if too large to include in the main text).
 
 \section{Marking Scheme}
 The marking scheme sets out what criteria we are going to use for the project.
 
-\paragraph{Project Type} General Computing or Software Engineering projects
+\paragraph{Project Type} General Computing
 
 \paragraph{Project Report}  State which chapters constitute the \emph{Analysis}, the \emph{Synthesis}, and the \emph{Evaluation}.  This help me when marking to know when to stop reading one section and put a mark down for it.
 
-\paragraph{Product}  List the deliverables that make up the \emph{Product}.  Code, design, requirements specifications, test plans, etc.
+\subparagraph{Analyis}
+\begin{itemize}
+	\item Explanation of entry vectors & profiling
+	\item Explantaiton of malware mechanisms
+	\item Analyse modern attack:defence landscape
+\end{itemize}
 
-For the \emph{Fitness for Purpose} and \emph{Build Quality}  list the critera used to asses the product by
+\subparagraph{Synthesis}
+\begin{itemize}
+	\item Investigate IDS/IPS systems w/ comparison
+	\item Illustrate proof of concept IDS
+	\item Investigate antivirus systems w/ comparison
+\end{itemize}
+
+\subparagraph{Evaluation}
+\begin{itemize}
+	\item Discussion of meaningfull defence
+	\item Conclusion
+\end{itemize}
+
+\paragraph{Product}
+\begin{itemize}
+	\item Dissertation Paper
+	\item IDS Source Code
+	\item Experiment Result Documentation
+\end{itemize}
 
 \subparagraph{Fitness for Purpose}~
 \begin{itemize}

@@ -43,17 +43,16 @@ I can gain an even deeper understanding.
 \begin{quote}
 \subsection{Aims}
 	To understand the theory behind defence in relation to common threat vectors.
-
 	To develop attack and defence to aid the theory, in a practical manner.
 \end{quote}
 
 \subsection{Objectives}
 \begin{enumerate}
-	\item \textbf{Explanation of entry vectors & profiling}
+	\item \textbf{Explanation of entry vectors and profiling}
 	\item \textbf{Explantaiton of expliotation}
 	\item \textbf{Explantaiton of obfuscation}
 	\item \textbf{Explantaiton of exflitration}
-	\item \textbf{Analyis of historic threats & malware}
+	\item \textbf{Analyis of historic threats and malware}
 	\item \textbf{Investigate IDS/IPS systems w/ comparison}
 	\item \textbf{Illustrate proof of concept IDS}
 	\item \textbf{Investigate antivirus systems w/ comparison}
@@ -75,14 +74,15 @@ I can gain an even deeper understanding.
 \section{Resources}
 \subsection{Hardware}
 \begin{description}
-	\item[$\bullet$] Computer - Home & Lab PCs
+	\item[$\bullet$] Computer - Home and Lab PCs
 	\item[$\bullet$] Hard Drive - Loaned
+	\item[$\bullet$] Possible honeypot setup
 \end{description}
 
 \subsection{Software}
 \begin{description}
-	\item[$\bullet$] CIS Lab Equipment - Routers, Switches etc..
-	\item[$\bullet$] VMware Workstation - To host vulnerable & attacker infrastructure
+	\item[$\bullet$] CIS Lab Equipment - Routers, Switches, Virtualised Hardware etc.. - Covid contingencies may mean I have to downscale for my own setup
+	\item[$\bullet$] VMware Workstation - To host vulnerable and attacker infrastructure
 	\item[$\bullet$] VScodium - IDE for IDS development
 	\item[$\bullet$] Packet Libraries - Undeterimed at the time of writing, likely scapy and libpcap
 	\item[$\bullet$] Various Antivirus Licences - Prefer free or monthly subscription
@@ -95,13 +95,13 @@ I can gain an even deeper understanding.
 \paragraph{Introduction}  -  This chapter sets out the basis of the project, the motivations behind it and what I am looking Investigate. 
 It will summarise the whole project.
 
-\paragraph{Explanation of entry vectors & profiling} - This chapter covers the idea of what a vulnerability is at it's core, how they are found
+\paragraph{Explanation of entry vectors and profiling} - This chapter covers the idea of what a vulnerability is at it's core, how they are found
 and the commonalities amoung vulnerabilities. It will include the discussion of tools like NMAP, vulnerability scanners like OPENVAS, nikto, wpscan, sqlmap and nessus.
 
 \paragraph{Explantaiton of malware mechanisms} - This chapter covers the common mechanisms of expliotation and stealth that malware makes use of. 
 This includes the use of obfuscation, encryption, exflitratio and the impacts they have. This covers a description of the methods, rather than histroic implementation
 
-\paragraph{Analyis of historic threats & malware} - This chapter covers cases of past incidents, how they happened, why they were effective and what we can learn from them.
+\paragraph{Analyis of historic threats and malware} - This chapter covers cases of past incidents, how they happened, why they were effective and what we can learn from them.
 I will cover, emotet, loverletter, heartbleed, wannacry among others.
 
 \paragraph{Investigate IDS/IPS systems w/ comparison} - This chapter is to lay out my experiment methedology, why I did what I did, what i'd expect vs what I got and an analysis of the results themselves.
@@ -115,21 +115,26 @@ I will cover, emotet, loverletter, heartbleed, wannacry among others.
 \paragraph{Discussion of meaningfull defence (defence-in-depth, social engineering resilience)} - This chapter encompasses what can be done to aid defence to it's maximum. I will focus on defense in depth and diversification of defence mechanisms. 
 Topics include, proper training, access control, security positive culture, adequate funding, regular security testing, development infrastructure and a wide variety of hardware solutions.
 
-\subsection{Conclusion} - This chapter summarises all that was found, how it relates to what I set out to discover and what it means for the future of defence. 
+\subsection{Conclusion} - THis will summarise all that was found, how it relates to what I set out to discover and what it means for the future of defence. 
 
 \subsection{List of Appendices}
-
+\begin{itemize}
+	\item Dissertation Paper
+	\item Experiment and PoC Design
+	\item IDS Source Code
+	\item Experimentation Result Documentation
+	\item Not sure what else would go here. its a dupe of Product
+\end{itemize}
 
 \section{Marking Scheme}
 The marking scheme sets out what criteria we are going to use for the project.
 
 \paragraph{Project Type} General Computing
 
-\paragraph{Project Report}  State which chapters constitute the \emph{Analysis}, the \emph{Synthesis}, and the \emph{Evaluation}.  This help me when marking to know when to stop reading one section and put a mark down for it.
-
-\subparagraph{Analyis}
+\paragraph{Project Report}
+\subparagraph{Analysis}
 \begin{itemize}
-	\item Explanation of entry vectors & profiling
+	\item Explanation of entry vectors and profiling
 	\item Explantaiton of malware mechanisms
 	\item Analyse modern attack:defence landscape
 \end{itemize}
@@ -150,20 +155,23 @@ The marking scheme sets out what criteria we are going to use for the project.
 \paragraph{Product}
 \begin{itemize}
 	\item Dissertation Paper
+	\item Experiment and PoC Design
 	\item IDS Source Code
-	\item Experiment Result Documentation
+	\item Experimentation Result Documentation w/ Metric Justification
 \end{itemize}
 
 \subparagraph{Fitness for Purpose}~
 \begin{itemize}
-	\item meet requirements identified
-	\item other appropriate measures
+	\item There must be analysis of both sides
+	\item There must be comparison of feasible solutions
+	\item The program must be functional to a proof of concept level
 \end{itemize}
 
 \subparagraph{Build Quality}~
+Not sure what goes here for a my project since it's hybrid?
 \begin{itemize}
 	\item Requirements specification and analysis
-	\item Design Specification
+	\item Design Specification 
 	\item Code quality
 	\item Test plan and Results
 \end{itemize}

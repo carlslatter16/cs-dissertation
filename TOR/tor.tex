@@ -4,20 +4,18 @@
 The modern technological landscape demands much from innovation. 
 We must find new ways of solving existing and new problems in the world. 
 This is amazing for convenience, and quality of life, but does pose a problem for security. 
-There is Hypponen's \todo{Check the spelling, it is worth finding a
-spell-checker that can handle latex.} law in IOT that states, the more you add in terms of functionality, the more that must be secured. 
+There is Hypponen's law in IOT that states, the more you add in terms of functionality, the more that must be secured. 
 A concrete cube may be secure, but is not overly functional. I am incredibly interested in the duality between attack and defence. 
 It seems to be a constant cat and mouse game of which defence is paramount. 
 I hope that by looking at both sides with a purple team perspective, I can gain a deep understanding of the landscape we have currently and moving forwards. 
 
-Cybersecurity is really "Managed insecurity", I intend to discover where cyber attacks are at, and how they have innovated over the years.
+Cyber-Security is really "Managed insecurity", I intend to discover where cyber attacks are at, and how they have innovated over the years.
 Cyber threats are growing, how can be detect them? How can we proactively block them? These are questions that must be answered in order to get a good overview.
 I must be able to show my understanding in a theoretical and practical way to be able to potentially apply it to a real life scenario. 
 I will have to develop my understanding of infrastructure, networking, semi low-level programming and penetration testing.
 
 Developing realistic solutions for smaller businesses is really important. They are arguably more at risk, with less resources for security. 
-I despise\todo{the phrase ``I dispise'' is really opinion, it needs evidence.
-It is a good habit to try and phrase things more objectively} the idea of security snake-oil and scare-ware, and value defence-in-depth rather than a supposed all-in-one solution.
+The is a culture of security snake-oil and scare-ware, and value defence-in-depth rather than a supposed all-in-one solution. This is evident in the numerous adverts that claim much and deliver little.
 With the detection work, I hope to show the importance of the human element to security, how it can be the weakest link, or the strongest asset. 
 I must look at current solutions with a critical eye with care to be realistic about defence. 
 
@@ -28,13 +26,13 @@ Malware analysis is something I haven't really touched on before, though I have 
 
 \section{Proposed Work}
 \label{proposed}
-I aim to create documentation in the form of my dissertation to describe the Cybersecurity landscape in regards to infrastructure. 
+I aim to create documentation in the form of my dissertation to describe the Cyber-Security landscape in regards to infrastructure. 
 This will involve talking about infrastructure directly, it's use, implementation and potential pitfalls, but more importantly, how it can be secured.
 On the other side, I will be looking at the common ways that infrastructure is compromised, in a network setting. 
 I do think that a good comparison is important for this. 
 
 I will be investigating how threats have evolved as a whole,
-whether that be malware, obfuscation and clever exflitration. I believe it is important to at least touch on how this was done in the past, 
+whether that be malware, obfuscation and clever exfiltration. I believe it is important to at least touch on how this was done in the past, 
 to understand how the future may follow similar foundations. Naturally an investigation into threats would be pointless without a practical defence, 
 I hope to compare both endpoint and infrastructure defences in relation to both a sample of threats, and to one another. I will then analyse this data and draw sensible conclusions based upon it.
 
@@ -51,26 +49,35 @@ I can gain an even deeper understanding.
 \subsection{Objectives}
 \begin{enumerate}
 	\item \textbf{Explanation of entry vectors and profiling}
-	\item \textbf{Explantaiton of expliotation}
-	\item \textbf{Explantaiton of obfuscation}
-	\item \textbf{Explantaiton of exflitration}
-	\item \textbf{Analyis of historic threats and malware}
+	\item \textbf{Explanation of exploitation}
+	\item \textbf{Explanation of obfuscation}
+	\item \textbf{Explanation of exfiltration}
+	\item \textbf{Analysis of historic threats and malware}
 	\item \textbf{Investigate IDS/IPS systems w/ comparison}
 	\item \textbf{Illustrate proof of concept IDS}
 	\item \textbf{Investigate antivirus systems w/ comparison}
 	\item \textbf{Analyse modern attack:defence landscape}
-	\item \textbf{Discussion of meaningfull defence (defence-in-depth, social engineering resilience)}
+	\item \textbf{Discussion of meaningful defence (defence-in-depth, social engineering resilience)}
 \end{enumerate}
-\todo[inline]{I think we would want to expand the objectives relating to the
-	practical side.  The software will need some sort of analysis, deign,
-build, and testing}
+
+\subsection{PoC IDS Objectives (It must..)}
+\begin{enumerate}
+	\item \textbf{Detect network interfaces}
+	\item \textbf{Bind to a network interface}
+	\item \textbf{Capture data and output to a file/standard output}
+	\item \textbf{Flag up unusual activity from a few notable attack types}
+	\item \textbf{Control via command switches}
+	\item \textbf{Be well written and meaningful to the idioms of the language}
+	\item \textbf{Have testing/design documentation}
+	}
+\end{enumerate}
 
 \section{Skills}
 \begin{enumerate}
 	\item Programming in C (KF5006)
 	\item Networking Technology 3 (KF6005)
 	\item Advanced Operating Systems II (KF6003)
-	\item Cybersecurity Awareness
+	\item Cyber-Security Awareness
 	\item Reverse-Engineering
 	\item Data Analysis
 \end{enumerate}
@@ -78,8 +85,9 @@ build, and testing}
 \section{Resources}
 \subsection{Hardware}
 \begin{description}
-	\item[$\bullet$] Computer - Home and Lab PCs
-	\item[$\bullet$] Hard Drive - Loaned
+	\item[$\bullet$] Dedicated gigh RAM machine - Already bought
+	\item[$\bullet$] Lab Machines for possible testing
+	\item[$\bullet$] Potential hard drive - Loaned
 	\item[$\bullet$] Possible honeypot setup
 \end{description}
 
@@ -88,7 +96,7 @@ build, and testing}
 	\item[$\bullet$] CIS Lab Equipment - Routers, Switches, Virtualised Hardware etc.. - Covid contingencies may mean I have to downscale for my own setup
 	\item[$\bullet$] VMware Workstation - To host vulnerable and attacker infrastructure
 	\item[$\bullet$] VScodium - IDE for IDS development
-	\item[$\bullet$] Packet Libraries - Undeterimed at the time of writing, likely scapy and libpcap
+	\item[$\bullet$] Packet Libraries - unsure about specifics at the time of writing, likely scapy and libpcap
 	\item[$\bullet$] Various Antivirus Licences - Prefer free or monthly subscription
 	\item[$\bullet$] IDS/IPS/SIEMs Licences - Will have to prefer free or cheap ones (as a small company would)
 \end{description}
@@ -100,67 +108,72 @@ build, and testing}
 It will summarise the whole project.
 
 \paragraph{Explanation of entry vectors and profiling} - This chapter covers the idea of what a vulnerability is at it's core, how they are found
-and the commonalities amoung vulnerabilities. It will include the discussion of tools like NMAP, vulnerability scanners like OPENVAS, nikto, wpscan, sqlmap and nessus.
+and the commonalities among vulnerabilities. It will include the discussion of tools like NMAP, vulnerability scanners like OPENVAS, nikto, wpscan, sqlmap and nessus.
 
-\paragraph{Explantaiton of malware mechanisms} - This chapter covers the common mechanisms of expliotation and stealth that malware makes use of. 
-This includes the use of obfuscation, encryption, exflitratio and the impacts they have. This covers a description of the methods, rather than histroic implementation
+\paragraph{Explanation of malware mechanisms} - This chapter covers the common mechanisms of exploitation and stealth that malware makes use of. 
+This includes the use of obfuscation, encryption, exfiltration and the impacts they have. This covers a description of the methods, rather than historic implementation
 
-\paragraph{Analyis of historic threats and malware} - This chapter covers cases of past incidents, how they happened, why they were effective and what we can learn from them.
+\paragraph{Analysis of historic threats and malware} - This chapter covers cases of past incidents, how they happened, why they were effective and what we can learn from them.
 I will cover, emotet, loverletter, heartbleed, wannacry among others.
 
-\paragraph{Investigate IDS/IPS systems w/ comparison} - This chapter is to lay out my experiment methedology, why I did what I did, what i'd expect vs what I got and an analysis of the results themselves.
+\paragraph{Investigate IDS/IPS systems w/ comparison} - This chapter is to lay out my experiment methodology, why I did what I did, what I'd expect vs what I got and an analysis of the results themselves.
 
-\paragraph{Illustrate proof of concept IDS} - This chapter describes my motivation for creating this, how I went about it and how it operates. I will talk about what can be learned from it, in relation to the scale of commerical products.
-\todo{This may want splitting into analysis and synthesis parts}
+\paragraph{Analysis of my PoC IDS} - This chapter describes my motivation for creating this, how I went about it and how it operates. 
 
-\paragraph{Investigate antivirus systems w/ comparison} - This chapter is to lay out my experiment methedology, why I did what I did, what i'd expect vs what I got and an analysis of the results themselves.
+\paragraph{Synthesis of my PoC IDS} - I will talk about what can be learned from it, in relation to the scale of commercial products. 
+
+\paragraph{Investigate antivirus systems w/ comparison} - This chapter is to lay out my experiment methodology, why I did what I did, what I'd expect vs what I got and an analysis of the results themselves.
 
 \paragraph{Analyse modern attack:defence landscape} - This chapter is a broad overview of the cat and mouse game, with a focus on how both sides evolve over time, and how to tip the scales in the defences favour.
 
-\paragraph{Discussion of meaningfull defence (defence-in-depth, social engineering resilience)} - This chapter encompasses what can be done to aid defence to it's maximum. I will focus on defense in depth and diversification of defence mechanisms. 
+\paragraph{Discussion of meaningful defence (defence-in-depth, social engineering resilience)} - This chapter encompasses what can be done to aid defence to it's maximum. I will focus on defense in depth and diversification of defence mechanisms. 
 Topics include, proper training, access control, security positive culture, adequate funding, regular security testing, development infrastructure and a wide variety of hardware solutions.
 
-\subsection{Conclusion} - THis will summarise all that was found, how it relates to what I set out to discover and what it means for the future of defence. 
+\subsection{Conclusion} This will summarise all that was found, how it relates to what I set out to discover and what it means for the future of defence. 
 
 \subsection{List of Appendices}
 \begin{itemize}
 	\item Dissertation Paper
-	\item Experiment and PoC Design
+	\item Experiment and PoC Design/Testing
 	\item IDS Source Code
 	\item Experimentation Result Documentation
+	\item Risk Assesment
+	\item Ethics Form
 	\item Not sure what else would go here. its a dupe of Product
 \end{itemize}
+\todo  The above question -carl 
 
 \section{Marking Scheme}
 The marking scheme sets out what criteria we are going to use for the project.
 
-\paragraph{Project Type} General Computing
+\paragraph{Project Type:} General Computing
 
 \paragraph{Project Report}
 \subparagraph{Analysis}
 \begin{itemize}
 	\item Explanation of entry vectors and profiling
-	\item Explantaiton of malware mechanisms
-	\item Analyse modern attack:defence landscape
+	\item Explanation of malware mechanisms
+	\item Analyse modern attack/defence landscape
+	\item Analyse PoC systems & technology used
 \end{itemize}
 
 \subparagraph{Synthesis}
 \begin{itemize}
 	\item Investigate IDS/IPS systems w/ comparison
-	\item Illustrate proof of concept IDS
+	\item Illustrate proof of concept IDS & implementation
 	\item Investigate antivirus systems w/ comparison
 \end{itemize}
 
 \subparagraph{Evaluation}
 \begin{itemize}
-	\item Discussion of meaningfull defence
+	\item Discussion of meaningful defence
 	\item Conclusion
 \end{itemize}
 
 \paragraph{Product}
 \begin{itemize}
 	\item Dissertation Paper
-	\item Experiment and PoC Design
+	\item Experiment and PoC Design/Testing
 	\item IDS Source Code
 	\item Experimentation Result Documentation w/ Metric Justification
 \end{itemize}
@@ -173,7 +186,8 @@ The marking scheme sets out what criteria we are going to use for the project.
 \end{itemize}
 
 \subparagraph{Build Quality}~
-Not sure what goes here for a my project since it's hybrid?
+Not sure what goes here for a my project since it's hybrid? 
+\todo - carl
 \begin{itemize}
 	\item Requirements specification and analysis
 	\item Design Specification 

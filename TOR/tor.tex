@@ -48,15 +48,15 @@ I can gain an even deeper understanding.
 
 \subsection{Objectives}
 \begin{enumerate}
+	\item \textbf{Analysis of historic threats and malware}
+	\item \textbf{Analyse modern attack:defence landscape}
 	\item \textbf{Explanation of entry vectors and profiling}
 	\item \textbf{Explanation of exploitation}
 	\item \textbf{Explanation of obfuscation}
 	\item \textbf{Explanation of exfiltration}
-	\item \textbf{Analysis of historic threats and malware}
 	\item \textbf{Investigate IDS/IPS systems w/ comparison}
 	\item \textbf{Illustrate proof of concept IDS}
 	\item \textbf{Investigate antivirus systems w/ comparison}
-	\item \textbf{Analyse modern attack:defence landscape}
 	\item \textbf{Discussion of meaningful defence (defence-in-depth, social engineering resilience)}
 \end{enumerate}
 
@@ -85,10 +85,8 @@ I can gain an even deeper understanding.
 \section{Resources}
 \subsection{Hardware}
 \begin{description}
-	\item[$\bullet$] Dedicated gigh RAM machine - Already bought
+	\item[$\bullet$] Dedicated high RAM machine - Already bought
 	\item[$\bullet$] Lab Machines for possible testing
-	\item[$\bullet$] Potential hard drive - Loaned
-	\item[$\bullet$] Possible honeypot setup
 \end{description}
 
 \subsection{Software}
@@ -104,17 +102,20 @@ I can gain an even deeper understanding.
 \section{Structure and Contents of the Report}
 \subsection{Report Structure}
 
-\paragraph{Introduction}  -  This chapter sets out the basis of the project, the motivations behind it and what I am looking Investigate. 
+\paragraph{Introduction} - This chapter sets out the basis of the project, the motivations behind it and what I am looking Investigate. 
 It will summarise the whole project.
+
+\paragraph{Analyse historic \& modern defence} - This chapter is a broad overview of the cat and mouse game, with a focus on how both sides evolve over time, 
+and how to tip the scales in the defences favour. Analysis of IDS/IPS & AV technologies, in sub sections. 
+
+This chapter then covers cases of past incidents, how they happened, why they were effective and what we can learn from them for modern day. 
+I will cover, emotet, loverletter, heartbleed, wannacry among others. \todo{Does this need to be split?}
 
 \paragraph{Explanation of entry vectors and profiling} - This chapter covers the idea of what a vulnerability is at it's core, how they are found
 and the commonalities among vulnerabilities. It will include the discussion of tools like NMAP, vulnerability scanners like OPENVAS, nikto, wpscan, sqlmap and nessus.
 
 \paragraph{Explanation of malware mechanisms} - This chapter covers the common mechanisms of exploitation and stealth that malware makes use of. 
 This includes the use of obfuscation, encryption, exfiltration and the impacts they have. This covers a description of the methods, rather than historic implementation
-
-\paragraph{Analysis of historic threats and malware} - This chapter covers cases of past incidents, how they happened, why they were effective and what we can learn from them.
-I will cover, emotet, loverletter, heartbleed, wannacry among others.
 
 \paragraph{Investigate IDS/IPS systems w/ comparison} - This chapter is to lay out my experiment methodology, why I did what I did, what I'd expect vs what I got and an analysis of the results themselves.
 
@@ -124,8 +125,6 @@ I will cover, emotet, loverletter, heartbleed, wannacry among others.
 
 \paragraph{Investigate antivirus systems w/ comparison} - This chapter is to lay out my experiment methodology, why I did what I did, what I'd expect vs what I got and an analysis of the results themselves.
 
-\paragraph{Analyse modern attack:defence landscape} - This chapter is a broad overview of the cat and mouse game, with a focus on how both sides evolve over time, and how to tip the scales in the defences favour.
-
 \paragraph{Discussion of meaningful defence (defence-in-depth, social engineering resilience)} - This chapter encompasses what can be done to aid defence to it's maximum. I will focus on defense in depth and diversification of defence mechanisms. 
 Topics include, proper training, access control, security positive culture, adequate funding, regular security testing, development infrastructure and a wide variety of hardware solutions.
 
@@ -133,17 +132,13 @@ Topics include, proper training, access control, security positive culture, adeq
 
 \subsection{List of Appendices}
 \begin{itemize}
-	\item Dissertation Paper\todo{Did you mean the ToR?  the dissertation can
-		be in an appendix of the dissertation (unintended infinite recursion)}
+	\item ToR
 	\item Experiment and PoC Design/Testing
 	\item IDS Source Code
 	\item Experimentation Result Documentation
 	\item Risk Assesment
 	\item Ethics Form
-	\item Not sure what else would go here. its a dupe of Product\todo{I think
-		you can drop this from the list}
 \end{itemize}
-\todo{The above question -carl } % the whole note needs to be in braces {}
 
 \section{Marking Scheme}
 The marking scheme sets out what criteria we are going to use for the project.
@@ -153,17 +148,16 @@ The marking scheme sets out what criteria we are going to use for the project.
 \paragraph{Project Report}
 \subparagraph{Analysis}
 \begin{itemize}
+	\item Analyse historic \& modern attack/defence landscape - Analysis of liturature
 	\item Explanation of entry vectors and profiling
 	\item Explanation of malware mechanisms
-	\item Analyse modern attack/defence landscape
-	\item Analyse PoC systems \& technology used \todo{am: for an ampersand
-	you need to use \texttt{\bslash\&}}
+	\item Analyse PoC systems \& technology used 
 \end{itemize}
 
 \subparagraph{Synthesis}
 \begin{itemize}
-	\item Investigate IDS/IPS systems w/ comparison
 	\item Illustrate proof of concept IDS \& implementation
+	\item Investigate IDS/IPS systems w/ comparison
 	\item Investigate antivirus systems w/ comparison
 \end{itemize}
 
@@ -189,15 +183,11 @@ The marking scheme sets out what criteria we are going to use for the project.
 \end{itemize}
 
 \subparagraph{Build Quality}~
-Not sure what goes here for a my project since it's hybrid? 
-\todo{ - carl}%needs braces
-\todo{am: you could borrow some items from the investigative project, quality
-of the experiment design etc\ldots}
 \begin{itemize}
-	\item Requirements specification and analysis
-	\item Design Specification 
-	\item Code quality
-	\item Test plan and Results
+	\item Experiment design quality
+	\item Code quality & testing
+	\item Quality of analysis & synthesis
+	\item Quality of meaningful mitigation
 \end{itemize}
 
 \clearpage

@@ -40,37 +40,39 @@
 \tableofcontents
 
 \mainmatter
+\part{Introduction}
 \include{introduction}
+
+
 \part{Analysis}
-\include{literature}
-\include{tools}
+\include{analysis}
 
 \part{Synthesis}
-\include{texnical}
+%\include{synthesis}
 
 \part{Evaluation}
-
+%\include{evaluation}
 
 \bibliographystyle{plainnat}
-\bibliography{c,unix,writing,latex}
+\bibliography{research, sites, books}
 
 \part{Appendices}
 \appendix
 
 \chapter{Terms of Reference}
-\input{tor} %<- note use of \input{} not \include{}
+%\input{tor} %<- note use of \input{} not \include{}
 
 \section{Ethics Form}
 If you scan the Ethics form on one of the multifunction printers, you can get a pdf copy.  This can then be included with the \LaTeX\ command
 \begin{tcblisting}{listing only}
-\includegraphics{ethics.pdf}
+%\includegraphics{ethics.pdf}
 \end{tcblisting}
-Assuming of course you have saved the form  as \path{ethics.pdf}
+%Assuming of course you have saved the form  as \path{ethics.pdf}
 
 \section{Risk Assessment Form}
 Likewise you can scan and include the Risk Assessment Form
 \begin{tcblisting}{listing only}
-\includegraphics{risk-assesment.pdf}
+%\includegraphics{risk-assesment.pdf}
 \end{tcblisting}
 
 \end{document}

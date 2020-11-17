@@ -31,8 +31,8 @@ This will involve talking about infrastructure directly, it's use, implementatio
 On the other side, I will be looking at the common ways that infrastructure is compromised, in a network setting. 
 I do think that a good comparison is important for this. 
 
-I will be investigating how threats have evolved as a whole,
-whether that be malware, obfuscation and clever exfiltration. I believe it is important to at least touch on how this was done in the past, 
+I will be investigating how threats have evolved as a whole, talking about malware mechanisms, obfuscation and clever exfiltration. 
+I believe it is important to at least touch on how this was done in the past, 
 to understand how the future may follow similar foundations. Naturally an investigation into threats would be pointless without a practical defence, 
 I hope to compare both endpoint and infrastructure defences in relation to both a sample of threats, and to one another. I will then analyse this data and draw sensible conclusions based upon it.
 
@@ -57,7 +57,7 @@ I can gain an even deeper understanding.
 	\item \textbf{Investigate IDS/IPS systems w/ comparison}
 	\item \textbf{Illustrate proof of concept IDS}
 	\item \textbf{Investigate antivirus systems w/ comparison}
-	\item \textbf{Discussion of meaningful defence (defence-in-depth, social engineering resilience)}
+	\item \textbf{Discussion of meaningful defence}
 \end{enumerate}
 
 \subsection{PoC IDS Objectives (It must..)}
@@ -91,7 +91,6 @@ I can gain an even deeper understanding.
 
 \subsection{Software}
 \begin{description}
-	\item[$\bullet$] CIS Lab Equipment - Routers, Switches, Virtualised Hardware etc.. - Covid contingencies may mean I have to downscale for my own setup
 	\item[$\bullet$] VMware Workstation - To host vulnerable and attacker infrastructure
 	\item[$\bullet$] VScodium - IDE for IDS development
 	\item[$\bullet$] Packet Libraries - unsure about specifics at the time of writing, likely scapy and libpcap
@@ -102,38 +101,41 @@ I can gain an even deeper understanding.
 \end{description}
 
 \section{Structure and Contents of the Report}
-\subsection{Report Structure}
+\subsection{Planned Report Structure (Order may change)}
 
-\paragraph{Introduction} - This chapter sets out the basis of the project, the motivations behind it and what I am looking Investigate. 
+
+\paragraph{Introduction} - This chapter sets out the basis of the project, the motivations behind it and what I am looking to investigate. 
 It will summarise the whole project.
 
 \paragraph{Analyse historic \& modern defence} - This chapter is a broad overview of the cat and mouse game, with a focus on how both sides evolve over time, 
 and how to tip the scales in the defences favour. Analysis of IDS/IPS \& AV technologies, in sub sections. 
 
 This chapter then covers cases of past incidents, how they happened, why they were effective and what we can learn from them for modern day. 
-I will cover, emotet, loverletter, heartbleed, wannacry among others.
-\todo{Does this need to be split?}
-\todo{For the terms of reference it isn't necessary, in the analysis they will
-want their own sections in the chapter. -- Alun}
+I will cover an assortment of notable malware. History and modern may be split into two paragraphs.
 
-\paragraph{Explanation of entry vectors and profiling} - This chapter covers the idea of what a vulnerability is at it's core, how they are found
-and the commonalities among vulnerabilities. It will include the discussion of tools like NMAP, vulnerability scanners like OPENVAS, nikto, wpscan, sqlmap and nessus.
+\paragraph{Explanation of entry points and profiling} - This chapter covers the idea of what a vulnerability is at it's core, how they are found
+and the commonalities among vulnerabilities. It will include the discussion of tools like NMAP, vulnerability scanners like OPENVAS, nikto, wpscan, sqlmap and nessus. 
+Additonally I will look at common attack vectors for malware to get in.
 
 \paragraph{Explanation of malware mechanisms} - This chapter covers the common mechanisms of exploitation and stealth that malware makes use of. 
-This includes the use of obfuscation, encryption, exfiltration and the impacts they have. This covers a description of the methods, rather than historic implementation
+This includes the use of obfuscation, encryption, exfiltration and the impacts they have. This covers a description of the methods, rather than ouright historic implementation.
+May be split into their own sections/chapters for the sake of detail.
 
-\paragraph{Investigate IDS/IPS systems w/ comparison} - This chapter is to lay out my experiment methodology, why I did what I did, what I'd expect vs what I got and an analysis of the results themselves.
 
-\paragraph{Analysis of my PoC IDS} - This chapter describes my motivation for creating this, how I went about it and how it operates. 
+\paragraph{Investigate antivirus systems w/ comparison} - This chapter is to lay out my experiment methodology, why I did what I did, what I'd expect vs what I got and an analysis of the results themselves.  A sample of threats/malware may be tested.
 
-\paragraph{Synthesis of my PoC IDS} - I will talk about what can be learned from it, in relation to the scale of commercial products. 
+\paragraph{Investigate IDS/IPS systems w/ comparison} - This chapter is to lay out my experiment methodology, why I did what I did, what I'd expect vs what I got and an analysis of the results themselves. A sample of threats/malware may be tested.
 
-\paragraph{Investigate antivirus systems w/ comparison} - This chapter is to lay out my experiment methodology, why I did what I did, what I'd expect vs what I got and an analysis of the results themselves.
+\paragraph{Proof of Concept IDS} - I will talk about what can be learned from it, in relation to the scale of commercial products, along with the technologies used.
 
-\paragraph{Discussion of meaningful defence (defence-in-depth, social engineering resilience)} - This chapter encompasses what can be done to aid defence to it's maximum. I will focus on defense in depth and diversification of defence mechanisms. 
-Topics include, proper training, access control, security positive culture, adequate funding, regular security testing, development infrastructure and a wide variety of hardware solutions.
+
+
+\paragraph{Discussion of meaningful defence} - This chapter encompasses what can be done to aid defence to it's maximum. I will focus on defense in depth and diversification of defence mechanisms. 
+Topics include, proper training, access control, security positive culture, adequate funding, regular security testing, development infrastructure and a wide variety of hardware solutions. 
+Will likely be split into sub paragraphs and sections as it's a vast topic.
 
 \subsection{Conclusion} This will summarise all that was found, how it relates to what I set out to discover and what it means for the future of defence. 
+
 
 \subsection{List of Appendices}
 \begin{itemize}
@@ -142,7 +144,7 @@ Topics include, proper training, access control, security positive culture, adeq
 	\item IDS Source Code
 	\item Experimentation Result Documentation
 	\item Risk Assesment
-	\item Ethics Form
+	\item Ethics Form (Depending on ethics approval process)
 \end{itemize}
 
 \section{Marking Scheme}
@@ -153,17 +155,16 @@ The marking scheme sets out what criteria we are going to use for the project.
 \paragraph{Project Report}
 \subparagraph{Analysis}
 \begin{itemize}
-	\item Analyse historic \& modern attack/defence landscape - Analysis of liturature
+	\item Analyse historic \& modern attack/defence landscape - Analysis of liturature & malware/threats
 	\item Explanation of entry vectors and profiling
 	\item Explanation of malware mechanisms
-	\item Analyse PoC systems \& technology used 
 \end{itemize}
 
 \subparagraph{Synthesis}
 \begin{itemize}
-	\item Illustrate proof of concept IDS \& implementation
-	\item Investigate IDS/IPS systems w/ comparison
 	\item Investigate antivirus systems w/ comparison
+	\item Investigate IDS/IPS systems w/ comparison
+	\item Illustrate proof of concept IDS \& implementation of technologies
 \end{itemize}
 
 \subparagraph{Evaluation}
@@ -194,9 +195,9 @@ The marking scheme sets out what criteria we are going to use for the project.
 	\item Quality of analysis \& synthesis
 	\item Quality of meaningful mitigation
 \end{itemize}
-\todo{slight issues with page gaps - not sure if it matters - carl}
-\todo{Don't worry about page breaks, fixing bad ones is something to do at the
-very end -- Alun}
 \section{Project Plan}
 \noindent
 \rotatebox{90}{\input{Gantt}}
+
+%order may change - Some sections will relate on one another, for example, when analysing malware, I may reference later in the paper to a discussed topic. 
+% I will move sections accordinly, but I have to keep to the overall structure so referencing may be needed

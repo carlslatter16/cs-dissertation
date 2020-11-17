@@ -90,10 +90,15 @@ Malicious software, often called 'Malware' is an ever growing problem for system
 
 %consider moving stuff here
 
-\subsection{Anomaly Detection}
-\subsubsection{Whitelist vs Blacklist Approach}
+\section{Anomaly Detection}
 \subsection{Machine-Learning}
-\subsection{Protocol Adaptation}
+Machine learning is a relativly new technology, that aims to reform the programming process. Typically with software engineering, the end algorithm is explicitly laid out; often encompassing every concievable scenario.
+This methodology is easier to implement at a basic level but challenging to scale, and suscepitble to human bias. Machine learning differs in that an environment is given, a dataset assigned and simulations are ran. 
+Tweaks are made on the fly, by both human and the program itself. This can help expose amazing discoveries that a human would struggle to find, along with a system created that can detect and prevent proactivly.
+\subsubsection{Protocol Adaptation}
+Different protocols work in varying ways. An approach that monitors them in the same capacity is sure to fail, due in large part to the variation of data handling. Defensive systems must be able to identify the protocol,
+be aware of it's legitimate use, as well as signs of tampering. For example, detection systems should not treat a HTTP packet the same as they would ICMP. Their threat potential is quite distinctly different, and as such;
+it is important that part of the learning process is dedicated to finding the normal. Anything that deviates from the "normal" is consiered an anomoly, and can be acted upon in a given set of ways.
 \subsection{Signature \& Pattern Matching}
 An interesting question could be made. What is considered a threat to a computer? The simplest answer is "something that is predefined". 
 In computer science, a method of validating integrity is to use a process called hashing; a process in which no two pieces of data can return the same value. 
@@ -107,9 +112,17 @@ most commonly used in anti-virus technologies, as static analysis.
 Polymorphic encryption and malware versioning has historcly shown that static analysis is not enough, it is an important part but cannot stand on it's own. The idea behind dynamic detection is that rather than
 studying the data at rest, analysis is conducted on either the running malware, or a simulated version of it. Ultimatly malware across versions aims to do the same task, albiet in slightly differing ways. If the methodology
 can be identified; the malware can be defeated. This requires a much more skilled approach; A comparison of before and after. ProcMon on Windows is excellent for this; it will let you see what registry keys have changed, what files are new and any peculiar processes.
-
+Machine learning has been leading the charge in this field, as well as automatic siganture matching.
 
 %reference studies on this! procmon research too
+
+\subsection{Whitelist vs Blacklist Approach}
+The choice of a white vs black list is one that depends on infrastructure design. Abstractly, it depends on the approach; if their are many unknowns in the system, a blacklist may have to be used. 
+Similarly the inverse is true. Research shows that a whitelist approach is preferntial for security though more specific in implementation. Whitelistng in this sense refers to a predefined set of hosts
+that are allowed access to a given device, rather than a "find and block" approach of a blacklist. Whitelisting requires full knowledge of present and future variables in the network, whereas blacklisting
+allows for easier expansion. Blacklisting is more suscepitble to hacking due to the nature of simply altering the threat to bypass checks; something that whitelisting may prevent. Zero day exploit control is 
+highly dependant on systems only having required access, something that when planned properly, can use a whitelist approach. The approach will vary across the network and as such proritization of security 
+and looseness of security for usability must be considered.
 
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
@@ -202,6 +215,8 @@ Let’s say we have found a remote code execution (RCE) vulnerability on the tar
 
 MSFVenom
 
+Reverse shells can be over TLS
+
 %reference zeus, mirai
 
 \subsection{Denial of Service}
@@ -244,19 +259,75 @@ Secondly, encryption for destruction. From time to time there are attacks that a
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 \chapter{Malware Mechanisms - Obfuscation}
-\section{Signature \& Behavior Evasion}
+The Idea being to muddle up the binary, making it really hard to analyze. There are certain details that are criticial, ip addresses, URLs, locations, registry keys.
 
-\subsection{Encoding \& Compression}
+\section{Signature \& Behavior Evasion}
+Antivirus systems rely on signatures. What is a way to fingerprint a piece of data? Hashes; they are unique to the dataset, assuming we are not using a broken hash algorithm.
+MD5 is a broken hash algorithm because it can be manipulated in a way that more than one data set gives the same hash. A MD5 collision
+In the same way, malware can alter it's own composition in a way that still works, but gives a different signature. 
+If the AV does not have this new signature, it cannot be stopped assuming a blacklist approach.
+There are malware out there will add randomness each time, purely for this purpose. AV will only ever catch broad attacks, or default payloads due to this fact. AV will also sometimes scan a file,
+beyond a simple hash check for strings only normally used in malware, dynamic analysis. This process can be made harder be by splitting up regonizable strings. The new result becomes a new detection vector, 
+hense the cat and mouse game.
+
+\section{Encoding \& Compression}
+Base64 is a popular option. Used for compression, even further than hex. Can be decoded, is not secret but can help. 
+Youtube URLs provide plenty of unique and random spaces that are hard to brute force unlisted videos.
+
+- Can be used to hide malware, to provide it in a compressed way
+- Uses less bandwidth
+- Other compression includes gzip and deflate.
+
+alongside ROT13
+
+\begin{tcblisting}{listing only}
+cat /etc/passwd > /tmp/secret.txt -------> Y2F0IC9ldGMvcGFzc3dkID4gL3RtcC9zZWNyZXQudHh0
+\end{tcblisting}
+
 \subsection{Shellcode}
+Simply programmatic code that is compressed down to it's essentials, and then encoded to be unreadable by anything until it's decoded. 
+Can be used to bypass IDS/IPS and antivirus. This is an encoded string, it represents a given value without a transformative key, 
+that is simply hidden to our understanding. Each part here represents a character,  H is 72 for example (in both ASCII and unicode). 
+This can also be represented in a hex format, \xab. 
+a and b being hex values that resolve to the number in decimal relating to the character. 
 \begin{tcblisting}{listing only}
 \x48 for H. "Hello World!" ----> "\x48\x65\x6c\x6c\x6f\x20\x57\x6f\x72\x6c\x64\x21". 
 \end{tcblisting}
 
+Useful CyberChef Decoders:
+\begin{enumerate}
+    \item [$\bullet$] Unescape String
+    \item [$\bullet$] From Hex
+    \item [$\bullet$] From Charcode
+    \item [$\bullet$] From XOR
+    \item [$\bullet$] XOR Bruteforce
+    \item [$\bullet$] Text Encoding BruteForce
+    \item [$\bullet$] From quoted printable
+    \item [$\bullet$] Magic
+\end{enumerate}
+
 \subsection{Steganography}
+
 \subsection{Polymorphic Encryption}
 In this sense, the data, the encryption algorithm and the password can all change, while maintaining the goal of the algorithm.
 It is clear however that while hashing of the source will not work, you can fingerprint and monitor the actions it would take, and identify based from that.
 Sometimes the decryption methodology and code was actually hashed, and detected based on it. There are ways around this too in one of the links.
+
+Polymorphic data that is muddled:
+\begin{enumerate}
+    \item [$\bullet$]Filenames
+    \item [$\bullet$]Encryption keys
+    \item [$\bullet$]Unsplit strings
+    \item [$\bullet$]File types/extensions
+    \item [$\bullet$]Anything that is identifiable
+\end{enumerate}
+
+It is very common for malware to have an encrypted payload, with a stub decrypter that acts in memory and bypasses static analysis
+
+Dynamic analysis may detect this based on the actions conducted. AV can set up a visualised environment in which it runs through what the program would do if ran, match it against 
+known activities regardless of hash, and look at decrypted memory.
+
+This can be defeated (like everything), by having abrupt delays to throw the system off, lets say before and after decrypting, or overloading memory with junk to throw it off
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 

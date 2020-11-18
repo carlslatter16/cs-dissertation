@@ -2,6 +2,9 @@
 
 %need to focus on liturature more, get my ideas down that dont need substance and then link cold hard facts,
 
+%research all topics deeper than present knowledge! just thoughts for now
+%!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!%
+
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 \chapter{Historic Attack \& Defence}
@@ -307,8 +310,9 @@ There is controversy at the time of writing about paying the ransom, which gets 
 
 Secondly, encryption for destruction. From time to time there are attacks that are not in it for direct financial gain, rather obstruction and distress. This variant encrypts just the same, with a few notable differences. There is no ransomw, the key often is not transmitted and it is more liked to corporate rivalry or hacktivism.
 
-
 %prove claim of the value of data
+
+\section{Buffer Overflows}
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
@@ -386,15 +390,28 @@ This can be defeated (like everything), by having abrupt delays to throw the sys
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 \chapter{Malware Mechanisms - Exflitration}
+Modern malware of often not static, it changes and morphs based on remote command. For this to work, there must be some form of communciation from victim to attacker. As discussed above, their is usually a side channel for this.
+In C2 structures, it is often advantagous for communciations to be covert and unreadable, as to not create a breadcrumb trail back. 
+
 \section{Proxy Chains \& VPNs}
+As discussed, it is important to conceal the location of the real attacker. It is common in a C2 structure for zombie machines in the botnet to conduct the attacks. This in essence is a proxied attack,
+as the zombies are attacking in place of the master. Proxy chains come in due to the need to remove the direct link from master to slave machies, adding multiple layers of proxy relays all around the world 
+in between all communication either way. THis means if a zombie machine was captured, authorities may only see communciation to a random cloud host, whom then talks to another random cloud host. It increases the
+difficult expinentially for law enforcement to find the criminal, as there are a whole assortment of laws that cause issues for accessing cloud services, when traditionally a live capture was all that was needed. 
+
+%reference laws?
 \subsection{ToR Routing}
-\section{Protocol Payload Abuse}
-\subsection{ICMP}
-\subsection{DNS}
-\section{TLS}
+
+%mention window size
 \section{Data Breaching}
+\subsection{Protocol Payload Abuse}
+\subsubsection{ICMP}
+\subsubsection{DNS}
+\section{TLS}
 
 
+
+%reference exfiltration  by obfuscation - twiiter bot
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 
@@ -402,11 +419,10 @@ This can be defeated (like everything), by having abrupt delays to throw the sys
 Important for malware to have continued access, even after a reboot. I will try a few of these with a reverse shell. 
 We need triggers, these triggers should be fairly legit, with malformed payloads. These triggers should be automatic, or at least on something that would be done normally.
 
-\section{Windows Systems}
 Windows works by leaving files for both reference, logs and to speed proccess up. These either are intrinsic to how the OS works or simply have been left behind. 
 These are great for finding evidence and purpose. We can prove that the criminal acted at a given time, on a given file etc... These are some useful areas. This is windows 10, but older ones are still out there, 7 upwards are very similar. We need to be able to recreate.
 
-\subsection{Registry Manipulation}
+\section{Registry Manipulation}
 A hive that is normally maintained by the system. You can change values and implant whatever you want in there. Here are some strategic places. 
 Many of these are ASEPs (AutoStart Extension Points), meaning they run without user interaction. The registry seems to have issues with wild wildcards, 
 in that it will run essentially anything under a given hive at it's respective time and permissions. It's a rootkit waiting to happen. 
@@ -463,8 +479,6 @@ autocheck autochk * aHdqEPamx
 \end{tcblisting}
 
 
-\subsection{Symbolic Locations}
-
 \subparagraph{DLL Search Order Hijacking}
 If a process is executed, it will look in it's own folder first, and use it's DLL, even over a windows one, to overwrite it. If not, it will read the location of root, 
 to the destination with spaces, and means you can inject a dll where you know it will look before the real one. Even explorer.exe does this!
@@ -496,20 +510,38 @@ reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunServices
 \end{tcblisting}
 %reference locations of registry info, evernote
 
-\section{Linux Systems}
+\section{Priviledge Escalation}
+The idea behind privilege escalation is that under the assumption that a user shell is granted, that shell can then be leveraged in a malcious way to gain higher privilege.
+Permissions are often exploited in order to escape user level contraints, often due to poor configuration. This varies from hijacking processes running as root (system in windows) to
+abusing scheduled tasks to run user defined code. The ultimate goal of priv esc is to leverge the highest user shell, from there; system level persistance mechanisms such as rootkits can be easily
+leveraged for deep persistance. 
+
 \subsection{Command Injection}
 We can use command injection to run any command that user has available. This may include netcat or any allowed system command. This could all be prevented with a few steps. 
-
 Proper input validation on the entry point.Lack of access that the web application has to system commands, as well as up the date packages of the languages that have this vulnerable. There is no reason that netcat should be on a target system. 
-
 The following is possible otherwise. We could use this attack in a input that runs a command, we end the command and run another as that user, in this case popping a shell for us to run commands more easily ourselves.
 
-\subsection{Cron Manipulation}
+\subsection{Scheduler Manipulation}
+Linux systems use cron, and windows systems use task scheduler. They both allow for administrators to automate tasks. The use case is usually for an on-boot task, or perodically ran for backups and other important jobs.
+THey save the administrator from having to run it manually, leaving them to do other jobs. They are invaluable for backup hygiene, as well as autostarting important programs. While these schedulers can run single commands, 
+they are often given scripts for which to run at their defined time. The programmer in this case does not have to worry about scheduling code, they let the OS sort it out with their defined settings. The script will do 'x'
+task, and will run through it's defined algorithm. 
+
+The problem arises in the permissions of the potentially variable file. The script will always run as the user chosen to run the task. This means that the script could be running as the system or root user without explicit knowledge, and as such
+, if exploited could also run arbitrary code. A particually nasty attack vector is the write permission of the script. If not secured so that only system level permissions can edit it, potentially any user can alter it.
+A user account could be hijacked, and then attempt to write to a scheduled script file. The user writing to the file may not be the one running it periodically, and as such any changes could be ran as the system/root user.
+
 
 \subsection{SUID Manipulation}
 
 \subsection{User Account Creation}
 \section{Process Hijacking}
+%dunno about this stuff
+
+\section{Symbolic Locations}
+%urandom - maybe
+%/dev/shm
+%/dev/udp - think thats it?
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
@@ -525,3 +557,5 @@ The following is possible otherwise. We could use this attack in a input that ru
 %include previous assignment work? ask
 
 %xss web sockets fake page card skimmer 
+
+%split into chapters?

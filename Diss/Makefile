@@ -8,4 +8,4 @@ dissertation:
 
 wordcount:
 #	texcount -total -inc /TOR/TermsOfReference.tex
-	texcount -total -inc /Diss/Dissertation.tex
+	texcount -total -inc Dissertation.tex

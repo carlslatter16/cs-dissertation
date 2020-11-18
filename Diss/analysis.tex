@@ -34,7 +34,19 @@ and the new version that is safe could be too expensive or not exist at all. Car
 %references sectors helped, nhs reliance, and programmer stress
 
 \section{Responce Theory}
+Responce in security is just as important as any other layer. No system or person exists is perfect, mistakes will happen eventually. Those msitakes should be managed by proper training, as will be discussed in the evaulation.
+If issues are inevitable, even with a good culture; what is the proper responce? It varies, but typically a good approach would include simualtions planned out ahead of time of what may happen, with best practise as a responce.
+Scenarios are planned out ahead of time in order of likelyhood, preferbly with people dedicted to incident responce. Serperation of duties and planning ahread of time can reduce much of stress and anxiety that can come with cyber attacks or downtime.
 
+Some sensible steps include:
+\begin{enumerate}
+    \item [$\bullet$] Airgapping of existing infrastructure
+    \item [$\bullet$] Checking of logs
+    \item [$\bullet$] Aqquisition of audit trails
+    \item [$\bullet$] Checking of open connections / malware
+\end{enumerate}
+
+%should defence in depth be in my evalulation?
 
 \subsection{Zero-Days}
 When people think of the exploit-update cycle, the first thought would be of patching. Patching is incredibly important, it allows for security issues to be rectified; to an extent in which it's then up to maintenance. Zero day attacks are incredibly 
@@ -75,8 +87,10 @@ The above system uses the idea that only the vpn port is open, with everything e
 but unlikely in a home lan setup. I only allow local devices to even access the public IP other than for the VPN so it is a whitelist, very strong. The firewall is on the same device as the VPN purposely, if the device goes down, the firewall rules do sure, but so does the VPN which eliminates the access anyway.
 
 \section{Threat Definition}
+It becomes incresingly important in defence to know what the opposition might try. There are an obsurdly large amount of malware out there, and as such; it's quite important to be able to classify them based off their traits.
+
 \subsection{Classification of Threats}
-Malicious software, often called 'Malware' is an ever growing problem for system administrators.
+Malicious software, often called 'Malware' is an ever growing problem for system administrators. 
 
 \subsubsection{Viruses}
 \subsubsection{Worms}
@@ -134,6 +148,20 @@ If anyone is able to access it legitimatly, it allows potential for a threat act
 A criminal can use information gathered to hone in later attacks for full effect.  
 
 \subsection{NMAP}
+Nmap is an extreamly useful networking application that allows for a great deal of network reconnaissance. It's main use being the mapping out of networks, as the name would suggest.
+
+Host Discovery Scan (Subnet Scoped):
+\begin{tcblisting}{listing only}
+    nmap -sn 192.168.1.1-254
+\end{tcblisting}
+
+Noisy Host Probing Scan:
+\begin{tcblisting}{listing only}
+nmap -sC -sV -vvv -oA  ~/Documents/nmapscan.txt 192.168.1.50
+\end{tcblisting}
+
+%other tools listed in ToR
+
 \subsubsection{Fingerprinting \& Banner Grabbing}
 A threat actor can learn much from a network, particually if it is widely exposed to the internet. Valuable enumerated data includes: software names and versions, operating system patch numbers, open ports and typical responce.
 Much can be learned based off how software responds. It could respond in a way that is particually unique, allowing for identification. This could be a message, or typical behavior for that piece of software.
@@ -157,6 +185,19 @@ The Metasploit Framework has a program called meterpreter which allows you to ru
 because it means that the tools on the system are fairly irrelevant. 
 
 \subsection{CVEs \& Shodan}
+Exploits are common, and are numerous. There are way too many to know by name or nature. There is a need for a standardised classifcation; this exists in the form of "Common Vulnerabilities and Exposures (CVEs)". A CVE is essential a unique record for a given vulnrability,
+often used in the cybersecuiryt industry for disclosures and reference. Each CVE is registed in the database (can be found at exploit.db) and is given a severity score, known as the CVSS score. Often exploit implentations and proof of concepts are provided with disclosure of a CVE, that sometimes vary.
+There is a culture in the security scene of who can have the most covert and efficent exploit for a given vulnerability. An outside perspective may use the argument that this is harmful to security. While this is true in some circumstances, tools and exploits are able to be created and exploited regardless of legality.
+The security consensus typically is around pushing security boundaries through testing and not leaving it up to chance. 
+
+%https://www.balbix.com/insights/what-is-a-cve/#:~:text=CVE stands for Common Vulnerabilities and Exposures.
+
+Shodan in conjuction creates a very deadly pair. Shodan is a internet connected device search engine that allows fine tuned filtering.
+Shodan does not explicitly scan, instead reporting back what is already publcially available, even if tricky to find naturally. What forms is a database that 
+tracks operating systems, software and versions of devices all over the world. This can be used in conjuction with a compatiable CVE to potentially compromize a network.
+The inverse is true, it can be an asset to create awareness of exposure and help push security forward as a result.
+
+%reference shodan, discission of leagility of use of tools and stuff 
 
 \section{Social Engineering}
 Social engineering is the art of exploiting the inherent vulnerabilities that lie within humanity. Access is most easily leveraged by manipulating someone, especially compared to finding the needle in the haystack regarding finding a relevant vulnerability at the machine level. 
@@ -183,6 +224,19 @@ Spear phishing is where you send email enmasse to lure people into clicking some
 in fact as a whole very very few people fall for it. You will get your small minority that it works on, and that's what they rely on. The solution to this is proper email sanitization, with checks of email header tampering, some form of verifcation and file/link whitelists.
 
 \subsection{USB Dropping}
+USB devices carry data in a convinient way through flash storage. They are cheap, quiet and very portable. They can be encrypted and are a great asset to productivity. 
+There are however security concerns around a specific use case of them. Some models of USBs allow for firmware altering; altering that allows some tools to configure it to trick
+devices it is plugged into it, that it is a keyboard. 
+
+Keyboards can obviously type, with keyboard input being inherintly trusted. Input is usually dictated by scripting (commonly 'ducky script')
+with typing that is far faster than a human can write, or even read often enough. A victim may plug it in, see a black command prompt window and have a potential compromise without even knowing. 
+The script could do any manner of damage, usually a payload based off the topics covered in this paper. 
+
+The attack preys upon the human emotion of curiosity, as these usbs are usually either dropped outside randomly and picked up or given in seemingly good faith. Another interesitng point to consider is supply chain.
+Every usb has to be made, and therefore should be a trusted retailer with regular random testing. A cheap 2tb usb stick off ebay may not be the best idea, especially considering that reported device size can be faked to the operating system,
+where it will overwrite itself past it's threshold.
+
+%reference stuxnet
 \subsubsection{Autorun}
 \section{Spoofing}
 \subsection{ARP/MAC Spoofing}
@@ -451,6 +505,9 @@ Proper input validation on the entry point.Lack of access that the web applicati
 The following is possible otherwise. We could use this attack in a input that runs a command, we end the command and run another as that user, in this case popping a shell for us to run commands more easily ourselves.
 
 \subsection{Cron Manipulation}
+
+\subsection{SUID Manipulation}
+
 \subsection{User Account Creation}
 \section{Process Hijacking}
 

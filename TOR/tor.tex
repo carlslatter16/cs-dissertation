@@ -4,9 +4,9 @@
 The modern technological landscape demands much from innovation. 
 We must find new ways of solving existing and new problems in the world. 
 This is amazing for convenience, and quality of life, but does pose a problem for security. 
-There is Hypponen's law in IOT that states, the more you add in terms of functionality, the more that must be secured. 
+There is Hypponen's law in IOT that states, the more you add in terms of functionality, the more that must be secured. \citep{hypponen}
 A concrete cube may be secure, but is not overly functional. I am incredibly interested in the duality between attack and defence. 
-It seems to be a constant cat and mouse game of which defence is paramount. 
+It seems to be a constant cat and mouse game of which defence is paramount. \citep{cutandmouse}
 I hope that by looking at both sides with a purple team perspective, I can gain a deep understanding of the landscape we have currently and moving forwards. 
 
 Cyber-Security is really "Managed insecurity", I intend to discover where cyber attacks are at, and how they have innovated over the years.
@@ -14,13 +14,13 @@ Cyber threats are growing, how can be detect them? How can we proactively block 
 I must be able to show my understanding in a theoretical and practical way to be able to potentially apply it to a real life scenario. 
 I will have to develop my understanding of infrastructure, networking, semi low-level programming and penetration testing.
 
-Developing realistic solutions for smaller businesses is really important. They are arguably more at risk, with less resources for security. 
-The is a culture of security snake-oil and scare-ware, and supposed all-in-one solutions rather than defence-in-depth. This is evident in the numerous adverts that claim much and deliver little.
-With the detection work, I hope to show the importance of the human element to security, how it can be the weakest link, or the strongest asset. 
+Developing realistic solutions for smaller businesses is really important. They are arguably more at risk, with less resources for security. \citep{sme}
+The is a culture of security snake-oil and scare-ware, and supposed all-in-one solutions rather than defence-in-depth. This is evident in the numerous adverts that claim much and deliver little. \citep{SnakeOil}
+With the detection work, I hope to show the importance of the human element to security, how it can be the weakest link, or the strongest asset.  \citep{humanFactor}
 I must look at current solutions with a critical eye with care to be realistic about defence. 
 
-Malware has evolved over time, what was once an exercise of freedom and curiosity, is now a platform for theft and crime. 
-Defences catch up over time, it will be eye-opening to see the different methods historically that the two sides try to out-smart each other.
+Malware has evolved over time, what was once an exercise of what was possible, is now a platform for theft and crime. \citep{malwareHistory}
+Defences catch up over time, it will be eye-opening to see the different methods historically that the two sides try to out-smart each other. \citep{malwareHistory}
 Malware analysis is something I haven't really touched on before, though I have be interested for a long while now. It will benefit my defence greatly.
 
 
@@ -29,7 +29,9 @@ Malware analysis is something I haven't really touched on before, though I have 
 I aim to create documentation in the form of my dissertation to describe the Cyber-Security landscape in regards to infrastructure. 
 This will involve talking about infrastructure directly, it's use, implementation and potential pitfalls, but more importantly, how it can be secured.
 On the other side, I will be looking at the common ways that infrastructure is compromised, in a network setting. 
-I do think that a good comparison is important for this. 
+I do think that a good comparison is important for this. The dissertation will have the approach of being an overview, as I feel that is the best way to cover the bigger picture. 
+I will go into relative depth where it is nessesary. The experiment will simply just compare a set of attacks to a set of defences, with analysis of the results. Details will come in the synthesis, as
+it entirely depends on my research to which exact direction I go in. 
 
 I will be investigating how threats have evolved as a whole, talking about malware mechanisms, obfuscation and clever exfiltration. 
 I believe it is important to at least touch on how this was done in the past, 
@@ -37,19 +39,21 @@ to understand how the future may follow similar foundations. Naturally an invest
 I hope to compare both endpoint and infrastructure defences in relation to both a sample of threats, and to one another. I will then analyse this data and draw sensible conclusions based upon it.
 
 I also hope to create a rudimentary intrusion detection system written in C. This will be a proof of concept to show my understanding, rather than a product. My hopes are that by developing network defence myself, 
-I can gain an even deeper understanding.
+I can gain an even deeper understanding. It will also illustrate the scale that corporate products can run at, including extra methods that are out of scope for me.
+This is secondary to the main experiment. 
 
 \section{Aims and Objectives}
 \subsection{Aims}
 \begin{quote}
 	To understand the theory behind defence in relation to common threat vectors.
-	To develop attack and defence to aid the theory, in a practical manner.
+	To develop attack and defence skills to aid the theory, in a practical manner.
 \end{quote}
 
 \subsection{Objectives}
 \begin{enumerate}
 	\item \textbf{Analysis of historic threats and malware}
 	\item \textbf{Analyse modern attack:defence landscape}
+	\item \textbf{Analysis of defence technologies}
 	\item \textbf{Explanation of entry vectors and profiling}
 	\item \textbf{Explanation of exploitation}
 	\item \textbf{Explanation of obfuscation}
@@ -108,7 +112,7 @@ I can gain an even deeper understanding.
 It will summarise the whole project.
 
 \paragraph{Analyse historic \& modern defence} - This chapter is a broad overview of the cat and mouse game, with a focus on how both sides evolve over time, 
-and how to tip the scales in the defences favour. Analysis of defence technologies directly after. 
+and how to tip the scales in the defences favour. Analysis of defence technologies directly after (Anomaly Detection, signature matching, whitelisting etc..). 
 
 This chapter then covers cases of past incidents, how they happened, why they were effective and what we can learn from them for modern day. 
 I will cover an assortment of notable malware. History and modern may be split into two paragraphs.

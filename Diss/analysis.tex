@@ -93,17 +93,41 @@ but unlikely in a home lan setup. I only allow local devices to even access the 
 It becomes incresingly important in defence to know what the opposition might try. There are an obsurdly large amount of malware out there, and as such; it's quite important to be able to classify them based off their traits.
 
 \subsection{Classification of Threats}
-Malicious software, often called 'Malware' is an ever growing problem for system administrators. 
+Malicious software, often called 'Malware' is an ever growing problem for system administrators. There are many threats out there now, and as such, it makes sense to have some form of classification process, a discussion of the categories is 
+important. Additionally, it's rather important to understand that the below categories are overarching, and behavior may warrant subcategories. \citep{MalwareClass} 
 
-\subsubsection{Viruses}
-\subsubsection{Worms}
-\subsubsection{Trojans}
-\subsubsection{Rootkits}
-\subsubsection{Dossers}
-\subsubsection{Adware}
-\subsubsection{Ransomware/Cryptors}
-\subsubsection{Spyware}
-\subsubsection{Fileless/Packetted}
+Firstly, viruses. They act as the term used for all malware as an umbrella term by the general populace.
+They require user interaction to start, often binding to otherwise legit applicaitons to act as a trigger. They are less common these days due to the interaction factor, with only 10\% of malware classifying as a virus. They can be quite difficult to clean up due to their infecting nature. \citep{MalwareClass}
+
+Worms act similarly but their main distinguishing difference is that they often don't need user interaction to trigger and will reproduce themselves over a network. Loveletter and SQLSlammer are a fantastic examples of this, showing that the internet's vast connectivity
+can lead to a worldwide compromise in hours given the right circumstances. \citep{MalwareClass} 
+
+Trojans are by far the most common pick as of writing for a budding computer hacker. They similar to viruses in that they interact with applications, and that they both require some user interaction to start. The differences lie in behaviour before and after infection. 
+They prefer to masquerade as legitimate programs, that upon exection, do something different entirely, or serve a secret purpose to just what the cracked software or emailed document that was inevitably downloaded for. They do not replicate, prefering to create C2 structures with backdoors,
+and employ remote access trojan tactics (RAT) of creating persistance, often in the form of covert screensharing. \citep{virusVsTrojan}
+
+%Find something to backup RATs
+
+Rootkits are pieces of malware that share similar traits to that of other classifications of malware, they cannot replicate on their own, and employ c2 structures for remote commands and file execution. 
+Their defining trait comes in how they are implanted, and their reach. They tend to burrow rather deep into the system, usually completely hijacking core operating system functions, or even implanting into the BIOS.
+They typically have high levels of access to both software and hardware with even cases of rootkits being found in malformed firmware. They are difficult to detect and harder to get rid of, with people ususally having to either scrap, or deep
+wipe hardware. \cite{MalwareClass02} 
+
+You also have malware that is classified based more on the damage caused, rather than the transmission or retransmission methodology. A non extensive list would inlcude adware and spyware. Adware will reach your machine through one of the above mediums
+and infect key parts of the operating system. The goal is to sideload web content into vison, preferbly where they would be expected normally. 
+
+Ads are how much of the internet makes money, and as such if a strain of adware can infect many machines, there is a great financial incentive.
+Areas hijacked often are javascript elements, browser toolbars, page redirects and notifications. Not to be confused with malvertising where advertising networks are the infection vector. \citep{MalwareClass} 
+
+Secondly, as stated, there is spyware. Much like adware, it will get onto the system in a given way and will then trigger. The trigger in this case is surveillance. This may include sending
+keyinputs, browsing history, webcam streams, mic inputs and even implement RAT behaviour to get a live stream of their desktop. cite{MalwareClass02}  \citep{MalwareClass} 
+
+%keyloggers, internet history scrapers etc.. Somewhat linked to RATs
+
+%\subsubsection{Fileless/Packetted}
+%might need a tad bit of research for this one, more than the above.
+
+There are many more, some of which will be discussed at relevant parts of the paper.
 
 %consider moving stuff here
 
@@ -406,10 +430,9 @@ difficult expinentially for law enforcement to find the criminal, as there are a
 
 
 %mention window size
-\section{Data Breaching}
-\subsection{Protocol Payload Abuse}
-\subsubsection{ICMP}
-\subsubsection{DNS}
+\section{Protocol Payload Abuse}
+\subsection{ICMP}
+\subsection{DNS}
 Domain Name Service, commonly known as DNS is a protocol that servers to resolve domain names to their respective IP addresses (and vice versa). It acts as a way for humans to use the internet in a more intuative and
 memorable way, as well as allowing for variability in infrastructure deployments. If a file share is given a domain name and port, that domain name can then be used in clients that it serves; if the IP that is resolved into changes,
 then the client needs not change anything, and so less configuration is needed long term. Another point to make is that this allows for a round robin approach to load balancing where a given domain name resolves to different IP addresses providing the
@@ -467,7 +490,7 @@ SSH through DNS can be quite loud in respective to detection software. \citep{DN
 %good mitigation on that paper
 %try out tools
 
-\section{TLS}
+\subsection{TLS}
 Transport Layer Security, and formally Secure Socket Layer (obselte since 1999 when TLS evolved from it) are protcols to encrypt data cryptographically in transit. It's use typically applies to client to server communication. It ensures that while transmitting through potentially insecure nodes of the internet, data is secured and non sensicle to those who potentially have a network tap to view transmission contents. This is extreamly important for communications that are sensitive in nature such as emails and voice communications. \citep{CloudflareTLS}
 
 TLS is ultimately a layer for other protocols to plug into, to push their traffic through, with the other side agreeing to decrypt it in the same way. For example, there is HTTPS, HTTP over TLS. The cryptographic protocol must be agreed upon, as must the decryption key. This is done during the TLS handshake, except without an explicit key as that would be insecure to push over the network in clear text. \citep{CloudflareTLS}
@@ -630,3 +653,5 @@ A user account could be hijacked, and then attempt to write to a scheduled scrip
 %split into chapters?
 
 %priv esc sripts abd what they look for in detail, each part
+
+%consider empty sections and subsections that only host children

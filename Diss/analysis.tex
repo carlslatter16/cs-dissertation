@@ -392,7 +392,7 @@ This can be defeated (like everything), by having abrupt delays to throw the sys
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 \chapter{Malware Mechanisms - Exflitration}
-Modern malware of often not static, it changes and morphs based on remote command. For this to work, there must be some form of communciation from victim to attacker. As discussed above, their is usually a side channel for this.
+Modern malware are often not static, it changes and morphs based on remote command. For this to work, there must be some form of communciation from victim to attacker. As discussed above, their is usually a side channel for this.
 In C2 structures, it is often advantagous for communciations to be covert and unreadable, as to not create a breadcrumb trail back. 
 
 \section{Proxy Chains \& VPNs}
@@ -404,15 +404,82 @@ difficult expinentially for law enforcement to find the criminal, as there are a
 %reference laws?
 \subsection{ToR Routing}
 
+
 %mention window size
 \section{Data Breaching}
 \subsection{Protocol Payload Abuse}
 \subsubsection{ICMP}
 \subsubsection{DNS}
+Domain Name Service, commonly known as DNS is a protocol that servers to resolve domain names to their respective IP addresses (and vice versa). It acts as a way for humans to use the internet in a more intuative and
+memorable way, as well as allowing for variability in infrastructure deployments. If a file share is given a domain name and port, that domain name can then be used in clients that it serves; if the IP that is resolved into changes,
+then the client needs not change anything, and so less configuration is needed long term. Another point to make is that this allows for a round robin approach to load balancing where a given domain name resolves to different IP addresses providing the
+same service which evens the workload. 
+
+DNS is commonly used on most networks, as it provides an intregal part in most interaction, human and programs alike. The assumption that DNS would be on practically any network can be used in an adversarie's favour; DNS is not often monitored to the degree it should be.
+DNS allows for fairly covert channels to transport data, that if done well, can bypass firewall and IDS/IPS systems. A C2 structure can be formed through this communication.
+
+An abstract from a relevant paper \citep{DNSExfiltration}: 
+
+\begin{displayquote}
+\begin{textit}
+1: The attacker must have control of an authoritative DNS
+server, which will be the end point for the DNS requests
+transmitted from the victim.
+
+2: Exfiltration tools consist of two component applications; the client on the victim machine, and the server
+controlled by the attacker. The victim machine must
+be infected with the client tool. For example, within a
+malware payload.
+
+3a: With control of the victim’s machine, the exfiltration
+tool is used to encapsulate selected data from the victim
+into DNS requests.
+
+3b/c: The request is forwarded through DNS servers
+until it reaches the attacker. This reflects standard DNS
+operation i.e. if a server is unable to resolve the DNS
+request, it forwards it to a higher-level DNS server.
+
+4: Once the request reaches the authoritative DNS server,
+the server side of the exfiltration tool strips the data from
+the request and reconstructs it into the original format.
+\end{textit}
+\end{displayquote}
+
+There are tools capable of conducting such an technique; these include:
+\begin{enumerate}
+    \item DnsCat2 - "This tool is designed to create an encrypted command-and-control (C&C) channel over the DNS protocol" \citep{dnscat2}
+    \item DNSExfiltrator - "Allows for transfering a file over a DNS request covert channel." \citep{DNSExfiltrator}
+    \item Iodine - "IP over DNS tunneling client" \citep{iodine}
+    \item DET - "Data Exfiltration Toolkit" \citep{DET}
+\end{enumerate}
+
+There are multiple vectors in the DNS protocol to attach meaninful variance; 
+The domain name itself that is attempted to be resolved, using common queries such as A or AAAA and tunneling other protocols 
+through the data payload of the DNS query. Depending on the throughput needed, the requests can be segmented to be more covert, as tunneling 
+SSH through DNS can be quite loud in respective to detection software. \citep{DNSExfiltration}
+
+%good table for tools
+%snort apparenlty has lists for certain kinds of malicous traffic, including thism, sometimes with regex (snort)
+%rereference his sources?
+%what is looked for, look at the paper...not done
+%find a better  way to show quotation
+%good mitigation on that paper
+%try out tools
+
 \section{TLS}
+Transport Layer Security, and formally Secure Socket Layer (obselte since 1999 when TLS evolved from it) are protcols to encrypt data cryptographically in transit. It's use typically applies to client to server communication. It ensures that while transmitting through potentially insecure nodes of the internet, data is secured and non sensicle to those who potentially have a network tap to view transmission contents. This is extreamly important for communications that are sensitive in nature such as emails and voice communications. \citep{CloudflareTLS}
 
+TLS is ultimately a layer for other protocols to plug into, to push their traffic through, with the other side agreeing to decrypt it in the same way. For example, there is HTTPS, HTTP over TLS. The cryptographic protocol must be agreed upon, as must the decryption key. This is done during the TLS handshake, except without an explicit key as that would be insecure to push over the network in clear text. \citep{CloudflareTLS}
 
+PGP encryption is a popular choice for this, it provides an effective way of maintaining confidentiality and integrity. Each host has a private key only known to them, each also have a public key based on that private key given to anyone who wants it. This is known as asymmetric encryption. When data is asymmetric, private key encrypted data can only be decrypted by the public key of the other side, and vise versa.  
 
+As noted, integrity can be assured with this method. This is especially important in two settings. The first being infrastructure validation, in which server A and B want to ensure they are talking to each other, and not an inpersonator whom wouldn't have the same public key. The second being the validation of websites, particually the ones of high traffic. Often these sites have to handle sensitive infoirmation, and so clearly there is a need for them to prove they are who they are. They use the TLS and PGP process to develop certificates that are given to the browser who then automatically check with certificate authorities (CAs) to ensure they are the real deal. Challenges are oftne given to the domain servers holding a given ceritifciate that only they can complete.
+
+It is clear that TLS can be used for great purpose, to ensure data can be hidden from those it was not intended for, which helps prevent cyber crime known as man-in-the-middle attacks. A commonality in security is that both sides often use the same tools for different purposes. TLS unfortunalty can be used to encrypt C2 
+channels to make them even more covert in transit. This is due to the flexibility of TLS, along with how computers handle data indiscriminately. Domains are cheap, and registering one for malicous purposes is common place in the criminal world. \citep{TLS}
+
+%could talk deeper on the process
 %reference exfiltration  by obfuscation - twiiter bot
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
@@ -490,7 +557,7 @@ Everytime User32.dll is loaded by an exe, this string is read and modules are lo
 
 
 \subparagraph{Run & RunOnce Keys}
-
+ 
 \begin{tcblisting}{listing only}
 User (For then priv esc):
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
@@ -554,11 +621,9 @@ A user account could be hijacked, and then attempt to write to a scheduled scrip
 
 %fix chapters for mechanisms
 
-%hash cracking / pass the hash?
+%hash cracking / pass the hash? Hash cracking only really works for small data or passwords
 
 %network snooping & tapping
-
-%include previous assignment work? ask
 
 %xss web sockets fake page card skimmer 
 

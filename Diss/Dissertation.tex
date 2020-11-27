@@ -24,8 +24,14 @@
 \usepackage{listingsutf8}
 \usepackage{csquotes}
 \usepackage[colorinlistoftodos]{todonotes}
-
 \usepackage{fontawesome}
+
+\usepackage{caption}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{%
+  \parbox{\textwidth}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}\vskip-4pt}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+\lstset{frame=lrb,xleftmargin=\fboxsep,xrightmargin=-\fboxsep,breaklines=true,basicstyle=\fontsize{8}{13}\selectfont\ttfamily}
 
 \usepackage{tikz}
 \usetikzlibrary{trees}
@@ -77,3 +83,5 @@ Likewise you can scan and include the Risk Assessment Form
 \end{tcblisting}
 
 \end{document}
+
+%current issues with getting references to work properly

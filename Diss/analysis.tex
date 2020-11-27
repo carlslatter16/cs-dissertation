@@ -7,18 +7,7 @@
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
-\chapter{Historic Attack \& Defence}
-\section{The Importance Of Computing History}
-\section{Heartbleed}
-A heartbeat request asks for a open ssl session to be checked of a given length and content. The length was never checked though so it would read from outside the buffer potentially revealing passwords. Thousands of webservers were vulnerable, including yahoo. A patch was needed to fix this
-
-\section{Loveletter}
-
-\section{SQLSlammer}
-
-%------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
-
-\chapter{Modern Security Landscape}
+\chapter{The Security Landscape}
 \section{The Cat \& Mouse Game}
 Technology is always changing, often to the needs of the growing world. Changes range from potential to aid traditional sectors to common conviniences that are taken for granted everyday.
 Software usually has a purpose, and that purpose is normally pure in nature. Software is there to solve a problem, to make life easier. A problem arises in implementation however, as mistakes can happen.
@@ -45,7 +34,7 @@ Some sensible steps include:
 \begin{enumerate}
     \item [$\bullet$] Airgapping of existing infrastructure
     \item [$\bullet$] Checking of logs
-    \item [$\bullet$] Aqquisition of audit trails
+    \item [$\bullet$] Aquisition of audit trails
     \item [$\bullet$] Checking of open connections / malware
 \end{enumerate}
 
@@ -59,10 +48,21 @@ The price tag pertains to the huge amount of systems running windows as a base, 
 
 %reference zerodium, responce stats
 
-\section{Emotet}
-\section{WannaCry}
-\section{NotPetya}
-\section{Mimikatz}
+\section{Historic \& Modern Malware Threats}
+\subsection{Heartbleed}
+A heartbeat request asks for a open ssl session to be checked of a given length and content. The length was never checked though so it would read from outside the buffer potentially revealing passwords. Thousands of webservers were vulnerable, including yahoo. A patch was needed to fix this
+
+\subsection{Loveletter}
+
+\subsection{SQLSlammer}
+
+\subsection{Emotet}
+
+\subsection{WannaCry}
+
+\subsection{NotPetya}
+
+\subsection{Mimikatz}
 
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
@@ -88,6 +88,7 @@ A VIP pass of sorts. We have inbound and outbound ACLs. Inbound filters packets 
 
 The above system uses the idea that only the vpn port is open, with everything else requiring local or vpn access. We use firewall rules to block everything else that is on the same device, such as my dns server. Additonal firewall rules could be used internally to stop priv esc 
 but unlikely in a home lan setup. I only allow local devices to even access the public IP other than for the VPN so it is a whitelist, very strong. The firewall is on the same device as the VPN purposely, if the device goes down, the firewall rules do sure, but so does the VPN which eliminates the access anyway.
+
 
 \section{Threat Definition}
 It becomes incresingly important in defence to know what the opposition might try. There are an obsurdly large amount of malware out there, and as such; it's quite important to be able to classify them based off their traits.
@@ -284,7 +285,7 @@ Another reason to use a system such as this is that it creates a layer of pseudo
 
 A few things of note; systems are usually zombies without knowledge through some kind of botnet malware. Additionally, if analysis is conducted of a zombie machine (perhaps an aquisistion of a cloud virtual machine), then the communiccation channel may be clear. Proxy chains can help avoid this, creating more layers of relay.
 
-\subsection{Side/Control Channels}
+\subsection{Side Channels}
 \subsubsection{Bind & Reverse Shells}
 A Bind/Remote shell is you connecting from your machine to the shell. This is more of a backdoor. This is usually blocked by firewalls and can be ruined by change of ports, additionally DHCP and NAT cause IPs to change and as a result you do not know the IP of the listener you have setup.
 A reverse shell is the shell connecting to a listening service (Netcat) on your machine.
@@ -419,16 +420,24 @@ This can be defeated (like everything), by having abrupt delays to throw the sys
 Modern malware are often not static, it changes and morphs based on remote command. For this to work, there must be some form of communciation from victim to attacker. As discussed above, their is usually a side channel for this.
 In C2 structures, it is often advantagous for communciations to be covert and unreadable, as to not create a breadcrumb trail back. 
 
-\section{Proxy Chains \& VPNs}
+\section{Geo Location Altering}
 As discussed, it is important to conceal the location of the real attacker. It is common in a C2 structure for zombie machines in the botnet to conduct the attacks. This in essence is a proxied attack,
 as the zombies are attacking in place of the master. Proxy chains come in due to the need to remove the direct link from master to slave machies, adding multiple layers of proxy relays all around the world 
-in between all communication either way. THis means if a zombie machine was captured, authorities may only see communciation to a random cloud host, whom then talks to another random cloud host. It increases the
+in between all communication either way. This means if a zombie machine was captured, authorities may only see communciation to a random cloud host, whom then talks to another random cloud host. It increases the
 difficult expinentially for law enforcement to find the criminal, as there are a whole assortment of laws that cause issues for accessing cloud services, when traditionally a live capture was all that was needed. 
 
+
+TOR is anoter endevor that is intended to escape censorship and monitoring, that is also used by criminals to hide their real location. It runs using onion routing which ensures that the host is not linked to the destination by
+bouncing traffic through over nodes on the tor relay, that scan all across the globe. The specifics are out of scope for this paper but the concept is that the client communicates with a onion based directory server, the first router is
+contacted and a Diffie-Hellman key exchange is initiated (to establish short live keys), with this repeating for 3 hops to create a non attributable link to the destination. The IP header is wrapped inside an 'onion' that is peeled back at each node, to reveal information about how to reach the next.
+The process is more involed than that in reality, but again, is out of scope for this paper. \citep{TorMalware}
+
+TOR can cause problems for those who require some baseline of monitoring, whether than be a place of education or a workplace, to avoid policy and law violations. It often is used for criminal activity, with port scanning, 
+C2 and exfiltration often being carried out over the darknet that TOR is often used to connect to. \citep{TorMalware}
+
 %reference laws?
-\subsection{ToR Routing}
 
-
+%might need to develop tor more, malware that uses it etc..?
 %mention window size
 \section{Protocol Payload Abuse}
 \subsection{ICMP}
@@ -525,7 +534,7 @@ A few example of the reg command are below.
 
 \subparagraph{Startup Keys}
 Keys that point to folders, that can launch shortcuts and executables as the given user, often during login or reboot
-\begin{tcblisting}{listing only}
+\begin{lstlisting}[label=RegistryStartupKeys,caption=Registry Startup Key Locations]
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders //will default to carl in my case
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders
 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders //for public
@@ -535,53 +544,46 @@ Windows Startup folder - Anything here auto execs on startup, even shortcuts. ru
 
 C:\Users\USERNAME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup //seems to run as logged in user - waits for login, rather than boot level
 
-\end{tcblisting}
-
+\end{lstlisting}
 
 \subparagraph{Services}
 Winload.exe is the first to load in the OS, reads the hive to see what drivers need to be loaded. It is responsible for the "starting windows" message.
-\begin{tcblisting}{listing only}
-
+\begin{lstlisting}[label=RegistryServices,caption=Registry Service Locations]
 HKLM\SYSTEM\CurrentControlSet\Services
 
-//view drivers (admin)
+View drivers (Admin)
 reg query hklm\system\currentcontrolset\services /s | findstr ImagePath 2>nul | findstr /Ri ".*\.sys\$"
 
 C:\WINDOWS\TEMP\INSTB64.SYS C:\Users\USERNA~1\AppData\Local\Temp\cpuz135\cpuz135_x64.sys C:\Windows\TEMP\009947~1.EXE C:\Users\username\AppData\Local\Temp\ALSysIO64.sys
-//temp or user folders would be very sus! It's about looking for anomalous locations.
-
+//Temp or user folders would be very sus! It's about looking for anomalous locations.s
+\end{lstlisting}
 
 
 \subparagraph{Browser Helper Objects}
+\begin{lstlisting}[label=RegistryBHO,caption=Registry BHO Locations]
 A DLL module that loads on internet explorer startup. It's reactionary, requires reasonable setup, but is fairly reliable. A favourite for data theft.
 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects
-\end{tcblisting}
+\end{lstlisting}
 
 \subparagraph{BootExecute Keys}
-\begin{tcblisting}{listing only}
+\begin{lstlisting}[label=RegistryBootExecute,caption=Registry BootExecute Locations]
 HKLM\SYSTEM\CurrentControlSet\Control\hivelist
 HKEY_LOCAL_MACHINE\SYSTEM\ControlSet002\Control\Session Manager
-\end{tcblisting}
+\end{lstlisting}
 
-As far as locations in the registry where malicious processes or modules can be configured to launch from, the BootExecute key is the earliest. Smss.exe will load any programs it finds listed here. By default the only entry in this string array is autocheck autochk * which runs Autochk during boot."
-
-\begin{tcblisting}{listing only}
-//Decodes to this, loads this on boot. This is the view of an online sandbox analyzer
-autocheck autochk * aHdqEPamx
-\end{tcblisting}
-
+As far as locations in the registry where malicious processes or modules can be configured to launch from, the BootExecute key is the earliest. 
+Smss.exe will load any programs it finds listed here. By default the only entry in this string array is autocheck autochk * which runs Autochk during boot.
+Decodes to "autocheck autochk * aHdqEPamx", loads this on boot. This is the view of an online sandbox analyzer.
 
 \subparagraph{DLL Search Order Hijacking}
 If a process is executed, it will look in it's own folder first, and use it's DLL, even over a windows one, to overwrite it. If not, it will read the location of root, 
 to the destination with spaces, and means you can inject a dll where you know it will look before the real one. Even explorer.exe does this!
 
-\subparagraph{AppInit_DLLs}
+\subparagraph{AppInit\_DLLs}
 Everytime User32.dll is loaded by an exe, this string is read and modules are loaded that are listed. This is invoked a fair few times on system loadup from multiple initilized processes.
 
-
 \subparagraph{Run & RunOnce Keys}
- 
-\begin{tcblisting}{listing only}
+\begin{lstlisting}[label=RegistryRun,caption=Registry Run Locations] 
 User (For then priv esc):
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce
@@ -599,8 +601,11 @@ reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce" /v
 reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunServices" /v Pentestlab /t REG_SZ /d "C:\Users\pentestlab\pentestlab.exe"
 reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce" /v Pentestlab /t REG_SZ /d "C:\Users\pentestlab\pentestlab.exe"
 
-\end{tcblisting}
+\end{lstlisting}
+
+\citep{registryRun}
 %reference locations of registry info, evernote
+%find where I got this stuff from
 
 \section{Priviledge Escalation}
 The idea behind privilege escalation is that under the assumption that a user shell is granted, that shell can then be leveraged in a malcious way to gain higher privilege.

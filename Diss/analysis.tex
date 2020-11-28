@@ -265,11 +265,25 @@ Every usb has to be made, and therefore should be a trusted retailer with regula
 where it will overwrite itself past it's threshold.
 
 %reference stuxnet
-\subsubsection{Autorun}
-\section{Spoofing}
-\subsection{ARP/MAC Spoofing}
-\subsection{DNS Spoofing}
-\subsection{IP Spoofing}
+%\subsubsection{Autorun}
+\section{Address Spoofing}
+In most cases, networks rely on some form of addressing. Addressing allows for scope of computation, and to direct traffic to a given destination. 
+Addressing can also be used for conditional statments, commonly for the implementation of firewall and switch port security rules. Outside of additionally validation of identity, addressing
+is considered absolute, and is inherintly trusted. \citep{IPMACSpoofing}
+
+In this sense, the question becomes, can you place a malicous server in the network and pretend to be an allowed IP address? It is posisble and is called IP spoofing. A DNS server could be removed from the network, allowing for a threat actor to take it's IP address, 
+which in turn allows for potential compromise of clients. Active directory is a domain controller platform developed by Microsoft, that aims to manage access of users and groups to resources. If this were to be compromised, it would be disasterous. 
+The reason being that IP addresses are intrinsicly tied to domain names, and as such, a spoofed IP, also leads to a falsified domain, which propogates between internal infrastructure. \citep{DNSSpoofing}
+
+Another important concept pertains to a specific manipulation of access control lists. Infrastructure tends to follow networking trends, i.e using schemes starting with 192.168.x.x or 10.10.10.x. This knowledge combined with reconnaissance can be used to map out what is normal inside the network.
+If a detection/prevention system treats WAN and LAN the same, a threat actor could pretend to be 192.168.x.x, of which a gateway firewall rule exists to allow access. This fault comes from lacking configuration of which side of infrastructure traffic is coming from. 
+It is reasonable for private IP space traffic to be allowed within for hosts that need it, but said rules should be scoped only to LAN, unless absolutly nesessary. There are cases where some insecurity cannot be avoided, in such cases defence in depth is paramount.
+
+The above pertains to network layer validation, in which an IP address is targetted. The same can be done for the data-link layer, in the form of MAC addresses. MAC addresses can be leveraged to control access to the network, and are useful because they are globally unique and have a vendorID that can be filtered.
+This could mean that you could only allow certain MAC addresses to talk to a router for example. This means that even a spoofed IP would not allow access, however, it is possible to fake a MAC address too, using 'macchanger'. The malicous node could pretend to be on which is allowed, and therefore gain access for communication. 
+This can be accomplished with the tool 'macchanger'. \citep{IPMACSpoofing}
+
+The above approach would depend on the access control system in place. If there is a whitelist, the above method would have to be used, which requires knowledge of allowed MAC addresses. If a blacklist is in place, a device could simply use the tool to switch it to something that is not on the block list, perhaps by changing the vendor. If the blacklist is aggressive, and dynamic, then macchanger can be leveraged to respoof the MAC on each boot.
 
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
@@ -646,17 +660,17 @@ A user account could be hijacked, and then attempt to write to a scheduled scrip
 
 %to slot somewhere else
 %multihoming, defence in depth, dmz, airgapping
-
 %fix chapters for mechanisms
-
 %hash cracking / pass the hash? Hash cracking only really works for small data or passwords
-
 %network snooping & tapping
-
 %xss web sockets fake page card skimmer 
-
 %split into chapters?
-
 %priv esc sripts abd what they look for in detail, each part
-
 %consider empty sections and subsections that only host children
+
+%sections to do:
+%malware examples
+%priv esc techniques
+%icmp exflitration
+%buffer overflows
+%look at other notes

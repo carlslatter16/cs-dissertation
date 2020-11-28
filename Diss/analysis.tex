@@ -454,7 +454,7 @@ C2 and exfiltration often being carried out over the darknet that TOR is often u
 %might need to develop tor more, malware that uses it etc..?
 %mention window size
 \section{Protocol Payload Abuse}
-\subsection{ICMP}
+
 \subsection{DNS}
 Domain Name Service, commonly known as DNS is a protocol that servers to resolve domain names to their respective IP addresses (and vice versa). It acts as a way for humans to use the internet in a more intuative and
 memorable way, as well as allowing for variability in infrastructure deployments. If a file share is given a domain name and port, that domain name can then be used in clients that it serves; if the IP that is resolved into changes,
@@ -468,7 +468,7 @@ An abstract from a relevant paper \citep{DNSExfiltration}:
 
 \begin{displayquote}
 \begin{textit}
-1: The attacker must have control of an authoritative DNS
+"1: The attacker must have control of an authoritative DNS
 server, which will be the end point for the DNS requests
 transmitted from the victim.
 
@@ -488,9 +488,12 @@ request, it forwards it to a higher-level DNS server.
 
 4: Once the request reaches the authoritative DNS server,
 the server side of the exfiltration tool strips the data from
-the request and reconstructs it into the original format.
+the request and reconstructs it into the original format."
 \end{textit}
 \end{displayquote}
+
+\vspace*{1in}
+
 
 There are tools capable of conducting such an technique; these include:
 \begin{enumerate}
@@ -512,6 +515,15 @@ SSH through DNS can be quite loud in respective to detection software. \citep{DN
 %find a better  way to show quotation
 %good mitigation on that paper
 %try out tools
+
+\subsection{ICMP}
+ICMP is a control message protocol for IP that lets a host ping another host to validate connectivity. This relies on the other side allowing ICMP, and that it responds. that ICMP allows for a similar kind of exfiltration to DNS. Exfiltration methodologies can be split into two categories, timing and storage based. The former uses time as the boolean measure as to a given status by manipualtion responce/request time, for example delaying responce by 3 seconds if clear text passwords exist.
+The latter relies on fields within the protocol having storage capacity for variable data for exfiltration. These tend to be unused or optional fields, with one process writing to them, and another stripping it out. The ICMP data payload inside the frame is the most obvious location, but it being under the ICMP banner, can help divert attention elsewhere. There are other less obvious places that data could be placed, but that is out of scope for this paper. \citep{ICMPExfiltration}
+
+Ping can be leveraged to specify it's 16 byte ECHO\_REQUEST field's contents. The source states that a simple Scapy Python script can be used in combination with timing and payload switches of the ping utility, to exfiltrate data under the ICMP protocol. This relies on compression of data into hexadecimal, and to then sneak that into intervaled bytes that the listener/sniffer on the malicous server will then strip and write to a file. \citep{pingExfil}
+%would be good to try out!
+
+
 
 \subsection{TLS}
 Transport Layer Security, and formally Secure Socket Layer (obselte since 1999 when TLS evolved from it) are protcols to encrypt data cryptographically in transit. It's use typically applies to client to server communication. It ensures that while transmitting through potentially insecure nodes of the internet, data is secured and non sensicle to those who potentially have a network tap to view transmission contents. This is extreamly important for communications that are sensitive in nature such as emails and voice communications. \citep{CloudflareTLS}
@@ -671,6 +683,6 @@ A user account could be hijacked, and then attempt to write to a scheduled scrip
 %sections to do:
 %malware examples
 %priv esc techniques
-%icmp exflitration
 %buffer overflows
+
 %look at other notes

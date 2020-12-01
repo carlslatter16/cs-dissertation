@@ -358,43 +358,8 @@ Secondly, encryption for destruction. From time to time there are attacks that a
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 \chapter{Malware Mechanisms - Obfuscation}
-The Idea being to muddle up the binary, making it really hard to analyze. There are certain details that are criticial, ip addresses, URLs, locations, registry keys.
-
-\section{Signature \& Behavior Evasion}
-Antivirus systems rely on signatures. What is a way to fingerprint a piece of data? Hashes; they are unique to the dataset, assuming we are not using a broken hash algorithm.
-MD5 is a broken hash algorithm because it can be manipulated in a way that more than one data set gives the same hash. A MD5 collision
-In the same way, malware can alter it's own composition in a way that still works, but gives a different signature. 
-If the AV does not have this new signature, it cannot be stopped assuming a blacklist approach.
-There are malware out there will add randomness each time, purely for this purpose. AV will only ever catch broad attacks, or default payloads due to this fact. AV will also sometimes scan a file,
-beyond a simple hash check for strings only normally used in malware, dynamic analysis. This process can be made harder be by splitting up regonizable strings. The new result becomes a new detection vector, 
-hense the cat and mouse game.
-
-\section{Encoding \& Compression}
-Base64 is a popular option. Used for compression, even further than hex. Can be decoded, is not secret but can help. 
-Youtube URLs provide plenty of unique and random spaces that are hard to brute force unlisted videos.
-
-- Can be used to hide malware, to provide it in a compressed way
-- Uses less bandwidth
-- Other compression includes gzip and deflate.
-
-alongside ROT13
-
-\begin{tcblisting}{listing only}
-cat /etc/passwd > /tmp/secret.txt -------> Y2F0IC9ldGMvcGFzc3dkID4gL3RtcC9zZWNyZXQudHh0
-\end{tcblisting}
-
-\subsection{Shellcode}
-Simply programmatic code that is compressed down to it's essentials, and then encoded to be unreadable by anything until it's decoded. 
-Can be used to bypass IDS/IPS and antivirus. This is an encoded string, it represents a given value without a transformative key, 
-that is simply hidden to our understanding. Each part here represents a character,  H is 72 for example (in both ASCII and unicode). 
-This can also be represented in a hex format, \xab. 
-a and b being hex values that resolve to the number in decimal relating to the character. 
-\begin{tcblisting}{listing only}
-\x48 for H. "Hello World!" ----> "\x48\x65\x6c\x6c\x6f\x20\x57\x6f\x72\x6c\x64\x21". 
-\end{tcblisting}
-
-Useful CyberChef Decoders:
-\begin{enumerate}
+The idea being to muddle up the binary, making it really hard to analyze. There are certain details that are criticial, IP addresses, URLs, locations, registry keys. Onfuscation is inherintly dependant on some creativity, and so,
+this list is not intended to be comprehensive, but shows the fundamental behaviours they all exhibit.
     \item [$\bullet$] Unescape String
     \item [$\bullet$] From Hex
     \item [$\bullet$] From Charcode

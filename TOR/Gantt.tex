@@ -29,7 +29,7 @@ ms/.style={inline,
 
 \gantttitlecalendar{year,month,week=1}\\
 
-% Highlight Smesters and Vactions
+% Highlight Semsters and Vactions
 \ganttgroup[region=blue!20]{Semester 1}{21/9/20}{22/1/21}
 \ganttgroup[region=blue!50]{Semester 2}{18/1/21}{28/5/21}\\
 \ganttgroup[region=red!50]{Christmas}{21/12/20}{8/1/21}
@@ -38,7 +38,9 @@ ms/.style={inline,
 % Project Deadlines (from the Project Handbook)
 \ganttmilestone[ms=left]{PID}{12/10/20}
 \ganttmilestone[ms=left]{final \bfseries TOR}{16/11/20}
-\ganttmilestone[ms=right]{Draft Analysis}{30/11/20}
+\ganttmilestone[ms=right]{Analysis}{25/12/20}
+\ganttmilestone[ms=left]{Synthesis}{22/02/21}
+\ganttmilestone[ms=left]{Evaluation}{19/03/21}
 \ganttmilestone[ms=left,milestone/.append style={fill=red}]{\bfseries Submit}{29/4/21}
 \ganttnewline[thick]
 
@@ -46,10 +48,30 @@ ms/.style={inline,
 % put in a title, a start date, end date...
 \ganttbar{TOR}{28/9/20}{26/10/20}
 \ganttbar[inline]{\emph{revise}}{28/10/20}{16/11/20}\\
-\ganttbar{Analysis}{30/9/20}{24/11/20}\\
-\ganttbar{Design}{31/10/20}{19/1/21}
-% Note how you can refer to labels set in the objectives list!
-\ganttmilestone[ms=right]{Build complete (Obj \ref{write-code})}{18/1/20}\\
-\ganttbar{Exploration}{22/10/19}{15/1/20}
-\end{ganttchart}
+\ganttnewline[thick]
 
+%\ganttbar{Analysis}{27/10/20}{25/12/20}
+\ganttbar{Defence Tech (Obj \ref{talkDefenceTech})}{5/10/20}{15/10/20}\\
+\ganttbar{Entry Vector (Obj \ref{talkEntryVectors})}{16/10/20}{23/10/20}\\
+\ganttbar{History (Obj \ref{talkHistory})}{24/10/20}{30/10/20}\\
+\ganttbar{Modern (Obj \ref{talkModern})}{31/10/20}{07/11/20}\\
+\ganttbar{Exploitation (Obj \ref{talkExploitation})}{08/11/20}{20/11/20}\\
+\ganttbar{Obfuscation (Obj \ref{talkObfuscation})}{21/11/20}{30/11/20}\\
+\ganttbar{Exfiltration (Obj \ref{talkExfil})}{1/12/20}{10/12/20}\\
+\ganttnewline[thick]
+
+%\ganttbar{Synthesis}{26/12/20}{10/02/21}
+\ganttbar{Attack Lab (Obj \ref{makeLab})}{26/12/20}{10/01/21}\\
+\ganttbar{PoC Build (Obj \ref{write-code})}{11/01/21}{25/01/21}\\
+\ganttbar{IDPS Compare (Obj \ref{compareIDPS})}{26/01/21}{10/02/21}\\
+\ganttbar{AV Compare (Obj \ref{compareAV})}{11/02/21}{22/02/21}\\
+\ganttnewline[thick]
+
+%\ganttbar{Evaluation}{11/02/21}{15/03/21}
+\ganttbar{Defence-In-Depth (Obj \ref{talkDefenceInDepth})}{23/02/21}{10/03/21}\\
+\ganttbar{Evaluation Of Project}{11/03/21}{19/03/21}\\
+\ganttnewline[thick]
+
+\ganttbar{Finalise \& Refine}{20/03/21}{28/04/21}
+
+\end{ganttchart}

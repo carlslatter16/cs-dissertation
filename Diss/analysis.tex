@@ -555,18 +555,27 @@ known activities regardless of hash, and look at decrypted memory.
 This can be defeated (like everything), by having abrupt delays to throw the system off, lets say before and after decrypting, or overloading memory with junk to throw it off
 
 \section{Steganography}
-- Hiding data within something else
-- Often done on images
-- Steghide can be used
-- Data can be executed on view of file
-- Can be used to sneak data into a system, or to hide from authorities - Mr Robot CDs
-- Trade off between maintaining quality and the amount of data stored.
-- Criminals love reusing old malware in new and odd ways.
-- It's something that is old but people don't think about, a large enthasis on networks.
-- The Sundown Exploit Kit, Vawtrak and Gatak/Stegoloader  employ stenography as a vector.
-- Low risk compared to other threats, it doesn't get the same numbers even with a botnet
-- Malware was found in memes a little while ago, quite widespread, that then contacted a C2. 
-- It then downloads more code to actually have some form of affect. The crazy thing is, it doesnt just directly download them, it goes onto twitter and downloads more images which have instructions! It does a search for specific image tags that are clearly theirs, such as /print for print screen etc..
+Steganography is a technique which involves hiding data inside the makeup of another medium. The mediums often include images, video and in modern day, network protocols. \citep{NetStego}
+The data of importance is injected into the medium in a way that is difficult to spot, and is indistinguishable without the knowledge of the technique. This does depend on the amount of data that is to be injected, there is a trade-off between quality to maintain covert cover and the data size.
+
+The major difference between steganography and cryptography is that the former not only does not explicity morph data into a different representation, rather it conceals it's very existance. If a systems engineer sees text that appears to be encrypted and there is some link to a covert channel, it may raise concern. Using the same example with Steganography,
+removes the concept of curiosity. \citep{NetStego}
+
+Practical use cases include:
+\begin{enumerate}
+    \item Concealment of illicit material on overlooked media
+    \item Stolen data compressed into file, ready for exfiltration/infiltration
+    \item Malware stager storage - See Sundown Exploit Kit
+    \item C2 structure based on Twitter image steganography 
+\end{enumerate}
+
+The threat is lesser compared to previous years, with detection systems being wary about Steganography inside files. There are considerations with the technique itself; it relies on a medium being downloaded, and also executed. This requirement of user interaction makes it less appealing to threat actors. 
+That being said, some criminals like to reuse old tecniques in new ways which may catch defence by surprise who are often more focused on current events. The technqiue can be performed by various tools, one of which is 'steghide' for unix systems.
+%cite steghide
+
+%- Malware was found in memes a little while ago, quite widespread, that then contacted a C2. 
+%It then downloads more code to actually have some form of affect. The crazy thing is, it doesnt just directly download them, it goes onto twitter and downloads more images which have instructions! It does a search for specific image tags that are clearly theirs, such as /print for print screen etc..
+
 
 \section{Alternate Data Streams}
 Alternate Data Streams, often abbreviated as ADS, is a method of hiding information in the metadata portion of a file. This could be used to avoid having to represent data explicity, such as in a text file, which is much more loud in computer forensic sense. ADS messages are not viewable by default, and so could easily slip through manual detection measures.

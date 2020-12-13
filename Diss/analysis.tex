@@ -2,16 +2,17 @@
 
 %need to focus on liturature more, get my ideas down that dont need substance and then link cold hard facts,
 
-%research all topics deeper than present knowledge! just thoughts for now
-%!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!%
+%research all topics deeper than present knowledge in synthesis! just thoughts for now
 
 %nice boxes https://tex.stackexchange.com/questions/14967/source-code-listing-with-frame-around-code
+
+%More referencing will be coming later, shouldn't be hard to find!
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 \chapter{The Security Landscape}
 \section{The Cat \& Mouse Game}
-Technology is always changing, often to the needs of the growing world. Changes range from potential to aid traditional sectors to common conveniences that are taken for granted everyday.
+Technology is always changing, often to the needs of the growing world. Cshanges range from potential to aid traditional sectors to common conveniences that are taken for granted everyday.
 Software usually has a purpose, and that purpose is normally pure in nature. Software is there to solve a problem, to make life easier. A problem arises in implementation however, as mistakes can happen.
 The software development process has various stages, the most important of which being testing. Usually testing is conducted in order to identify any potential bugs that might cause issues later.
 The quality and extent to which a given piece of software is tested varies from sample to sample, and sometimes bugs slip through.
@@ -24,7 +25,6 @@ Both issues of a buggy release and slow update response can exacerbated by corpo
 Another potential pitfall is mission critical infrastructure. There could be potential issues with implementation, that cannot be fixed easily due to a 24/7 use window. Another issue is legacy reliance; software may work for a certain OS version only, 
 and the new version that is safe could be too expensive or not exist at all. Careful consideration must be give to defence policy, strategy and potential response in order to stay ahead of the cat and mouse game that is cyber-security.
 
-
 %references sectors helped, nhs reliance, and programmer stress
 
 \section{Response Theory}
@@ -36,7 +36,7 @@ Some sensible steps include:
 \begin{enumerate}
     \item [$\bullet$] Airgapping of existing infrastructure
     \item [$\bullet$] Checking of logs
-    \item [$\bullet$] Acquisition of audit trails
+    \item [$\bullet$] Analysis of audit trails
     \item [$\bullet$] Checking of open connections / malware
 \end{enumerate}
 
@@ -111,13 +111,17 @@ Attached file name:   LOVE-LETTER-FOR-YOU.TXT.vbs
 The malware then proceeds to implant itself into the system, and modify the Internet explorer start page to one of four that hosts a Trojan payload. The Trojan itself is designed to install into registry, just like the stager, and then capture system data to exfiltrate out to the Trojan host via email (mailme@super.net.ph). \citep{loveletter}
 
 Information stolen includes:
-Hostname
-IP Address
-Login Information
+\begin{enumerate}
+    \item Hostname
+    \item IP Address
+    \item Login Information
+\end{enumerate}
 
 AutoRun Registry Locations Used \citep{Loveletter}:
-HKLMSoftwareMicrosoftWindowsCurrentVersionRunMSKernel32 
-HKLMSoftwareMicrosoftWindowsCurrentVersionRunServicesWin32DLL 
+\begin{lstlisting}[label=AutoRunILY,caption=Targeted Registry Hives]
+    HKLM\Software\Microsoft\Windows\CurrentVersion\Run\MSKernel32 
+    HKLM\Software\Microsoft\WindowsCurrentVersion\RunServices\Win32DLL 
+\end{lstlisting}
 
 %tidy up
 \subsection{SQLSlammer}
@@ -143,7 +147,7 @@ had an army of 600,000 devices \citep{Mirai}. These devices are somewhat weak on
 125000 / 1.8* = 69444 images pushed per second. 
 \end{tcblisting}
 
-\small{* 1.8 = Average 15 Megapixel JPEG picture \citep{imgAvg}}
+{\small* 1.8 = Average 15 Megapixel JPEG picture} \citep{imgAvg}
 
 The above shows the scale of that kind of throughput in material terms. In reality, data is arbitrary and only serves to crash the systems that are targeted for attack.
 
@@ -196,8 +200,8 @@ An ACL is a series of IOS commands that control whether a router forwards or dro
 ensure they are from a known source, and allow us to restrict part of the network from communicating with another part of the network, while allowing another. We can also block based on traffic type, e.g telnet, while allowing email. ACLs can also be used to tag traffic as priority. 
 A VIP pass of sorts. We have inbound and outbound ACLs. Inbound filters packets coming from a specific interface, outbound does the same independent of the inbound interface, there could be multiple. An ACL uses a wildcard mask to select specific groupings to allow or deny access.
 
-The above system uses the idea that only the vpn port is open, with everything else requiring local or vpn access. We use firewall rules to block everything else that is on the same device, such as my dns server. Additonally firewall rules could be used internally to stop priv esc 
-but unlikely in a home LAN setup. I only allow local devices to even access the public IP other than for the VPN so it is a whitelist, very strong. The firewall is on the same device as the VPN purposely, if the device goes down, the firewall rules do sure, but so does the VPN which eliminates the access anyway.
+The above system uses the idea that only the vpn port is open, with everything else requiring local or vpn access. Firewall rules are used to block everything else that is on the same device, such as the DNS server. Additonally firewall rules could be used internally to stop privilege escalation 
+but unlikely in a home LAN setup. It is sensible to only allow local devices to access the public IP other than for the VPN so it is a whitelist. The firewall is on the same device as the VPN purposely, if the device goes down, the firewall rules do sure, but so does the VPN which eliminates the access regardless.
 
 
 \section{Threat Definition}
@@ -247,10 +251,12 @@ There are many more, some of which will be discussed at relevant parts of the pa
 Machine learning is a relatively new technology, that aims to reform the programming process. Typically with software engineering, the end algorithm is explicitly laid out; often encompassing every conceivable scenario.
 This methodology is easier to implement at a basic level but challenging to scale, and susceptible to human bias. Machine learning differs in that an environment is given, a data-set assigned and simulations are ran. 
 Tweaks are made on the fly, by both human and the program itself. This can help expose amazing discoveries that a human would struggle to find, along with a system created that can detect and prevent proactively.
+
 \subsubsection{Protocol Adaptation}
 Different protocols work in varying ways. An approach that monitors them in the same capacity is sure to fail, due in large part to the variation of data handling. Defensive systems must be able to identify the protocol,
 be aware of it's legitimate use, as well as signs of tampering. For example, detection systems should not treat a HTTP packet the same as they would ICMP. Their threat potential is quite distinctly different, and as such;
 it is important that part of the learning process is dedicated to finding the normal. Anything that deviates from the "normal" is considered an anomaly, and can be acted upon in a given set of ways.
+
 \subsection{Signature \& Pattern Matching}
 An interesting question could be made. What is considered a threat to a computer? The simplest answer is "something that is predefined". 
 In computer science, a method of validating integrity is to use a process called hashing; a process in which no two pieces of data can return the same value. 
@@ -270,9 +276,13 @@ Machine learning has been leading the charge in this field, as well as automatic
 
 \subsection{Whitelist vs Blacklist Approach}
 The choice of a white vs black list is one that depends on infrastructure design. Abstractly, it depends on the approach; if their are many unknowns in the system, a blacklist may have to be used. 
-Similarly the inverse is true. Research shows that a whitelist approach is preferential for security though more specific in implementation. Whitelisting in this sense refers to a predefined set of hosts
+Similarly the inverse is true. Research shows that a whitelist approach is preferential for security though more specific in implementation. 
+
+Whitelisting in this sense refers to a predefined set of hosts
 that are allowed access to a given device, rather than a "find and block" approach of a blacklist. Whitelisting requires full knowledge of present and future variables in the network, whereas blacklisting
-allows for easier expansion. Blacklisting is more susceptible to hacking due to the nature of simply altering the threat to bypass checks; something that whitelisting may prevent. Zero day exploit control is 
+allows for easier expansion. 
+
+Blacklisting is more susceptible to hacking due to the nature of simply altering the threat to bypass checks; something that whitelisting may prevent. Zero day exploit control is 
 highly dependant on systems only having required access, something that when planned properly, can use a whitelist approach. The approach will vary across the network and as such prioritization of security 
 and looseness of security for usability must be considered.
 
@@ -280,13 +290,13 @@ and looseness of security for usability must be considered.
 
 \subsection{PoC IDS Objectives (It must..)}
 \begin{enumerate}
-	\item \textbf{Detect network interfaces}
-	\item \textbf{Bind to a network interface}
-	\item \textbf{Capture data and output to a file/standard output}
-	\item \textbf{Flag up unusual activity from a few notable attack types}
-	\item \textbf{Control via command switches}
-	\item \textbf{Be well written and meaningful to the idioms of the language}
-	\item \textbf{Have testing/design documentation}
+	\item Detect network interfaces
+	\item Bind to a network interface
+	\item Capture data and output to a file/standard output
+	\item Flag up unusual activity from a few notable attack types
+	\item Control via command switches
+	\item Be well written and meaningful to the idioms of the language
+	\item Have testing/design documentation
 \end{enumerate}
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
@@ -341,7 +351,9 @@ because it means that the tools on the system are fairly irrelevant.
 
 \subsection{CVEs \& Shodan}
 Exploits are common, and are numerous. There are way too many to know by name or nature. There is a need for a standardised classification; this exists in the form of "Common Vulnerabilities and Exposures (CVEs)". A CVE is essential a unique record for a given vulnerability,
-often used in the cyber-security industry for disclosures and reference. Each CVE is registered in the database (can be found at exploit.db) and is given a severity score, known as the CVSS score. Often exploit implementations and proof of concepts are provided with disclosure of a CVE, that sometimes vary.
+often used in the cyber-security industry for disclosures and reference. Each CVE is registered in the database (can be found at exploit.db) and is given a severity score, known as the CVSS score. 
+
+Often exploit implementations and proof of concepts are provided with disclosure of a CVE, that sometimes vary.
 There is a culture in the security scene of who can have the most covert and efficient exploit for a given vulnerability. An outside perspective may use the argument that this is harmful to security. While this is true in some circumstances, tools and exploits are able to be created and exploited regardless of legality.
 The security consensus typically is around pushing security boundaries through testing and not leaving it up to chance. 
 
@@ -369,7 +381,7 @@ Every website uses HTML files in some form. These usually can be replicated with
 which goes directly to the hacker's server. There are usually entry points to this, a sophisticated one is where "free WiFi" is set up, someone connects to it, is sent to a login page that you made where they register and type their credit card info, 
 as if they were the real hotel for example. It can be used in conjunction with DNS phishing below to make them indistinguishable at times.
 
-Such attack could also be used to distribute malware in a drive-by attack as talked about. The legit site likely would never have such code, but the custom one very much could. This can lead to much greater consequences. The thing that is fairly scary about this is how easy it is to setup a DNS server. You can even do so with a raspberry pi in about 10 mins for example.
+Such attack could also be used to distribute malware in a drive-by attack as talked about. The legit site likely would never have such code, but the custom one very much could. This can lead to much greater consequences. The thing that is fairly scary about this is how easy it is to setup a DNS server. You can even do so with a Raspberry Pi in about 10 mins for example.
 
 A combination of the above could be used here, to hijack a DNS server to point to this, a cloned website, with a different premade template:
 
@@ -397,8 +409,10 @@ Addressing can also be used for conditional statements, commonly for the impleme
 is considered absolute, and is inherently trusted. \citep{IPMACSpoofing}
 
 In this sense, the question becomes, can you place a malicious server in the network and pretend to be an allowed IP address? It is possible and is called IP spoofing. A DNS server could be removed from the network, allowing for a threat actor to take it's IP address, 
-which in turn allows for potential compromise of clients. Active directory is a domain controller platform developed by Microsoft, that aims to manage access of users and groups to resources. If this were to be compromised, it would be disastrous. 
-The reason being that IP addresses are intrinsically tied to domain names, and as such, a spoofed IP, also leads to a falsified domain, which propagates between internal infrastructure. \citep{DNSSpoofing}
+which in turn allows for potential compromise of clients. Active directory is a domain controller platform developed by Microsoft, that aims to manage access of users and groups to resources. 
+
+If this were to be compromised, it would be disastrous. The reason being that IP addresses are intrinsically tied to domain names, and as such, a spoofed IP, also leads to a falsified domain,
+which propagates between internal infrastructure. \citep{DNSSpoofing}
 
 Another important concept pertains to a specific manipulation of access control lists. Infrastructure tends to follow networking trends, i.e using schemes starting with 192.168.x.x or 10.10.10.x. This knowledge combined with reconnaissance can be used to map out what is normal inside the network.
 If a detection/prevention system treats WAN and LAN the same, a threat actor could pretend to be 192.168.x.x, of which a gateway firewall rule exists to allow access. This fault comes from lacking configuration of which side of infrastructure traffic is coming from. 
@@ -440,22 +454,28 @@ Actions could include but are not limited to :
 
 \subsection{Denial of Service}
 This attack makes use of the simple fact that downtime for a server or host can often cause frustration and in many cases loses people money. This means to some people there is an incentive to be able to do this. The general idea is that if you flood a host with enough ICMP (ping) traffic, it will halt and not be able to process anymore information, this is not only for the attacker but for everyone. This would be considered a DOS attack. 
-This usually can't do nearly as much damage as the next version can. 
+This usually can't do nearly as much damage as the Distributed Denial Of Service or DDoS attack can.
 
-The attack I am meaning is the Distributed Denial Of Service or DDOS attack. This uses the same concept but with a network of attacking machines all linked together. This could be a large number of machines the attacker owns or zombie machines that the attacker has gained control of with malware and is using for their attack. This multiplies the scale of the attack up to thousands sometimes and is a real problem; it can take down industry 
+DDoS uses the same concept but with a network of attacking machines all linked together. This could be a large number of machines the attacker owns or zombie machines that the attacker has gained control of with malware and is using for their attack. This multiplies the scale of the attack up to thousands sometimes and is a real problem; it can take down industry 
 standard servers if care is not taken to analyse what traffic is coming in.
 
 A DoS attack in the confines of this paper, is the process of sending ICMP requests on mass to a host in the hope of slowing or taking down a service. The reason this is potent is that the host cannot ignore the echo request, it must respond to it by default. This creates overhead in the parsing processes which take resources, in the form of CPU time and RAM. The attack lessens the resource pool for other services, making them struggle. 
 It tends to be that a great number of ICMP packets of moderate size must be sent for the desired outcome.
 
 There is a concept of a distributed denial of service or DDoS attack which makes use of multiple attacker machines to take down a target host. The general idea is that when the number of attackers increases, the number of ping requests tend to as well. This brings about the result faster and for longer. This is possible in part because the machines each have their own network interface, which is flooding the target system as fast as possible. 
-The fact they are coming from different sources creates a larger overhead. DDoS is very commonly conducted by hackers using a ‘botnet’. A botnet being several machines that are under the control of the threat actor, usually through nefarious means like malware infections. This is normally without the real user’s consent or knowledge. The botnet works for two reasons; distributed hardware for maximum potency and concealment of the true attacker. 
+The fact they are coming from different sources creates a larger overhead. DDoS is very commonly conducted by hackers using a ‘botnet’. 
+
+A botnet being several machines that are under the control of the threat actor, usually through nefarious means like malware infections. This is normally without the real user’s consent or knowledge. The botnet works for two reasons; distributed hardware for maximum potency and concealment of the true attacker. 
 There are many forms of DoS. ICMP flood is the main focus, but others will be discussed for context and scale. 
 
 There are TCP based attacks in which a 3-way handshake is initiated and stopped after sending a SYN packet and receiving a SYNACK back. \citep{DoSMit}. 
 Do this enough and there are thousands upon thousands of half open connections that are taking resources. In some ways this is harder to spot that ICMP and simply disabling TCP could be very detrimental. TCP is so integral to even basic functionality in a lot of applications that infrastructure could just fall apart logically. \citep{DoSExplained}
-Then there is perhaps the deadliest form of digital DoS, custom packet crafting. In this attack the hacker would create custom packet headers that have certain flags enabled, that would never normally be enabled together. This makes the recipient very confused, which is dangerous. An unpredictable system could do anything. It is equivalent to inputting a number into an upper-case check program. 
-It would be hoped that the programmer would have accounted for edge cases of malicious or accidental input, but you cannot guarantee it. There are sometimes application specific exploits which take advantage of the fact that data is stored internally with overflow potential. Similarly, there used to be attacks around that sent malformed packet size in fragments to overload and bypass OS level size restrictions to take down systems. 
+Then there is perhaps the deadliest form of digital DoS, custom packet crafting. In this attack the hacker would create custom packet headers that have certain flags enabled, that would never normally be enabled together. 
+
+This makes the recipient very confused, which is dangerous. An unpredictable system could do anything. It is equivalent to inputting a number into an upper-case check program. 
+It would be hoped that the programmer would have accounted for edge cases of malicious or accidental input, but you cannot guarantee it. 
+
+There are sometimes application specific exploits which take advantage of the fact that data is stored internally with overflow potential. Similarly, there used to be attacks around that sent malformed packet size in fragments to overload and bypass OS level size restrictions to take down systems. 
 This is called the ping of death and has been fixed for a long while but remains to be good context none the less. \citep{ICMPFloodDetPrev}
 
 There are other more direct types of DoS, namely an attacker cutting off the internet or even stealing hardware to prevent service. There are even types that are legal, and unavoidable such as the concept of company competition. If a rival company who offers a similar service opens, that is denying service in a very abstract sense.
@@ -761,7 +781,6 @@ as the zombies are attacking in place of the master. Proxy chains come in due to
 in between all communication either way. This means if a zombie machine was captured, authorities may only see communication to a random cloud host, whom then talks to another random cloud host. It increases the
 difficult exponentially for law enforcement to find the criminal, as there are a whole assortment of laws that cause issues for accessing cloud services, when traditionally a live capture was all that was needed. 
 
-
 TOR is another endeavor that is intended to escape censorship and monitoring, that is also used by criminals to hide their real location. It runs using onion routing which ensures that the host is not linked to the destination by
 bouncing traffic through over nodes on the tor relay, that scan all across the globe. The specifics are out of scope for this paper but the concept is that the client communicates with a onion based directory server, the first router is
 contacted and a Diffie-Hellman key exchange is initiated (to establish short live keys), with this repeating for 3 hops to create a non attributable link to the destination. The IP header is wrapped inside an 'onion' that is peeled back at each node, to reveal information about how to reach the next.
@@ -944,11 +963,11 @@ For the purposes of this paper, DNS will be the focus, however, ICMP is a useful
 
 
 \chapter{Malware Mechanisms - Persistence}
-Important for malware to have continued access, even after a reboot. I will try a few of these with a reverse shell. 
-We need triggers, these triggers should be fairly legit, with malformed payloads. These triggers should be automatic, or at least on something that would be done normally.
+Important for malware to have continued access, even after a reboot. Commonly, persistence leads to a reverse shell listener being initated on boot-time.
+Persistence technologies often need some form of trigger, these triggers should be covert variations of typical procotocls, with malformed payloads. These triggers should be automatic, or at least on something that would be done normally.
 
 Windows works by leaving files for both reference, logs and to speed process up. These either are intrinsic to how the OS works or simply have been left behind. 
-These are great for finding evidence and purpose. We can prove that the criminal acted at a given time, on a given file etc... These are some useful areas. This is windows 10, but older ones are still out there, 7 upwards are very similar. We need to be able to recreate.
+These are great for finding evidence and purpose. It can proven that a criminal acted at a given time, on a given file and so on. These are some useful areas. This is windows 10, but older ones are still out there, 7 upwards are very similar.
 
 \section{Registry Manipulation}
 A hive that is normally maintained by the system. You can change values and implant whatever you want in there. Here are some strategic places. 
@@ -956,51 +975,53 @@ Many of these are ASEPs (AutoStart Extension Points), meaning they run without u
 in that it will run essentially anything under a given hive at it's respective time and permissions. It's a rootkit waiting to happen. 
 It's where forensic analysts will look first. When I'm testing this, I often use regedit.exe. Real malware wouldn't do this, it would do it via scripting. 
 A few example of the reg command are below. 
-//expand upon with real scripting.
 
 
 \subparagraph{Startup Keys}
-Keys that point to folders, that can launch shortcuts and executable as the given user, often during login or reboot
+Keys that point to folders, that can launch shortcuts and executable as the given user, often during login or reboot. The below examples represent how to run a program on boot-time with respective permissions.
 \begin{lstlisting}[label=RegistryStartupKeys,caption=Registry Startup Key Locations]
-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders //will default to carl in my case
-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders
-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders //for public
-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders  //for users
+Default User:
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders 
 
-Windows Startup folder - Anything here auto execs on startup, even shortcuts. run  ----> shell:startup
+Public User:
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders
 
-C:\Users\USERNAME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup //seems to run as logged in user - waits for login, rather than boot level
-
+Windows Startup folder - 
+C:\Users\USERNAME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+or
+run  ----> shell:startup
 \end{lstlisting}
 
+Anything in the startup folder auto executes on startup, including shortcuts to other paths. Exection will conduct as the logged in user, as it will wait for login, rather than boot level.
+
+
 \subparagraph{Services}
-Winload.exe is the first to load in the OS, reads the hive to see what drivers need to be loaded. It is responsible for the "starting windows" message.
+Winload.exe is the first to load in the OS, reads the hive to see what drivers need to be loaded. It is responsible for the "starting windows" message. 
+Temporary or user folders would be very suspicous, It's about looking for anomalous locations.
 \begin{lstlisting}[label=RegistryServices,caption=Registry Service Locations]
 HKLM\SYSTEM\CurrentControlSet\Services
 
-View drivers (Admin)
+View drivers (Admin):
 reg query hklm\system\currentcontrolset\services /s | findstr ImagePath 2>nul | findstr /Ri ".*\.sys\$"
-
 C:\WINDOWS\TEMP\INSTB64.SYS C:\Users\USERNA~1\AppData\Local\Temp\cpuz135\cpuz135_x64.sys C:\Windows\TEMP\009947~1.EXE C:\Users\username\AppData\Local\Temp\ALSysIO64.sys
-//Temp or user folders would be very sus! It's about looking for anomalous locations.s
 \end{lstlisting}
 
 
 \subparagraph{Browser Helper Objects}
-\begin{lstlisting}[label=RegistryBHO,caption=Registry BHO Locations]
 A DLL module that loads on internet explorer startup. It's reactionary, requires reasonable setup, but is fairly reliable. A favourite for data theft.
+\begin{lstlisting}[label=RegistryBHO,caption=Registry BHO Locations]
 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects
 \end{lstlisting}
 
 \subparagraph{BootExecute Keys}
+As far as locations in the registry where malicious processes or modules can be configured to launch from, the BootExecute key is the earliest. 
+Smss.exe will load any programs it finds listed here. By default the only entry in this string array is autocheck autochk * which runs Autochk during boot.
+Decodes to "autocheck autochk * aHdqEPamx", loads this on boot. This is the view of an online sandbox analyzer.
+
 \begin{lstlisting}[label=RegistryBootExecute,caption=Registry BootExecute Locations]
 HKLM\SYSTEM\CurrentControlSet\Control\hivelist
 HKEY_LOCAL_MACHINE\SYSTEM\ControlSet002\Control\Session Manager
 \end{lstlisting}
-
-As far as locations in the registry where malicious processes or modules can be configured to launch from, the BootExecute key is the earliest. 
-Smss.exe will load any programs it finds listed here. By default the only entry in this string array is autocheck autochk * which runs Autochk during boot.
-Decodes to "autocheck autochk * aHdqEPamx", loads this on boot. This is the view of an online sandbox analyzer.
 
 \subparagraph{DLL Search Order Hijacking}
 If a process is executed, it will look in it's own folder first, and use it's DLL, even over a windows one, to overwrite it. If not, it will read the location of root, 
@@ -1011,7 +1032,7 @@ Every-time User32.dll is loaded by an exe, this string is read and modules are l
 
 \subparagraph{Run & RunOnce Keys}
 \begin{lstlisting}[label=RegistryRun,caption=Registry Run Locations] 
-User (For then priv esc):
+User (Leverage for potential privilege escalation):
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce
 
@@ -1019,14 +1040,16 @@ Admin Level:
 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce
 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run
-//depending on architecture
+
+Legacy:
 HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Run
 HKCU\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnce
 
-reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run" /v Pentestlab /t REG_SZ /d "C:\Users\pentestlab\pentestlab.exe"
-reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce" /v Pentestlab /t REG_SZ /d "C:\Users\pentestlab\pentestlab.exe"
-reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunServices" /v Pentestlab /t REG_SZ /d "C:\Users\pentestlab\pentestlab.exe"
-reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce" /v Pentestlab /t REG_SZ /d "C:\Users\pentestlab\pentestlab.exe"
+Command Line Malware Persistence Implantation:
+reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run" /v John /t REG_SZ /d "C:\Users\John\malware.exe"
+reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce" /v John /t REG_SZ /d "C:\Users\John\malware.exe"
+reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunServices" /v John /t REG_SZ /d "C:\Users\John\malware.exe"
+reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce" /v John /t REG_SZ /d "C:\Users\John\malware.exe"
 
 \end{lstlisting}
 

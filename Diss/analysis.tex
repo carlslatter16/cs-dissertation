@@ -106,7 +106,7 @@ The Subject:          ILOVEYOU
 
 Message body:         kindly check the attached LOVELETTER coming from me.
 
-Attached file name:   LOVE-LETTER-FOR-YOU.TXT.vbs
+Attached file name:   LOVE-LETTER-FOR-YOU.TXT.vbs (Windows hides the file extension, shows itself as a text file)
 
 The malware then proceeds to implant itself into the system, and modify the Internet explorer start page to one of four that hosts a Trojan payload. The Trojan itself is designed to install into registry, just like the stager, and then capture system data to exfiltrate out to the Trojan host via email (mailme@super.net.ph). \citep{loveletter}
 
@@ -123,6 +123,7 @@ AutoRun Registry Locations Used \citep{Loveletter}:
     HKLM\Software\Microsoft\WindowsCurrentVersion\RunServices\Win32DLL 
 \end{lstlisting}
 
+%social aspects of a secret admirer to open the attachement
 %tidy up
 \subsection{SQLSlammer}
 SQLSlammer was created in 2003 based off a proof of concept warning from David Litchfield who discovered that by sending single packets to a Microsoft SQL Server (2000) on port 1434, a number of effects can be triggered.
@@ -166,6 +167,8 @@ Emotet is a modern Trojan that is spread via email links and attachments. It has
 The primary goal of the malware is to gain access to the victim's bank account, often accessed through a web browser. Exploits include macro scripting on document execution and JavaScript exploitation. Both methods result in a C2 structure in which the attacker can control the actions of the malware. This includes seamless updating of the malware, exfiltration of data and further payload deployment. \citep{Emotet}
 
 One of the indicators that it is a modern strain of malware (dating back to 2014) is that it has virtual machine detection. \citep{Emotet} The reason why is clear, virtual machines are controlled environments in which malware is often analysed and reverse engineered. VM detection usually comes in the form of a review of the system setup. 
+
+% using low power vms on perfect for defence in depth?
 
 Common indicators include:
 \begin{enumerate}
@@ -520,6 +523,7 @@ There is controversy at the time of writing about paying the ransom, which gets 
 
 Secondly, encryption for destruction. From time to time there are attacks that are not in it for direct financial gain, rather obstruction and distress. This variant encrypts just the same, with a few notable differences. There is no ransom, the key often is not transmitted and it is more liked to corporate rivalry or hacktivism.
 
+%look at the move to cold calling and threats of exposing data if they dont pay the ransom, cant just restore a backup for that, look at doppelpaymer bookmark on cyware
 %prove claim of the value of data
 
 \section{Buffer Overflows}

@@ -15,53 +15,66 @@ Credit for original syntax: https://www.devdungeon.com/content/using-libpcap-c
 ##############################################
 */
 
-int printInterfaces()
-{
-    char *interface;
-    char ipAddr[13]; //numbers + null terminator
-    char subnetMask[13];
-    bpf_u_int32 rawIPAddr; /* IP address as integer */
-    bpf_u_int32 rawSubnetMask; /* Subnet mask as integer */
-    char errorBuffer[PCAP_ERRBUF_SIZE];
-    struct in_addr tempAddress ;
-    int lookup_return_code;
+// int printInterfaces()
+// {
+//     char *interface;
+//     char ipAddr[13]; //numbers + null terminator
+//     char subnetMask[13];
+//     bpf_u_int32 rawIPAddr; /* IP address as integer */
+//     bpf_u_int32 rawSubnetMask; /* Subnet mask as integer */
+//     char errorBuffer[PCAP_ERRBUF_SIZE];
+//     struct in_addr tempAddress ;
+//     int lookup_return_code;
 
-    interface = pcap_lookupdev(errorBuffer);
+//     interface = pcap_lookupdev(errorBuffer);
    
-    lookup_return_code = pcap_lookupnet( //gets device info raw
-        interface,
-        &rawIPAddr,
-        &rawSubnetMask,
-        errorBuffer
-    );
+//     lookup_return_code = pcap_lookupnet( //gets device info raw
+//         interface,
+//         &rawIPAddr,
+//         &rawSubnetMask,
+//         errorBuffer
+//     );
 
-    if (lookup_return_code == -1) {
-        printf("%s\n", errorBuffer);
-    }
+//     if (lookup_return_code == -1) {
+//         printf("%s\n", errorBuffer);
+//     }
 
-    //---------------- Human Readable Addressing --------------------
+//     //---------------- Human Readable Addressing --------------------
 
-    tempAddress.s_addr = rawIPAddr;
-    strncpy(ipAddr, inet_ntoa(tempAddress), 13);
-    if (ipAddr == NULL) {
-        perror("inet_ntoa");
-    }
+//     tempAddress.s_addr = rawIPAddr;
+//         perror("inet_ntoa");
+//     }
 
-    tempAddress.s_addr = rawSubnetMask;
-    strncpy(subnetMask, inet_ntoa(tempAddress), 13);
-    if (subnetMask == NULL) {
-        perror("inet_ntoa");
-    }
+//     tempAddress.s_addr = rawSubnetMask;
+//     strncpy(subnetMask, inet_ntoa(tempAddress), 13);
+//     if (subnetMask == NULL) {
+//         perror("inet_ntoa");
+//     }
 
-    printf("Interface Found: %s\n", interface);
-    printf("IP Network Address: %s\n", ipAddr);
-    printf("Subnet Mask: %s\n", subnetMask);
-    printf("\n");
-    return 0;
-}
+//     printf("Interface Found: %s\n", interface);
+//     printf("IP Network Address: %s\n", ipAddr);
+//     printf("Subnet Mask: %s\n", subnetMask);
+//     printf("\n");
+//     return 0;
+// }
+//   strncpy(ipAddr, inet_ntoa(tempAddress), 13);
+//     if (ipAddr == NULL) {
+//         perror("inet_ntoa");
+//     }
 
+//     tempAddress.s_addr = rawSubnetMask;
+//     strncpy(subnetMask, inet_ntoa(tempAddress), 13);
+//     if (subnetMask == NULL) {
+//         perror("inet_ntoa");
+//     }
 
-//void packetHandler( u_char *args, const struct pcap_pkthdr *packet_header, const u_char *packet_body);
+//     printf("Interface Found: %s\n", interface);
+//     printf("IP Network Address: %s\n", ipAddr);
+//     printf("Subnet Mask: %s\n", subnetMask);
+//     printf("\n");
+//     return 0;
+// }
+
 
 int bindInt(char *interface)
 {
@@ -87,11 +100,12 @@ int bindInt(char *interface)
          return 2;
     }
 
+    
     printf("Interface Connected Successfully: %s\n", interface);
+    printf("Scanning...\n");
 
-    pcap_loop(conn, 0, packetHandler, NULL);
+    pcap_loop(conn, 0, packetProcessor, NULL);
     //make conditional on other flags
-
 
     return 0;
 }

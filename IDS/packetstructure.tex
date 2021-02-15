@@ -1,0 +1,272 @@
+\documentclass{article}
+\usepackage[british]{babel}
+
+% Network byte order is bug endian
+\usepackage[endianness=big]{bytefield}
+
+\usepackage{minted}
+
+\usepackage[round]{natbib}
+
+
+\begin{document}
+\section{UDP packet structure}
+The UDP packet starts with an 8 octet (byte) header.
+(see \citep[RFC~768]{rfc768})
+
+\begin{figure}[ht]
+\begin{bytefield}{32}
+	\bitheader{0-31}\\
+	\bitbox{16}{Source port} & \bitbox{16}{Destination port} \\
+	\bitbox{16}{Length} & \bitbox{16}{Checksum} \\
+	\wordbox{2}{Some data}
+\end{bytefield}
+\begin{description}
+	\item[Length] This field specifies the length in bytes of the UDP header
+		and UDP data. The minimum length is 8 bytes, the length of the header. 
+\end{description}
+\end{figure}
+
+\section{DNS Data}
+The UDP data field contains the DNS messages, requests, and replies.
+
+The structure is given in \citep[RFC~1035 section 4]{rfc1035}
+
+\subsection{Format}
+All communications inside of the domain protocol are carried in a single
+format called a message.  The top level format of message is divided
+into 5 sections:
+\begin{figure}[ht]
+\begin{bytefield}{16}
+	\bitheader{0-15}\\
+	\wordbox{1}{Header} \\
+	\begin{rightwordgroup}{the question for the name server}
+		\wordbox{1}{Question}
+	\end{rightwordgroup}\\
+	\begin{rightwordgroup}{RRs answering the question}
+		\wordbox{1}{Answer}
+	\end{rightwordgroup}\\
+	\begin{rightwordgroup}{RRs pointing toward an authority}
+		\wordbox{1}{Authority}
+	\end{rightwordgroup}\\
+	\begin{rightwordgroup}{RRs holding additional information}
+		\wordbox{1}{Additional}
+	\end{rightwordgroup}\\
+\end{bytefield}
+\end{figure}
+
+The header section is always present.  The header includes fields that
+specify which of the remaining sections are present, and also specify
+whether the message is a query or a response, a standard query or some
+other opcode, etc.
+
+\subsubsection{Header section format}
+The header fields and flags are described in \citep[RFC~1035 4.1.1]{rfc1035}
+\begin{figure}[ht]
+\begin{bytefield}[bitwidth=2em]{16}
+	\bitheader{0-15}\\
+	\wordbox{1}{ID}\\
+	\bitbox{1}{QR} & \bitbox{4}{Opcode} & 
+	\bitboxes{1}{{AA} {TC} {RD} {RA} } &
+	\bitboxes{1}{000}
+	\bitbox{4}{Rcode} \\
+	\wordbox{1}{QDCOUNT}\\
+	\wordbox{1}{ANCOUNT}\\
+	\wordbox{1}{NSCOUNT}\\
+	\wordbox{1}{ARCOUNT}\\
+\end{bytefield}
+\end{figure}
+\begin{description}
+	\item[QR] A 1-bit flag that indicates if the message is a query (0) or a
+		response (1)
+	\item[QDCOUNT] an unsigned 16 bit integer specifying the number of entries
+		in the question section.
+
+	\item[ANCOUNT] an unsigned 16 bit integer specifying the number of
+		resource records in the answer section.
+
+	\item[NSCOUNT] an unsigned 16 bit integer specifying the number of name
+		server resource records in the authority records section.
+
+	\item[ARCOUNT] an unsigned 16 bit integer specifying the number of
+		resource records in the additional records section.
+\end{description}
+
+
+\subsubsection{The Question section format}
+The question section contains QDCOUNT entries, usually 1
+
+\begin{figure}[ht]
+\begin{bytefield}{16}
+	\bitheader{0-15}\\
+	\wordbox[trl]{1}{QName}\\
+	\skippedwords\\
+	\wordbox{1}{QType}\\
+	\wordbox{1}{QClass}\\
+\end{bytefield}
+\end{figure}
+\begin{description}
+	\item[QName] a domain name represented as a sequence of labels, where each
+		label consists of a length octet followed by that number of octets.
+		The domain name terminates with the zero length octet for the null
+		label of the root.  Note that this field may be an odd number of
+		octets; no padding is used.  
+	\item[QType] a two octet code which specifies the type of the query.  The
+		values for this field include all codes valid for a TYPE field,
+		together with some more general codes which can match more than one
+		type of RR.  
+	\item[QClass]  a two octet code that specifies the class of the query.
+		For example, the QClass field is IN for the Internet.
+\end{description}
+
+The name is formatted as a sequence of labels \texttt{unn.ac.uk} is split
+into 4 labels; \texttt{unn}, \texttt{ac}, \texttt{uk}, and the zero length
+null label for the root.  It occupies 11 octets;
+
+\begin{figure}[ht]
+\begin{bytefield}{16}
+\bitheader{0-15}\\
+\bitbox{8}{3}&\bitboxes*{8}{{`u'} }\\
+\bitboxes{8}{{`n'} {`n'}} \\
+\bitbox{8}{2}&\bitbox{8}{`a'}\\
+\bitbox{8}{`c'}&\bitbox{8}{2}\\
+\bitboxes{8}{{`u'} {`k'}} \\
+\bitbox{8}{0} \\
+\end{bytefield}
+\end{figure}
+The following \texttt{Qtype} label follows \emph{immediately} and so is not
+aligned to 16-bit boundaries.
+
+\section{C programming interface}
+The libpcap library calls a user defined function for decoding packet captures
+
+\begin{minted}{c}
+void packetProcessor( u_char *userData, 
+                      const struct pcap_pkthdr* pkthdr, const u_char* packet)
+{
+}
+\end{minted}
+
+The UDP header is found by 
+\begin{minted}{c}
+  udpHeader = (struct udphdr*)(packet + sizeof(struct ether_header) + sizeof(struct ip));
+\end{minted}
+Now \mintinline{c}{udpHeader} is now a pointer to the \mintinline{c}{udphdr}
+structure.  This structure is defined in \texttt{udp.h}  
+\begin{minted}{c}
+struct udphdr {
+ uint16_t uh_sport;
+ uint16_t uh_dport;
+ uint16_t uh_ulen;
+ uint16_t uh_sum;
+};
+\end{minted}
+
+The address of the UDP payload can be found using
+\begin{minted}{c}
+u_char *udpPayload = (u_char *)(packet
+                                + sizeof(struct ether_header)
+                                + sizeof(struct ip)
+                                + sizeof(struct udphdr)
+                            );
+\end{minted}
+We can't just add to the pointer to the header 
+(\mintinline{c}{udpHeader + sizeof(struct udphdr)}) 
+because \mintinline{c}{const struct udphdr* udpHeader;} is a pointer to a
+structure, and so adding to it increments by (\mintinline{c}{sizeof(struct
+udphdr)}) bytes.
+
+\subsection{DNS data}
+\paragraph{Assume that} \mintinline{c}{dnsbase} has been set to the address of
+the UDP data found from \mintinline{c}{udpPayload} above.
+
+\paragraph{Header} The DNS header is a fixed size of 32 octets.
+It can be given by
+\begin{minted}{c}
+struct dnshdr {
+  uint16_t id;
+  uint16_t flags;
+  uint16_t QDcount;
+  uint16_t ANcount;
+  uint16_t NScount;
+  uint16_t ARcount;
+};
+\end{minted}
+
+We can set up a structure to use the data by:
+\begin{minted}{c}
+struct dnshdr *DNShdr = (struct dnshdr *)dnsbase;
+unsigned int querycount = DNShdr->QDcount;
+\end{minted}
+
+\paragraph{Query --- Name}
+The base address of the query is 32 octets on from the base address.
+\begin{minted}{c}
+uint8_t *query = dnsbase +32;
+\end{minted}
+We are working with pointer to 8-bit datatypes, so pointer addition works the
+right way for us.
+
+The base of the name is the same address as the pointer to the query.
+
+\begin{quote}
+	The name ends with a zero-valued byte.  It could be used as a string.
+	Except that it has embedded lengths in it, which are not printable ascii
+	values.
+\end{quote}
+
+The best solution is to use a loop, and string copy operations.
+
+In the code following remember that the idiom
+\begin{minted}{c}
+    len = *query++;
+\end{minted}
+means, assign the value pointed to by \mintinline{c}{query} to the variable
+\mintinline{c}{len}, and then increment \mintinline{c}{query} by 1.
+
+The label lengths are 8-bit values, with the top 2 bits clear, 
+\begin{minted}{c}
+/* 6 bits for length,
+   max label is 63 characters
+   plus \0 for end of C string
+*/
+char fqdn[256] ;
+unit8_t len;
+char label[64];
+fqdn[0] = '\0'; /* ensure starting with empty string */
+for( len = *query++ ; len>= ; len=*query++ ) {
+    strncpy( label, query, len );
+    label[len] = '\0'; /* puts zero byte at end */
+    query += len; /* move pointer to end of string
+                     location of next length 
+                  */
+	/* Do something with the label... */
+	strcat(fqdn, label);
+	strcat(fqdn, ".");
+}
+\end{minted}
+
+\subparagraph{An alternative is to } overwrite the length values with the
+ascii for `\texttt{.}' to create a domain name.
+\begin{minted}{c}
+/* 6 bits for length,
+   max label is 63 characters
+   plus \0 for end of C string
+*/
+char *label = (char *)query;
+unit8_t len;
+char fqdn[64]; 
+for( len = *query ; len>= ; len=*query ) {
+	*query = '.';
+	query += len+1; /* query at next len value */
+}
+strcpy(fqdn, label);
+\end{minted}
+This ends up starting the name with a \texttt{.} which may be the wrong thing.
+
+
+\bibliographystyle{plainnat}
+\bibliography{net,dns}
+
+\end{document}
+

@@ -1102,6 +1102,14 @@ and also with the use of meterpreter modules once in the system. Meterpreter als
 Implantation of SSH keys is a common tactic, they do not require passwords or a user, rather a public key that is unique to the hacker's device. A sample of how native applications can be abused is Notepad itself. Notepad is a text editor in nature, meaning it has read and write permissions, of a given user. It is a convenient way of delivering malware payloads into local malware scripts, often with great speed.
 
 
+\chapter{Application of Analysis}
+The specifics of the landscape covered is essential to the overall \'picture\', but scope is needed to feasibly illustrate the point of a common threat, versus an defence.
+DNS exfiltration will be the general focus, it represents an area that can be missed in general security products. Covert exfiltration/infiltration of data is integral to 
+C2 structures, as well as the leaking of confidential material. It lays out the foundation for outright tunneling of application layer protocols to expand capability further. 
+
+This branch of investigation requires development of DNS Exfiltration technology for both sides, threat and detection. In addition, an overlook and comparison of defence technologies out there in relation to these common theat vectors would be suitible for this investigation.
+
+
 % \section{Symbolic Locations}
 %urandom - maybe
 %/dev/shm
@@ -1128,3 +1136,4 @@ Implantation of SSH keys is a common tactic, they do not require passwords or a 
 %go through and reference/cite later and earlier content, particually in the malware sections
 %MAC is software based, based on the hardware
 %ARP spoofing can make traffic destined for the router, go to you, man in the middle. detect spoofing? BEttercap can do this
+

@@ -6,6 +6,8 @@ import sendUDP
 
 #Note - Can get stuck, CTRL + C moves it along!
 
+#Requires: sudo pip3 install pycryptodome
+
 dnsServer = "192.168.1.1"
 dnsPort = 53
 aesEncrypt = False

@@ -38,7 +38,7 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr* pkthdr, const u
     const struct ip* ipHeader;
     const struct udphdr* udpHeader;
     const struct tcphdr* tcpHeader;
-    const struct dnshdr* dnsHeader;
+    const struct DNShdr* dnshdr;
     u_char data;
     char srcIP[INET_ADDRSTRLEN];
     char dstIP[INET_ADDRSTRLEN];
@@ -56,17 +56,60 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr* pkthdr, const u
         } 
         
         if (ipHeader->ip_p == IPPROTO_UDP) {
+            //http://www.ietf.org/rfc/rfc768.txt
+            //http://tools.ietf.org/html/rfc1035
+
             udpCount = udpCount + 1;
             udpHeader = (struct udphdr*)(packet + sizeof(struct ether_header) + sizeof(struct ip));
             srcPort = ntohs(udpHeader->source);
 
+            u_char *udpPayload = (u_char *)(packet
+                + sizeof(struct ether_header)
+                + sizeof(struct ip)
+                + sizeof(struct udphdr)
+            );
+            
+            
             if (srcPort == 53 || dstPort == 53) {
-                //dnsCount = dnsCount + 1;
-                printf(srcIP);
-                printf(" : ");
-                printf(dstIP);
-                printf("\n");
-                printf(dnsCount); //it breaks with simple print statements! It is slow and delayed - messes up easily
+
+                struct dnshdr *DNShdr = (struct dnshdr *)&udpHeader;
+                uint8_t *query = udpPayload +32;
+                char fqdn[256];
+                uint8_t len;
+                fqdn[0] = '\0'; /* ensure starting with empty string */
+                char label[64];
+                int dnsRequestType;
+                
+                for( len = *query++ ; len >= *query; len=*query++ ) {
+                    strncpy( label, query, len );
+                    label[len] = '\0'; /* puts zero byte at end */
+                    query += len; /* move pointer to end of string */
+                    
+                    
+                // strcat(fqdn, " ");
+                // strcat(fqdn, label);
+                // printf(fqdn);
+
+                printf(label);
+                
+                //lots of duplicates and responce packets?
+
+                // if(dnsType==0) {
+                //     printf("Request");
+                // }
+                // printf(querycount);
+                    
+                // dnsCount = dnsCount + 1;
+                // strcat(dstIP, '\n');
+                // printf(srcIP);
+                // printf(" : ");
+                // printf(dstIP);
+
+                
+
+                
+                
+                //it breaks with simple print statements! It is slow and delayed - messes up easily
                 // if(dnsCount == dnsCountLimit) {
                 //     printf("Excessive DNS!");
                 //     dnsCountLimit = dnsCountLimit + 10;
@@ -74,7 +117,9 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr* pkthdr, const u
 
                 //dnsHeader = (packet + sizeof(struct ether_header) +  sizeof(ipHeader) + sizeof(udpHeader));
                 //printf((u_char *)(packet + sizeof(struct ether_header) + sizeof(ipHeader) + sizeof(udpHeader) + sizeof(dnsHeader)));
-            }
+                }
+
+            
         } 
         //else if (ipHeader->ip_p == IPPROTO_ICMP) {
         //     icmpCount = icmpCount + 1;
@@ -84,6 +129,8 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr* pkthdr, const u
         // else if (ipHeader->ip_p == IPPROTO_TCP) {
         //     tcpHeader = (struct tcphdr*)(packet + sizeof(struct ether_header) + sizeof(struct ip));
         // }       
+    }
+
 }
 
 

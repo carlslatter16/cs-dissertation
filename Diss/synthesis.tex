@@ -40,7 +40,9 @@ Actual malware implementation would likely do these function internally.
 %explain aes more
 
 This tool can produce obfuscated exfiltration via DNS from a given input. Extra functionality has been implementated to produce this effect for any given input length by splitting up files line by line and running the above process on each line. This means that whole files can be sent over the network via subdomain naming. This is not designed for speed. rather covertness of content. 
-In experimentation, it took 2-3 minuites reiably for a 19kb file. Input length is irrevant for encruyption due to my implementation of manually splitting and padding of lines needed to fuffil AES requirements. This is rather loud on the network - if encrypted the contents cannot be feasibly parsed, but the process causes many requests to be produced so sysadmins may gain overall suspicion.
+In experimentation, it took 2-3 minuites reiably for a 19kb file. 
+
+Input length is irrevant for encruyption due to my implementation of manually splitting and padding of lines needed to fuffil AES requirements. This is rather loud on the network - if encrypted the contents cannot be feasibly parsed, but the process causes many requests to be produced so sysadmins may gain overall suspicion.
 This could be mitigated with rate limiting. If manual detection is not a concerna and tailored detection is not in place, then default functionality can be leverage to exploit a lack of intrusion prevention to exifltrate data out of infrastructure in a "noisy" way.
 
 %talk detection - rates, lots of server failures, base dns lookup?, 
@@ -112,6 +114,8 @@ Samples are obtained from well known and trusted github reposititoies, with thos
 \end{enumerate}
 
 \chapter{Investigate antivirus systems w/ comparison}
+
+%fix wierd quote marks
 
 
 \chapter{Investigate IDS/IPS systems w/ comparison}

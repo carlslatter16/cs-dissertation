@@ -9,8 +9,8 @@
 #include <netinet/udp.h>
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
-
-#include <pcap.h>
+#include <stdbool.h>
+#include <pcap.h> 
 
 #define PCAP_BUF_SIZE	1024
 #define PCAP_SRC_FILE	2
@@ -29,10 +29,10 @@ https://www.codeproject.com/Tips/465850/Scanning-a-PCAP-dump-to-find-DNS-and-NET
 void packetProcessor(u_char *userData, const struct pcap_pkthdr* pkthdr, const u_char* packet) 
 {
 
-    int icmpCount = 0;
+    // int icmpCount = 0;
     int udpCount = 0;
     int dnsCount = 0;
-    int dnsCountLimit = 20;
+    // int dnsCountLimit = 20;
 
     const struct ether_header* ethernetHeader;
     const struct ip* ipHeader;
@@ -53,7 +53,6 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr* pkthdr, const u
         ipHeader = (struct ip*)(packet + sizeof(struct ether_header));
         inet_ntop(AF_INET, &(ipHeader->ip_src), srcIP, INET_ADDRSTRLEN);
         inet_ntop(AF_INET, &(ipHeader->ip_dst), dstIP, INET_ADDRSTRLEN);
-        } 
         
         if (ipHeader->ip_p == IPPROTO_UDP) {
             //http://www.ietf.org/rfc/rfc768.txt
@@ -69,68 +68,83 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr* pkthdr, const u
                 + sizeof(struct udphdr)
             );
             
-            
             if (srcPort == 53 || dstPort == 53) {
+                struct dnshdr {                 
+                uint16_t id;
+                uint16_t flags;
+                uint16_t QDcount;
+                uint16_t ANcount;
+                uint16_t NScount;
+                uint16_t ARcount;
+                };
 
                 struct dnshdr *DNShdr = (struct dnshdr *)&udpHeader;
-                uint8_t *query = udpPayload +32;
-                char fqdn[256];
-                uint8_t len;
-                fqdn[0] = '\0'; /* ensure starting with empty string */
-                char label[64];
-                int dnsRequestType;
-                
-                for( len = *query++ ; len >= *query; len=*query++ ) {
-                    strncpy( label, query, len );
-                    label[len] = '\0'; /* puts zero byte at end */
-                    query += len; /* move pointer to end of string */
-                    
-                    
-                // strcat(fqdn, " ");
-                // strcat(fqdn, label);
-                // printf(fqdn);
+                unsigned int querycount = DNShdr->QDcount;
+                unsigned int anCount = DNShdr->ANcount;
+                bool queryRequest;
 
-                printf(label);
-                
-                //lots of duplicates and responce packets?
 
-                // if(dnsType==0) {
-                //     printf("Request");
-                // }
-                // printf(querycount);
-                    
-                // dnsCount = dnsCount + 1;
-                // strcat(dstIP, '\n');
-                // printf(srcIP);
-                // printf(" : ");
-                // printf(dstIP);
-
-                
-
-                
-                
-                //it breaks with simple print statements! It is slow and delayed - messes up easily
-                // if(dnsCount == dnsCountLimit) {
-                //     printf("Excessive DNS!");
-                //     dnsCountLimit = dnsCountLimit + 10;
-                // } 
-
-                //dnsHeader = (packet + sizeof(struct ether_header) +  sizeof(ipHeader) + sizeof(udpHeader));
-                //printf((u_char *)(packet + sizeof(struct ether_header) + sizeof(ipHeader) + sizeof(udpHeader) + sizeof(dnsHeader)));
+                if (querycount != 0){
+                    //cant quite target that 1 bit so I check if there is a count to the request
+                    queryRequest = true;
                 }
 
-            
-        } 
-        //else if (ipHeader->ip_p == IPPROTO_ICMP) {
-        //     icmpCount = icmpCount + 1;
-        //     printf("ICMP:", icmpCount);
-        // }
+                if (anCount != 0) {
+                    queryRequest = false;
+                }
 
-        // else if (ipHeader->ip_p == IPPROTO_TCP) {
-        //     tcpHeader = (struct tcphdr*)(packet + sizeof(struct ether_header) + sizeof(struct ip));
-        // }       
-    }
+                uint8_t *query = udpPayload +32;
 
+                char fqdn[256] ;
+                uint8_t len;
+                char label[64];
+                fqdn[0] = '\0'; /* ensure starting with empty string */
+
+               if(queryRequest == true) {
+                   for( len = *query++ ; len>= *query; len=*query++ ) {
+                        strncpy( label, query, len );
+                        label[len] = '\0';
+                        query += len;
+                        strcpy(fqdn, label);
+                        strcpy(fqdn, ".");   
+                        
+                    }
+
+                    int i;
+
+                    for(i=0; label[i]; i++) {
+                        if(!isalpha(label[i]) && !isdigit(label[i]) && label[i] != 61 && label[i] != 10) { //FILTERS FOR LETTERS, NUMBERS, = AND NEWLINE
+                            label[i] = 46; //replaces to a period delimter
+                        }
+                    }
+
+                    //still have a dupe problem
+                    FILE *f = fopen("file.txt", "a");
+                    if (f == NULL) {
+                        printf("Error opening file!\n");
+                        exit(1);
+                    }
+                    
+                    if(label[0]!='\0') {
+                        fprintf(f, label);
+                        fprintf(f, "\n");
+                    }
+
+                    fclose(f);
+
+                    //printf("%d",dnsCount);
+                    queryRequest = NULL;
+
+                     // dnsCount = dnsCount + 1;
+                     // strcat(dstIP, '\n');
+                     // printf(srcIP);
+                     // printf(" : ");
+                     // printf(dstIP);
+
+               }    
+            }        
+        }            
+    }                
 }
 
 

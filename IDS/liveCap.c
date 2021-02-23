@@ -32,6 +32,7 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr* pkthdr, const u
     // int icmpCount = 0;
     int udpCount = 0;
     int dnsCount = 0;
+
     // int dnsCountLimit = 20;
 
     const struct ether_header* ethernetHeader;
@@ -107,7 +108,6 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr* pkthdr, const u
                         query += len;
                         strcpy(fqdn, label);
                         strcpy(fqdn, ".");   
-                        
                     }
 
                     int i;

@@ -11,6 +11,9 @@ import main
 # GNU License - https://gist.github.com/mrpapercut/b73e8748c4cf22a541f442622f5672ff
 #Typical socketted DNS functions verify if subdomain exists - Not good for this! This uses UDP which will try regardless.
 
+if len(sys.argv) == 1:
+        sys.exit()
+
 url = sys.argv[1]
 
 def send_udp_message(message, address, port):

@@ -182,19 +182,25 @@ int main (int argc, char *argv[])
 
     char ch;
     int lineCount = 0;
-        
 
-    while(!feof(domainListFile)) { //https://stackoverflow.com/questions/12733105/c-function-that-counts-lines-in-file
-        ch = fgetc(domainListFile);
-        if(ch == '\n')
-        {
-            lineCount++;
-        }
+    char *line2 = NULL;
+    size_t len = 0;
+
+    while (fgets(line2, 100, domainListFile)) {
+        /* note that fgets don't strip the terminating \n, checking its
+           presence would allow to handle lines longer that sizeof(line) */
+        printf("%s", line2); 
+        lineCount++;
     }
+
+    //printf('%i', lineCount);
+
+    printf("%d",lineCount);
+    //fflush(stdout);    //prevemnts order based segfault
+    printf("%c", '\n');
 
     //!!! Stopped here - Trying to count lines in a file to find upper range to compare new entries to 
 
-    printf('%d', lineCount);
 
     //currentDomain = fgets(FileLine, 256, domainListFile);
     int z;

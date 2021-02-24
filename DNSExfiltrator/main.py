@@ -7,7 +7,9 @@ import time
 
 #Note - Can get stuck, CTRL + C moves it along!
 
-#Requires: sudo pip3 install pycryptodome
+##Requires: 
+#sudo apt install python3-pip
+#sudo pip3 install pycryptodome
 
 dnsServer = "192.168.1.1"
 dnsPort = 53

@@ -32,13 +32,14 @@ int main (int argc, char *argv[])
 
     bool base64Bool = false;
    
-    char domainSets[200];
     int domainSourceNum; //tricky to assign to a specific domain name when there will be multiple
     int domainSourceThreshold = 5;
 
     int abnormalityThreshold = 2;
 
     //can play around with the thresholds
+
+    //-------------------------------- Session File Remover -----------------------------------------//
 
     //https://stackoverflow.com/questions/230062/whats-the-best-way-to-check-if-a-file-exists-in-c
     //https://www.geeksforgeeks.org/c-program-delete-file/
@@ -50,6 +51,8 @@ int main (int argc, char *argv[])
         printf("Unable to delete the previous domain parsing log  \n\n");
         }
     }
+
+    //-------------------------------- Collated Line Rule Booleans -----------------------------------------//
 
     FILE *f = fopen(dnsTrafficLog, "r");
 
@@ -102,6 +105,8 @@ int main (int argc, char *argv[])
             exit(1);
         }
 
+        //-------------------------------- Root Domain Collector -----------------------------------------//
+
         for(domSrcIndex; line[domSrcIndex]!='\0'; domSrcIndex++) { //collects everything after the subdomain to check for a constant
             //printf('%d', domSrcIndex);
             snprintf(domainSource, 50, "%c", line[domSrcIndex]);
@@ -109,7 +114,7 @@ int main (int argc, char *argv[])
             fprintf(domainListFile, domainSource);
         }
 
-
+        //-------------------------------- Rule Status -----------------------------------------//
 
         int abnormalityCount = 0;
 
@@ -154,6 +159,7 @@ int main (int argc, char *argv[])
         //if there are a lot of failed server responces - maybe need to log them or something to then analyse here!
 
 
+        //-------------------------------- Estimated Packet Health -----------------------------------------//
         //i'm currently doing per packet analysis, could tie some together and comapre domains
 
         if(abnormalityCount>=abnormalityThreshold) {
@@ -180,30 +186,6 @@ int main (int argc, char *argv[])
         memset(domainSource, 0, sizeof(domainSource));
     }
 
-    char ch;
-    int lineCount = 0;
-
-    char *line2 = NULL;
-    size_t len = 0;
-
-    while (fgets(line2, 100, domainListFile)) {
-        /* note that fgets don't strip the terminating \n, checking its
-           presence would allow to handle lines longer that sizeof(line) */
-        printf("%s", line2); 
-        lineCount++;
-    }
-
-    //printf('%i', lineCount);
-
-    printf("%d",lineCount);
-    //fflush(stdout);    //prevemnts order based segfault
-    printf("%c", '\n');
-
-    //!!! Stopped here - Trying to count lines in a file to find upper range to compare new entries to 
-
-
-    //currentDomain = fgets(FileLine, 256, domainListFile);
-    int z;
 
     //can then delete original file used by IDS
     //link it so that on ctrl c its automatic for analysis somehow?

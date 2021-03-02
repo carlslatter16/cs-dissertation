@@ -5,13 +5,14 @@
 #include <unistd.h>
 #define MAX_LEN 256
 
-char domainList[] = "domainsFound.txt";
+char domainList[] = "domainsFound.txt"; 
 FILE* domainListFile;
 FILE* domainListFileCount; //need seperate processes on the file
+
 char line[100];
 char currentDomain[100]; 
 int z = 1; // the number of found 
-    //------------------------------- Duplicate Line Counter ------------------------------------------//
+
 
 int domainCounter(char* currentDomain)
 {
@@ -53,11 +54,46 @@ void printDomainNum(char* currentDomain)
     printf("\n");
 }
 
-int main (int argc, char *argv[])
-{   
-    int lineCount = 0;
+int insertElement(char* stringToAdd, int size, char* array)
+{
+    int x=0;
+    bool newValue;
+    int emptyIndex=NULL;
+
+
+    //https://stackoverflow.com/questions/2427336/why-cant-i-create-an-array-with-size-determined-by-a-global-variable
+    //finds size based on overall size of the array, and then by a sample element
+
+    for(x=0;x<size;++x) {
+        if(array[x]!="\0") {
+            if(array[x]!=stringToAdd) {
+                newValue=true;
+            }
+            else {
+                newValue=false;
+            }
+        }
+        else{
+            emptyIndex=x;
+            break;
+        }
+    }
+
+    if(newValue!=false) {
+        array[emptyIndex] = stringToAdd;
+        newValue=NULL;
+        return 0;  
+    }
+
+    return 1;
+}
+
+int lineCounter()
+{
     //----------------------------------- File Line Counter ------------------------------------//
     domainListFile = fopen(domainList, "r");
+
+    int lineCount;
 
     if (domainListFile == NULL) {
         printf("Error opening file!\n");
@@ -70,55 +106,37 @@ int main (int argc, char *argv[])
 
     fclose(domainListFile);  //could go back to the top instead!
 
+    return lineCount;
+}
 
-
-
-    //----------------------------------- Dupe Checker ------------------------------------//
-    char* domainSet[lineCount] ; //ensures that there are enough fields, even if everything is unique, possible off by one
-    //memset(domainSet, "VOID", sizeof(domainSet)); //not properly setting as void, as it takes error messages as domains!
-    int a;
-    for (a=0;a>=7;a++) {
-        domainSet[1] = "VOID";
+int main (int argc, char *argv[])
+{   
+    int lineCount = 0;
+    char* array[lineCounter()]; //ensures that there are enough fields, even if everything is unique, possible off by one
+    int size = sizeof(array) / sizeof(array[0]);
+    
+    for(z=0;z<size;++z)
+    {
+        array[z] = "\0";
     }
 
-    bool newDomain = true;
-
+    //----------------------------------- Dupe Checker ------------------------------------//
+    char* domainSet[lineCount] ; 
     domainListFile = fopen(domainList, "r");
-
     strcpy(currentDomain, fgets(line, 100, domainListFile));
-    domainSet[0] = line;
-    int domIndex=0;
-    int emptyIndex= lineCount/lineCount; //means empty files are handled
+    array[0] = currentDomain;
 
     while (fgets(line, 100, domainListFile)) { //a search through each line to find new domains
-        for(domIndex=0; domIndex<lineCount; ++domIndex) { //for each potential domain array entry
-            if(domainSet[domIndex]!="VOID") { //if not empty
-                if(line != domainSet[domIndex]) { //if the line and current box are different 
-                    newDomain = true;
-                    //I have the problem of stuff being new in the future?     
-                }
-                else {
-                    newDomain = false;
-                }
-            }
-            else {
-                emptyIndex++;
-            }
-            
-        } 
-        
-        
+        insertElement(line, size, array);
         //when it gets through all boxes, if nothing is new, nothing happens, if it is, it is parsed and added - problems could arise if data is changed after the fact
+    }
 
-        if(newDomain == true) {     //if still true after all the domain boxes are matched against.  
-            if(domainSet[emptyIndex]==("\0")) {
-                strcpy(currentDomain, line);      //make secure, memcopy etc..
-                domainSet[emptyIndex] = line;
-                printDomainNum(currentDomain);
-                
-            } 
-            newDomain = false;   
-        } 
+    int p;
+
+    for(p=0;p<=size;++p) {
+        if(array[p]!=NULL) {
+            printDomainNum(array[p]);
+        }
     }
 
     fclose(domainListFile);

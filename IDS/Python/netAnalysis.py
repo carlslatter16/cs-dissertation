@@ -1,3 +1,5 @@
+import time #credit - https://docs.python.org/3/library/time.html
+
 #!/usr/bin/python3
 
 capThreshold = 3
@@ -7,7 +9,9 @@ domSrcThreshold = 5
 srcIPThreshold = 10
 dstIPThreshold = 10
 abnormalityThreshold = 2
+abnormalityTotalThreshold = 20
 caseChangeThreshold=4
+
 
 rootDomsDict = {}
 srcIPDict = {}
@@ -17,6 +21,10 @@ capLogPath = 'file.txt'
 capLogFile = open(capLogPath,'r')
 
 def main():
+    totalAbnormalities = 0
+    malCount = 0
+    totalPackets = 0
+
     for line in capLogFile:
         subdomain=""
         i=0
@@ -35,6 +43,7 @@ def main():
         prevCap=""
         srcIP=""
         dstIP=""
+        unixTime=""
 
 
         for char in line:
@@ -64,7 +73,8 @@ def main():
                         numThresholdBool = True
             else:
                 break
-
+        
+        print("┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅")
         print("Subdomain Segment: ", subdomain)
 
         domRootIndex = len(subdomain)+1
@@ -130,6 +140,17 @@ def main():
             dstIPDict[dstIP] = 1
 
         #------------------------------------------------------------------------------------------#
+        unixTimeIndex=len(subdomain)+len(rootDom)+len(srcIP)+len(dstIP)+4 #+3 to bypass the delimeters!
+        for char in range(unixTimeIndex, len(line)): 
+            if(line[char]!="\n"):
+                unixTime += line[char]
+            else:
+                break
+
+        print("Timestamp :", time.ctime(int(unixTime))) #used a module as there was little reason to reinvent the wheel and it is pretty base to the language use
+
+
+        #------------------------------------------------------------------------------------------#
         if len(subdomain) >= lenThreshold:
             print("   Abnormal length of subdomain fragment: ", end='')
             print(len(subdomain), end='')
@@ -158,38 +179,51 @@ def main():
         #need global ab count too!
 
         if abnormalityCount>=abnormalityThreshold:
+            malCount+=1
             print("\n")
-            print("   # THIS IS LIKELY A MALICIOUS UDP DNS PACKET! # ")
+            print("   # THIS IS LIKELY A MALICIOUS UDP DNS PACKET! # ", end='')
             print("\n")
         else:
-            print("   # THIS IS LIKELY NOT MALICIOUS DNS # ")
+            print("\n")
+            print("   # THIS IS LIKELY NOT MALICIOUS DNS # ", end='')
             print("\n")
 
 
-    print("#------------------------------ OVERALL ANALYSIS -----------------------------------#")
+        totalAbnormalities += abnormalityCount #keep a running total before later reset for next line
+        totalPackets +=1
+
+    print("┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅\n")
+
+    print("▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▃ OVERALL ANALYSIS ▃▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆")
+    print("▆ Total packets in capture: ", totalPackets)
+    print("▆ Total suspicous packets in capture: ", malCount)
+    print("▆ Total abnormalities in capture: ", totalAbnormalities)
 
     for element in list(rootDomsDict.keys()): #domain checker
         domSrcNum = rootDomsDict[element]
         if domSrcNum >= domSrcThreshold:
-            print("   Abnormal amount of request to the same root domain: ", end='')
+            print("▆ WARNING - Excessive requests to the same root domain: --- ", end='')
             print(element, ": ",  end='')
             print(domSrcNum)
 
-    for element in list(srcIPDict.keys()): #SrcIP checker
-        srcIPNum = srcIPDict[element]
-        if srcIPNum >= srcIPThreshold:
-            print("   Abnormal amount of suspicious traffic from: ", end='')
-            print(element, ": ",  end='')
-            print(srcIPNum)
+    if totalAbnormalities>=abnormalityTotalThreshold:
+        for element in list(srcIPDict.keys()): #SrcIP checker
+            srcIPNum = srcIPDict[element]
+            if srcIPNum >= srcIPThreshold:
+                print("▆ INVESTIGATE - Excessive suspicious traffic from: --- ", end='')
+                print(element, ": ",  end='')
+                print(srcIPNum)
 
-    for element in list(dstIPDict.keys()): #DstIP checker 
-        dstIPNum = dstIPDict[element]
-        if dstIPNum >= dstIPThreshold:
-            print("   Abnormal amount of suspicious traffic to: ", end='')
-            print(element, ": ",  end='')
-            print(dstIPNum)
+        for element in list(dstIPDict.keys()): #DstIP checker 
+            dstIPNum = dstIPDict[element]
+            if dstIPNum >= dstIPThreshold:
+                print("▆ INVESTIGATE - Excessive suspicious traffic to: --- ", end='')
+                print(element, ": ",  end='')
+                print(dstIPNum)
 
         #NEED SOME FLAG OF SUSPICOUS TRAFFIC - One of these might be off a tad too, but could be a mistake in the data!
+    
+    print("▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆\n\n")
 
 if __name__ == "__main__":
     main()

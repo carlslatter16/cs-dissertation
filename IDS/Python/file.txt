@@ -6,7 +6,7 @@ XHhmYUFceGIzJw==.google.com:127.0.0.1:192.168.1.1
 XHhhOFx4OTFceDg2XHgxOGNceGVhJw==.google.com:127.0.0.1:192.168.1.1
 WTVYaSc=.google.com:127.0.0.1:192.168.1.1
 Mlx4ODFceGI1dlx4YjlceGE0Jw==.google.com:127.0.0.1:192.168.1.1
-GFjb1x4OWVcbic=.google.com:192.168.1.1:127.0.0.1:192.168.1.1
+GFjb1x4OWVcbic=.google.com:192.168.1.1:127.0.0.1
 XHhiY1x4MGVceGZmXHhhNVx4ODlceGYxJw==.google.com:127.0.0.1:192.168.1.1
 Y0opK1x4ZmZlJw==.google.com:127.0.0.1:192.168.1.1
 XHhjNFx4OGRceGY2XHhkYVx4MGVceGM2Jw==.google.com:127.0.0.1:192.168.1.1

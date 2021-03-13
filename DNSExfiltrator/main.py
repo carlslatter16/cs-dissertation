@@ -17,7 +17,7 @@ aesEncrypt = False
 fileMode = False
 autoDomain = False
 sampleRequest = "Super secret data"
-fireRateDelay = 0
+fireRateDelay =  1
 
 def requestFormer(data):
     

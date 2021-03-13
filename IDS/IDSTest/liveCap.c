@@ -46,7 +46,6 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr* pkthdr, const u
     u_int srcPort, dstPort;
     u_int size_tcp;
     u_int size_udp;
-    int periodThreshold = 3;
 
     ethernetHeader = (struct ether_header*)packet;
 
@@ -99,31 +98,25 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr* pkthdr, const u
 
                 char fqdn[256] ;
                 uint8_t len;
-                char label[64];
+                char label[64] = { NULL };
                 fqdn[0] = '\0'; /* ensure starting with empty string */
-                int periodCount=0;
 
                if(queryRequest == true) {
                    for( len = *query++ ; len>= *query; len=*query++ ) {
                         strncpy( label, query, len );
                         label[len] = '\0';
-                        query += len; 
+                        query += len;
+                        strcpy(fqdn, label);
+                        strcpy(fqdn, ".");   
                     }
 
                     int i;
 
-                    if(!isalpha(label[0])) {
-                        return;
-                    }
-
                     for(i=0; label[i]; i++) {
                         if(!isalpha(label[i]) && !isdigit(label[i]) && label[i] != 61 && label[i] != 10) { //FILTERS FOR LETTERS, NUMBERS, = AND NEWLINE
                             label[i] = 46; //replaces to a period delimter
-                            periodCount+=1;
                         }
                     }
-
-
 
                     //still have a dupe problem
                     FILE *f = fopen("file.txt", "a");
@@ -132,34 +125,40 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr* pkthdr, const u
                         exit(1);
                     }
                     
-                    if(label[0]!='\0' && periodCount<=periodThreshold) {
+                    if(label[0]!='\0' && label[0]!=NULL && label[0]!=46) {
                         fprintf(f, label);
-                        fprintf(f, ":");
-                        fprintf(f, srcIP);
-                        fprintf(f, ":");
-                        fprintf(f, dstIP);
-                        fprintf(f, ":");
-                        fprintf(f, "%u\n", (unsigned)time(NULL)); //https://stackoverflow.com/questions/11765301/how-do-i-get-the-unix-timestamp-in-c-as-an-int
                     }
 
+                    fprintf(f, "\n");
+
+                    // if(label[0]!=NULL && label[0]!=46) {
+                    //     fprintf(f, ":");
+                    //     fflush(stdout);
+                    //     fprintf(f, dstIP);
+                    //     fflush(stdout);
+                    //     fprintf(f, ":");
+                    //     fflush(stdout);
+                    //     fprintf(f, srcIP);
+                    //     fflush(stdout);
+                    //     fprintf(f, ":");
+                    //     fflush(stdout);
+                    //     fprintf(f, "%lu\n", (unsigned long)time(NULL));  //https://stackoverflow.com/questions/11765301/how-do-i-get-the-unix-timestamp-in-c-as-an-int
+                    //     fflush(stdout);
+                       
+                    // }
+
                     fclose(f);
+
+                    //printf("%d",dnsCount);
                     queryRequest = NULL;
+
+                     // dnsCount = dnsCount + 1;
+                    
+
                }    
-            }
-            else {
-                //printf("Test");
-                return;
             }        
-        }
-        else {
-            //printf("Test");
-            return;
-        }               
-    }
-    else {
-        //printf("Test");
-        return;
-    }          
+        }            
+    }                
 }
 
 

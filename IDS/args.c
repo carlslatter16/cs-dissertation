@@ -50,7 +50,7 @@ void switchHandler(int argCount, char* argText[])
         printUsage();
     } 
 
-    while((argSwitch = getopt(argCount, argText, "dIbi")) != -1){ 
+    while((argSwitch = getopt(argCount, argText, "dIfbi")) != -1){ 
         switch(argSwitch){
            //seemingly cannot use 'b' for example
            //compare the two examples, comment the other out
@@ -61,6 +61,11 @@ void switchHandler(int argCount, char* argText[])
             case 'I':
                 ICMPMode = true;
                 break;
+            case 'f':
+                //printInterfaces();
+                readPCAP(argText[2]);
+                break;
+
             case 'b':
                 //printInterfaces();
                 bindInt(argText[2]);
@@ -69,6 +74,7 @@ void switchHandler(int argCount, char* argText[])
                 //printInterfaces();
                 bindInt(argText[2]);
                 break;
+            
         }
     }
 }

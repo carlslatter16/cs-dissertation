@@ -46,7 +46,7 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr* pkthdr, const u
     u_int srcPort, dstPort;
     u_int size_tcp;
     u_int size_udp;
-    int periodThreshold = 3;
+    int periodThreshold = 5;
 
     ethernetHeader = (struct ether_header*)packet;
 
@@ -95,19 +95,18 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr* pkthdr, const u
                     queryRequest = false;
                 }
 
-                uint8_t *query = udpPayload +32;
+                uint8_t *DNSquery = udpPayload + 32;
 
-                char fqdn[256] ;
                 uint8_t len;
-                char label[64];
-                fqdn[0] = '\0'; /* ensure starting with empty string */
+                char label[256];
+                label[0] = '\0'; /* ensure starting with empty string */
                 int periodCount=0;
 
                if(queryRequest == true) {
-                   for( len = *query++ ; len>= *query; len=*query++ ) {
-                        strncpy( label, query, len );
+                   for( len = *DNSquery++ ; len>= *DNSquery; len=*DNSquery++ ) {
+                        strncpy( label, DNSquery, len );
                         label[len] = '\0';
-                        query += len; 
+                        DNSquery += len; 
                     }
 
                     int i;
@@ -132,7 +131,7 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr* pkthdr, const u
                         exit(1);
                     }
                     
-                    if(label[0]!='\0' && periodCount<=periodThreshold) {
+                    if(label[0]!='\0' && periodCount<=periodThreshold) {    //prevents junk requests to leak into results
                         fprintf(f, label);
                         fprintf(f, ":");
                         fprintf(f, srcIP);
@@ -144,6 +143,7 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr* pkthdr, const u
 
                     fclose(f);
                     queryRequest = NULL;
+                    return 0;
                }    
             }
             else {

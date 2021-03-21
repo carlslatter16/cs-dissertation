@@ -19,6 +19,8 @@
 int packetCount;
 int periodThreshold = 3;
 
+char captureLog[] = "rawCap.log";
+
 /*
 ##############################################
 Credit for original code: 
@@ -68,7 +70,7 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr *pkthdr, const u
 
     //-------------------------------------------------------------------------------------------
 
-    FILE *f = fopen("file.txt", "a");
+    FILE *f = fopen("rawCap.log", "a");
 
     if (f == NULL)
     {
@@ -97,9 +99,20 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr *pkthdr, const u
                 fqdn[z] = 61; //replaces to a period delimter
                 fqdnLen += 1;
             }
-            else if (isalpha(DNSquery[z]) || isdigit(DNSquery[z])) // is a-Z or 0-9
+            else if (DNSquery[z] == 43) //is +?
+            {
+                fqdn[z] = 43; //replaces to a period delimter
+                fqdnLen += 1;
+            }
+            else if (DNSquery[z] == 47) //is /?
+            {
+                fqdn[z] = 47; //replaces to a period delimter
+                fqdnLen += 1;
+            }
+            else if (isalpha(DNSquery[z]) || isdigit(DNSquery[z])) // is a-Z or 0-9 or
             {
                 fqdn[z] = DNSquery[z];
+                fqdnLen += 1;
             }
             else
             {                 //else its likely a period, might change this!
@@ -110,13 +123,14 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr *pkthdr, const u
         }
     }
 
-    if (fqdn[fqdnLen-1] == 46)
+    if (fqdn[fqdnLen - 1] == 46) //if last char is a . - likely a non-conforming domain
     {
         normalReq = false;
     }
 
     //need to put nicely into fqdn with identifier, seem to only half requests now as the others are blank, will use a filter also!
-    if (fqdn[0] != NULL && periodCount <= periodThreshold && periodCount!=0 && normalReq == true) {
+    if (fqdn[0] != NULL && periodCount <= periodThreshold && periodCount != 0 && normalReq == true)
+    {
         fprintf(f, fqdn);
         fprintf(f, ":");
         fprintf(f, srcIP);

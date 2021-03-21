@@ -5,8 +5,6 @@ import random
 import sendUDP
 import time
 
-#Note - Can get stuck, CTRL + C moves it along!
-
 ##Requires: 
 #sudo apt install python3-pip
 #sudo pip3 install pycryptodome
@@ -117,6 +115,8 @@ def filePrep(filename):
 #https://docs.python.org/3/howto/argparse.html
 
 if __name__ == "__main__":
+    print("TRANSMISSION MAY HALT FOR A SECOND OR SO OCCASIONALLY, BE PATIENT!" + "\n")
+
     switchCheck = argparse.ArgumentParser()
     switchCheck.add_argument("-d", "--domain", help="Domain required to append malformed subdomain to") 
     switchCheck.add_argument("-f", "--filename", help="Optional - Instead of a static phrase, a file can be segmented and pushed")

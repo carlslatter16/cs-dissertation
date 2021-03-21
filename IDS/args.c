@@ -42,45 +42,51 @@ void printUsage()
     printf("###########################################################################\n");
 }
 
-void switchHandler(int argCount, char* argText[])
+void switchHandler(int argCount, char *argText[])
 {
     int argSwitch;
 
-    if(argCount < 2) {
+    if (argCount < 2)
+    {
         printUsage();
-    } 
+    }
 
-    while((argSwitch = getopt(argCount, argText, "dIfbi")) != -1){ 
-        switch(argSwitch){
-           //seemingly cannot use 'b' for example
-           //compare the two examples, comment the other out
+    while ((argSwitch = getopt(argCount, argText, "dIfbi")) != -1)
+    {
+        switch (argSwitch)
+        {
+            //seemingly cannot use 'b' for example
+            //compare the two examples, comment the other out
 
-            case 'd':
-                dnsExfilMode = true;
-                break; 
-            case 'I':
-                ICMPMode = true;
-                break;
-            case 'f':
-                //printInterfaces();
-                readPCAP(argText[2]);
-                break;
-            case 'b':
-                //printInterfaces();
-                bindInt(argText[2]);
-                break; 
-            case 'i':
-                //printInterfaces();
-                bindInt(argText[2]);
-                break;
+        case 'd':
+            dnsExfilMode = true;
+            break;
+        case 'I':
+            ICMPMode = true;
+            break;
+        case 'f':
+            //printInterfaces();
+            readPCAP(argText[2]);
+            break;
+        case 'b':
+            //printInterfaces();
+            bindInt(argText[2]);
+            break;
+        case 'i':
+            //printInterfaces();
+            bindInt(argText[2]);
+            break;
         }
     }
 }
 
-
-int main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
+    if (remove(captureLog) == 0)
+    {
+        printf("Previous Session Detected - Removing Prior Log!\n");
+    }
+
     switchHandler(argc, argv);
     return 0;
 }
-

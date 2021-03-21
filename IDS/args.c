@@ -65,7 +65,6 @@ void switchHandler(int argCount, char* argText[])
                 //printInterfaces();
                 readPCAP(argText[2]);
                 break;
-
             case 'b':
                 //printInterfaces();
                 bindInt(argText[2]);
@@ -74,7 +73,6 @@ void switchHandler(int argCount, char* argText[])
                 //printInterfaces();
                 bindInt(argText[2]);
                 break;
-            
         }
     }
 }

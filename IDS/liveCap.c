@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
 #include <net/if.h>
@@ -10,10 +11,13 @@
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
 #include <stdbool.h>
-#include <pcap.h> 
+#include <pcap.h>
 
-#define PCAP_BUF_SIZE	1024
-#define PCAP_SRC_FILE	2
+#define PCAP_BUF_SIZE 1024
+#define PCAP_SRC_FILE 2
+
+int packetCount;
+int periodThreshold = 3;
 
 /*
 ##############################################
@@ -26,152 +30,102 @@ https://www.codeproject.com/Tips/465850/Scanning-a-PCAP-dump-to-find-DNS-and-NET
 ##############################################
 */
 
-void packetProcessor(u_char *userData, const struct pcap_pkthdr* pkthdr, const u_char* packet) 
+void packetProcessor(u_char *userData, const struct pcap_pkthdr *pkthdr, const u_char *packet)
 {
+    packetCount += 1;
+    int fqdnLen = 0;
+    bool normalReq = true;
 
-    // int icmpCount = 0;
-    int udpCount = 0;
-    int dnsCount = 0;
+    const struct ether_header *ethernetHeader;
+    const struct ip *ipHeader;
+    const struct udphdr *udpHeader;
+    const struct tcphdr *tcpHeader;
+    const struct DNShdr *dnshdr;
 
-    // int dnsCountLimit = 20;
-
-    const struct ether_header* ethernetHeader;
-    const struct ip* ipHeader;
-    const struct udphdr* udpHeader;
-    const struct tcphdr* tcpHeader;
-    const struct DNShdr* dnshdr;
-    u_char data;
     char srcIP[INET_ADDRSTRLEN];
     char dstIP[INET_ADDRSTRLEN];
-    u_int srcPort, dstPort;
-    u_int size_tcp;
-    u_int size_udp;
-    int periodThreshold = 5;
 
-    ethernetHeader = (struct ether_header*)packet;
+    ipHeader = (struct ip *)(packet + sizeof(struct ether_header));
 
-    
-    if (ntohs(ethernetHeader->ether_type) == ETHERTYPE_IP) {
-        ipHeader = (struct ip*)(packet + sizeof(struct ether_header));
-        inet_ntop(AF_INET, &(ipHeader->ip_src), srcIP, INET_ADDRSTRLEN);
-        inet_ntop(AF_INET, &(ipHeader->ip_dst), dstIP, INET_ADDRSTRLEN);
-        
-        if (ipHeader->ip_p == IPPROTO_UDP) {
-            //http://www.ietf.org/rfc/rfc768.txt
-            //http://tools.ietf.org/html/rfc1035
+    inet_ntop(AF_INET, &(ipHeader->ip_src), srcIP, INET_ADDRSTRLEN);
+    inet_ntop(AF_INET, &(ipHeader->ip_dst), dstIP, INET_ADDRSTRLEN);
 
-            udpCount = udpCount + 1;
-            udpHeader = (struct udphdr*)(packet + sizeof(struct ether_header) + sizeof(struct ip));
-            srcPort = ntohs(udpHeader->source);
+    udpHeader = (struct udphdr *)(packet + sizeof(struct ether_header) + sizeof(struct ip));
 
-            u_char *udpPayload = (u_char *)(packet
-                + sizeof(struct ether_header)
-                + sizeof(struct ip)
-                + sizeof(struct udphdr)
-            );
-            
-            if (srcPort == 53 || dstPort == 53) {
-                struct dnshdr {                 
-                uint16_t id;
-                uint16_t flags;
-                uint16_t QDcount;
-                uint16_t ANcount;
-                uint16_t NScount;
-                uint16_t ARcount;
-                };
+    struct dnshdr
+    {
+        uint16_t id;
+        uint16_t flags; //each are 2 bytes, uint16 can store 2 bytes compared to uint8_t which is 1
+        uint16_t QDcount;
+        uint16_t ANcount;
+        uint16_t NScount;
+        uint16_t ARcount;
+    };
 
-                struct dnshdr *DNShdr = (struct dnshdr *)&udpHeader;
-                unsigned int querycount = DNShdr->QDcount;
-                unsigned int anCount = DNShdr->ANcount;
-                bool queryRequest;
+    u_char *udpDNSPayload = (u_char *)(packet + sizeof(struct ether_header) + sizeof(struct ip) + sizeof(struct udphdr));
 
+    struct dnshdr *DNShdr = (struct dnshdr *)&udpHeader;
 
-                if (querycount != 0){
-                    //cant quite target that 1 bit so I check if there is a count to the request
-                    queryRequest = true;
-                }
+    //-------------------------------------------------------------------------------------------
 
-                if (anCount != 0) {
-                    queryRequest = false;
-                }
+    FILE *f = fopen("file.txt", "a");
 
-                uint8_t *DNSquery = udpPayload + 32;
-
-                uint8_t len;
-                char label[256];
-                label[0] = '\0'; /* ensure starting with empty string */
-                int periodCount=0;
-
-               if(queryRequest == true) {
-                   for( len = *DNSquery++ ; len>= *DNSquery; len=*DNSquery++ ) {
-                        strncpy( label, DNSquery, len );
-                        label[len] = '\0';
-                        DNSquery += len; 
-                    }
-
-                    int i;
-
-                    if(!isalpha(label[0])) {
-                        return;
-                    }
-
-                    for(i=0; label[i]; i++) {
-                        if(!isalpha(label[i]) && !isdigit(label[i]) && label[i] != 61 && label[i] != 10) { //FILTERS FOR LETTERS, NUMBERS, = AND NEWLINE
-                            label[i] = 46; //replaces to a period delimter
-                            periodCount+=1;
-                        }
-                    }
-
-
-
-                    //still have a dupe problem
-                    FILE *f = fopen("file.txt", "a");
-                    if (f == NULL) {
-                        printf("Error opening file!\n");
-                        exit(1);
-                    }
-                    
-                    if(label[0]!='\0' && periodCount<=periodThreshold) {    //prevents junk requests to leak into results
-                        fprintf(f, label);
-                        fprintf(f, ":");
-                        fprintf(f, srcIP);
-                        fprintf(f, ":");
-                        fprintf(f, dstIP);
-                        fprintf(f, ":");
-                        fprintf(f, "%u\n", (unsigned)time(NULL)); //https://stackoverflow.com/questions/11765301/how-do-i-get-the-unix-timestamp-in-c-as-an-int
-                    }
-
-                    fclose(f);
-                    queryRequest = NULL;
-                    return 0;
-               }    
-            }
-            else {
-                //printf("Test");
-                return;
-            }        
-        }
-        else {
-            //printf("Test");
-            return;
-        }               
+    if (f == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
     }
-    else {
-        //printf("Test");
-        return;
-    }          
+
+    uint8_t *DNSquery = udpDNSPayload + 13;
+    char fqdn[255] = {NULL};
+    uint8_t len;
+    int periodCount = 0;
+
+    // /https://stackoverflow.com/questions/34037559/how-to-extract-domain-name-from-this-dns-message -- parsing packets is hard!
+
+    for (int z = 0; z <= 254; z++) //255 is the max for a fqdn
+    {
+        if (DNSquery[z] == NULL)
+        {
+            break;
+        }
+
+        else if (DNSquery[z]) //wierd splitting -- maybe a  break or newline is actuually between segments somehow
+        {
+            if (DNSquery[z] == 61) //is =?
+            {
+                fqdn[z] = 61; //replaces to a period delimter
+                fqdnLen += 1;
+            }
+            else if (isalpha(DNSquery[z]) || isdigit(DNSquery[z])) // is a-Z or 0-9
+            {
+                fqdn[z] = DNSquery[z];
+            }
+            else
+            {                 //else its likely a period, might change this!
+                fqdn[z] = 46; //replaces to a period delimter
+                periodCount += 1;
+                fqdnLen += 1;
+            }
+        }
+    }
+
+    if (fqdn[fqdnLen-1] == 46)
+    {
+        normalReq = false;
+    }
+
+    //need to put nicely into fqdn with identifier, seem to only half requests now as the others are blank, will use a filter also!
+    if (fqdn[0] != NULL && periodCount <= periodThreshold && periodCount!=0 && normalReq == true) {
+        fprintf(f, fqdn);
+        fprintf(f, ":");
+        fprintf(f, srcIP);
+        fprintf(f, ":");
+        fprintf(f, dstIP);
+        fprintf(f, ":");
+        fprintf(f, "%u\n", (unsigned)time(NULL)); //https://stackoverflow.com/questions/11765301/how-do-i-get-the-unix-timestamp-in-c-as-an-int
+    }
+
+    fclose(f);
+    return;
 }
-
-
-
-// void print_packet_info(const u_char *packet, struct pcap_packetHeader packet_header) {
-    
-//     printf("Packet capture length: %d\n", packet_header.caplen);
-//     printf("Packet total length %d\n", packet_header.len);
-// }
-
-//Understand and rename and restructure to what makes most sense and only what is needed - justify use of code, transformative
-//bc of udp, we must use port as indicator, and can see if it fits the structure
-// excess flow of packets can cause denial of service, it might not keep up
-
-//https://stackoverflow.com/questions/6682884/interpretting-payload-using-libpcap -- size check!

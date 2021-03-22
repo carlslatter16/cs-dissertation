@@ -4,6 +4,7 @@
         "pcap.h": "c",
         "stdbool.h": "c",
         "udp.h": "c",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "ip.h": "c"
     }
 }

@@ -12,6 +12,7 @@
 #include <arpa/inet.h>
 #include <stdbool.h>
 #include <pcap.h>
+#include "vars.c"
 
 #define PCAP_BUF_SIZE 1024
 #define PCAP_SRC_FILE 2
@@ -54,7 +55,6 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr *pkthdr, const u
 
     u_char *udpDNSPayload = (u_char *)(packet + sizeof(struct ether_header) + sizeof(struct ip) + sizeof(struct udphdr));
 
-
     //-------------------------------------------------------------------------------------------
 
     FILE *f = fopen("rawCap.log", "a");
@@ -73,7 +73,7 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr *pkthdr, const u
     // /https://stackoverflow.com/questions/34037559/how-to-extract-domain-name-from-this-dns-message -- parsing packets is hard!
 
     for (int z = 0; z <= 254; z++) //255 is the max for a fqdn
-    {   
+    {
         if (DNSquery[z] == NULL)
         {
             break;
@@ -101,14 +101,15 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr *pkthdr, const u
                 fqdn[z] = DNSquery[z];
                 fqdnLen += 1;
             }
-            else if (!ispunct(DNSquery[z])) {   //replaces to a period delimter - seems the data stream doesnt have . as an actual char - so i'll wildcard it out to allow other symbols
-                fqdn[z] = 46; 
+            else if (!ispunct(DNSquery[z]))
+            { //replaces to a period delimter - seems the data stream doesnt have . as an actual char - so i'll wildcard it out to allow other symbols
+                fqdn[z] = 46;
                 periodCount += 1;
                 fqdnLen += 1;
             }
             else
             {
-                fqdn[z] = DNSquery[z];                
+                fqdn[z] = DNSquery[z];
                 fqdnLen += 1;
             }
         }
@@ -130,7 +131,14 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr *pkthdr, const u
         fprintf(f, ":");
         fprintf(f, "%u\n", (unsigned)time(NULL)); //https://stackoverflow.com/questions/11765301/how-do-i-get-the-unix-timestamp-in-c-as-an-int
     }
-
+    
     fclose(f);
+
+    //-------------------------------------------------------------------------------------------
+    if (pcapUsed == false)
+    {
+        pcap_dump(pcapCapFile, pkthdr, packet); //https://www.winpcap.org/docs/docs_40_2/html/group__wpcap__tut7.html
+    }
+
     return;
 }

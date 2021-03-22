@@ -6,12 +6,11 @@
 #include <netinet/in.h>
 #include <netinet/if_ether.h>
 #include <time.h>
-#include "liveCap.c"
+#include "captureEngine.c"
 
-char dnsFilter[] = "udp[10:2] == 0x0100";   //https://www.tcpdump.org/manpages/pcap-filter.7.html there are issues if there are other flags I suppose - might add more dns scoping too!
+char dnsFilter[] = "udp[10:2] == 0x0100"; //https://www.tcpdump.org/manpages/pcap-filter.7.html there are issues if there are other flags I suppose - might add more dns scoping too!
 bpf_u_int32 net;
 struct bpf_program fp;
-
 
 int bindInt(char *interface)
 {
@@ -42,10 +41,14 @@ int bindInt(char *interface)
     pcap_setfilter(conn, &fp);
 
     printf("Interface Connected Successfully: %s\n", interface);
-    printf("Scanning...\n");
+    printf("Scanning... CTRL+C To Stop Filtered Packet Capture \n");
 
-    pcap_loop(conn, 0, packetProcessor, NULL);
+    pcapCapFile = pcap_dump_open(conn, "dnsCap.pcap"); //https://stackoverflow.com/questions/10133017/stop-capture-data-with-libpcap-and-save-it-in-a-file
+
+    pcap_loop(conn, 0, packetProcessor, NULL); //I use distpatch for one and not the other??
     //make conditional on other flags
+
+    pcap_dump_close(pcapCapFile);
 
     return 0;
 }
@@ -55,9 +58,9 @@ int readPCAP(char *pcapFile)
     //used for pcap file usage sytnax
     //https://www.devdungeon.com/content/using-libpcap-c
 
+    pcapUsed = true;
     char error_buffer[PCAP_ERRBUF_SIZE];
     pcap_t *conn = pcap_open_offline(pcapFile, error_buffer);
-
 
     if (conn == NULL)
     {

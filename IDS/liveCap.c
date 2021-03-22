@@ -41,8 +41,6 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr *pkthdr, const u
     const struct ether_header *ethernetHeader;
     const struct ip *ipHeader;
     const struct udphdr *udpHeader;
-    const struct tcphdr *tcpHeader;
-    const struct DNShdr *dnshdr;
 
     char srcIP[INET_ADDRSTRLEN];
     char dstIP[INET_ADDRSTRLEN];
@@ -54,19 +52,8 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr *pkthdr, const u
 
     udpHeader = (struct udphdr *)(packet + sizeof(struct ether_header) + sizeof(struct ip));
 
-    struct dnshdr
-    {
-        uint16_t id;
-        uint16_t flags; //each are 2 bytes, uint16 can store 2 bytes compared to uint8_t which is 1
-        uint16_t QDcount;
-        uint16_t ANcount;
-        uint16_t NScount;
-        uint16_t ARcount;
-    };
-
     u_char *udpDNSPayload = (u_char *)(packet + sizeof(struct ether_header) + sizeof(struct ip) + sizeof(struct udphdr));
 
-    struct dnshdr *DNShdr = (struct dnshdr *)&udpHeader;
 
     //-------------------------------------------------------------------------------------------
 
@@ -86,7 +73,7 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr *pkthdr, const u
     // /https://stackoverflow.com/questions/34037559/how-to-extract-domain-name-from-this-dns-message -- parsing packets is hard!
 
     for (int z = 0; z <= 254; z++) //255 is the max for a fqdn
-    {
+    {   
         if (DNSquery[z] == NULL)
         {
             break;
@@ -114,10 +101,14 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr *pkthdr, const u
                 fqdn[z] = DNSquery[z];
                 fqdnLen += 1;
             }
-            else
-            {                 //else its likely a period, might change this!
-                fqdn[z] = 46; //replaces to a period delimter
+            else if (!ispunct(DNSquery[z])) {   //replaces to a period delimter - seems the data stream doesnt have . as an actual char - so i'll wildcard it out to allow other symbols
+                fqdn[z] = 46; 
                 periodCount += 1;
+                fqdnLen += 1;
+            }
+            else
+            {
+                fqdn[z] = DNSquery[z];                
                 fqdnLen += 1;
             }
         }

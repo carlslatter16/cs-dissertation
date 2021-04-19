@@ -10,11 +10,8 @@ lenThreshold = 10
 domSrcThreshold = 5
 srcIPThreshold = 10
 dstIPThreshold = 10
-abnormalityThreshold = 2
-abnormalityTotalThreshold = 20
 caseChangeThreshold=4
-
-
+strictMode=True
 rootDomsDict = {}
 srcIPDict = {}
 dstIPDict = {}
@@ -23,30 +20,12 @@ capLogPath = 'rawCap.log'
 capLogFile = open(capLogPath,'r')
 
 def main():
-    totalAbnormalities = 0
-    malCount = 0
-    totalPackets = 0
+    totalAbnormalities = malCount = totalPackets = 0
 
     for line in capLogFile:
-        subdomain=""
-        i=0
-        capCount=0
-        caseChangeCount=0
-        numCount=0
-        abnormalityCount=0
-        capThresholdBool = False
-        numThresholdBool = False
-        base64Bool = False
-        caseChangeThresholdBool = False
-        domSrcNum = 0
-        srcIPNum= 0
-        dstIPNum = 0
-        subdomain=""
-        rootDom=""
-        prevCap=""
-        srcIP=""
-        dstIP=""
-        unixTime=""
+        capThresholdBool = numThresholdBool = base64Bool = caseChangeThresholdBool = False
+        abnormalityWeight = abnormalityCount = numCount = caseChangeCount = capCount = domSrcNum = srcIPNum  = dstIPNum = 0
+        subdomain = rootDom = prevCap = srcIP = dstIP = unixTime = ""
 
 
         for char in line:
@@ -157,38 +136,46 @@ def main():
         if len(subdomain) >= lenThreshold:
             print("   Abnormal length of subdomain fragment: ", end='')
             print(len(subdomain), end='')
+            abnormalityWeight+=3
             abnormalityCount+=1
 
         if base64Bool==True:
             print("   Possible Base64! ( = or + or / Present) ", end='')
+            abnormalityWeight+=5
             abnormalityCount+=1
 
         if capThresholdBool==True:
             print("   Abnormal occurances of capitals: ", end='')
             print(capCount, end='')
+            abnormalityWeight+=2
             abnormalityCount+=1
 
         if numThresholdBool==True:
             print("   Abnormal occurances of numbers: ", end='')
             print(numCount, end='')
+            abnormalityWeight+=3       
             abnormalityCount+=1
         
 
         if caseChangeThresholdBool==True:
             print("   Abnormal occurances of case changes: ", end='')
             print(caseChangeCount, end='')
+            abnormalityWeight+=1
             abnormalityCount+=1
+        
+        if strictMode==True:
+            abnormalityScoreThreshold = 7
+        else:
+            abnormalityScoreThreshold = 12
 
-        #need global ab count too!
-
-        if abnormalityCount>=abnormalityThreshold:
+        if abnormalityWeight>=abnormalityScoreThreshold:
             malCount+=1
             print("\n")
-            print("   # THIS IS LIKELY A MALICIOUS UDP DNS PACKET! # ", end='')
+            print("   # THIS IS LIKELY A MALICIOUS UDP DNS PACKET! - Score: ",abnormalityWeight,"#", end='')
             print("\n")
         else:
             print("\n")
-            print("   # THIS IS LIKELY NOT MALICIOUS DNS # ", end='')
+            print("   # THIS IS LIKELY NOT A MALICIOUS DNS Packet! - Score: ",abnormalityWeight,"#", end='')
             print("\n")
 
 
@@ -196,9 +183,14 @@ def main():
         totalPackets +=1
 
     print("┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅\n")
-    
+     
 
     print("▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▃ OVERALL ANALYSIS ▃▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆")
+    if(strictMode==True):
+        print("▆ Analysis Weighting Mode: STRICT")
+    else:
+        print("▆ Analysis Weighting Mode: LITE")
+    
     print("▆ Timestamp:", time.ctime())  #https://www.programiz.com/python-programming/time
     print("▆ Total packets in capture: ", totalPackets)
     print("▆ Total suspicous packets in capture: ", malCount)
@@ -211,7 +203,7 @@ def main():
             print(element, ": ",  end='')
             print(domSrcNum)
 
-    if totalAbnormalities>=abnormalityTotalThreshold:
+    if totalAbnormalities>=totalPackets/4:
         for element in list(srcIPDict.keys()): #SrcIP checker
             srcIPNum = srcIPDict[element]
             if srcIPNum >= srcIPThreshold:

@@ -9,7 +9,7 @@ import time
 #sudo apt install python3-pip
 #sudo pip3 install pycryptodome
 
-dnsServer = "192.168.1.1"
+dnsServer = "192.168.1.50"
 dnsPort = 53
 aesEncrypt = False
 fileMode = False

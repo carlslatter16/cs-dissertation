@@ -51,7 +51,7 @@ void switchHandler(int argCount, char *argText[])
         printUsage();
     }
 
-    while ((argSwitch = getopt(argCount, argText, "dIfbi")) != -1)
+    while ((argSwitch = getopt(argCount, argText, "dfbi")) != -1)
     {
         switch (argSwitch)
         {
@@ -60,9 +60,6 @@ void switchHandler(int argCount, char *argText[])
 
         case 'd':
             dnsExfilMode = true;
-            break;
-        case 'I':
-            ICMPMode = true;
             break;
         case 'f':
             //printInterfaces();

@@ -167,7 +167,7 @@ def main():
             abnormalityScoreThreshold = 7
         else:
             abnormalityScoreThreshold = 12
-
+ 
         if abnormalityWeight>=abnormalityScoreThreshold:
             malCount+=1
             print("\n")

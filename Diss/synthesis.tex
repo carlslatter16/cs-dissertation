@@ -58,12 +58,14 @@ This could be mitigated with rate limiting. If manual detection is not a concern
 
 %talk detection - rates, lots of server failures, base dns lookup?, 
 
-\subsection{C DNS Exfiltration Detection}
-To illustrate the concepts of attack development and eventual detection/prevention, a program was developed to attempt to mimic these behaviours. A C program was created that takes ethernet ip input and parses it with libpcap. 
+\subsection{C Libpcap Capture Engine}
+To illustrate the concepts of attack development and eventual detection/prevention, a program was developed to attempt to mimic these behaviours. A C program was created that takes ethernet ip input from an interface or pcap and parses it with libpcap.
 
 Specifically, the headers are stripped down to Ethernet-->IP-->UDP-->DNS-->DNSPayload. The logic to support this is that a UDP request is connectionless and as such, is a prime candidate to abuse protocol payload normality. UDP is monitored as the above tool leverages it for the attack, with knowledge of that attack helping to create this tool. This is the typical workflow of attack versus defence and is reproduced here.
-Once the headers are stripped into structs, memory must be traversed as per DNS specification to extract the needed data. The offset must be found to be able to do this, which in this case is 32 octets. 
+Once the headers are stripped into structs, memory must be traversed as per DNS specification to extract the needed data. The offset must be found to be able to do this, which in this case is 32 octets. Once these values are found, values are formatted into a log for later analysis. The respective datastream can be saved at runtime to a pcap file for achieval purposes also. Data parsed includes source/destination IP address, DNS request (subdomain and root label)
+and timestamp. These values allow the analysis process to find patterns that might indicate malicous activity.
 
+\subsection{Python3 DNS Exfiltration Detection}
 This is behavioural analysis of the data stream and as such, sensible characteristcs must be chosen to accuralty identify a potential threat. This is less strict that an outright intrusion prevention system in which automated action is taken that could be damaging to infrastructure workflow. The intention of a full developed implemetation of this proof of cocentpt would be to have as part of a SIEM or threat board and have manual action taken. This means that both digitial and human cognition can work together in unison for greatest effect.
 Artificial intelligence can be leveraged for arguably larger scale threat blockking but is still a developing field as of writing, and is a more complex appraoch that this paper can cover in detail.
 
@@ -74,9 +76,10 @@ AES encryption does break this feature, but again is an evolution of attack meth
 
 A mock lookup system could be developed that checks against a local list of (sub)domains to check if the malicous subdomain matches, with flagging as a result. This is a whitelist appraoch and as discussed multiple times, custom environments and infrastructure would have to caiter to it. If private DNS resolution is taken place inside infrastructure, it should be added to the list. Equally, as discussed before, symbols inside the subdomain is an abnormal characteristic which should be flagged, but could be fixed by changing infrastructure or by adding it to the whitelist. 
 
-Each one of these characteristcs has a false postitive eventuality, no matter how large or small. In combining some of these features into C logic, accuracy can be achived and attacks potentially mitigated.
+Each one of these characteristcs has a false postitive eventuality, no matter how large or small. In combining some of these features into C logic, accuracy can be achived and attacks potentially mitigated. For this reason, a weighting/scoring system has been implemented that can prioritse certain fingerprint charactersistics over others; '==' is more suspicious than the occurance of a few numbers for example.
 
 In addition to detection, the program must be usable and accessible. This means proper argument handling, usage printing, input and output capabilities and feature toggling. Choice over which features included depends on the development process and priority.
+
 
 \chapter{Discussion of the secure malware analysis lab}
 \section{Hardware Choice}
@@ -113,7 +116,7 @@ VMWare workstation has the benefit of having virtual network capability which me
 REMnux is a malware analysis focused gateway virtual machine that is debian based. It comes in a distribution, package suite and also as a docker image. The former was chosen for simplicity and the fact that VMWare was already setup. The concept of this implementation is to
 forward all traffic from every VM to analyse using the suite of tools installed. Some of these individual tools are discussed below.
 \subsection{InetSim}
-InetSim is a package that I isntalled on the REMnux virtual machine that will act as a DNS server that resonds to every domain with the same webpage - a sample web page. This means that a DNS http or icmp request would resolve correctly, and assuming there is no in-depth responce checking, malware web checks will resovle correctly. 
+InetSim is a package that I installed on the REMnux virtual machine that will act as a DNS server that resonds to every domain with the same webpage - a sample web page. This means that a DNS http or icmp request would resolve correctly, and assuming there is no in-depth responce checking, malware web checks will resovle correctly. 
 This is nessesary because there are malware samples that do check connectivity to avoid an isolated analysis environment such as this implementation.
 \subsection{FlareVM} 
 FlareVM is another choice that offers a hybrid between the REMNux gateway and vulnerable machine setup. It provides tools inside the vulnerable macbine to conduct behavioural analysis in real time such as regsitry change and file system alteration monitoring. Additionally fakenet is installed which is another DNS spoofing tool. Having multiple options in experimentation like that of this project is important for consistency and reliability. 
@@ -144,12 +147,17 @@ Samples are obtained from well known and trusted github reposititoies, with thos
 \end{enumerate}
 
 \chapter{Investigate antivirus systems w/ comparison}
-
 %fix wierd quote marks
 
 
 \chapter{Investigate IDS/IPS systems w/ comparison}
+After investigation, the DNSExfiltration tool created bypasses any typical rule list under Suricata and Snort. These are free IDPS systems that are widely used in homelab and industry environmennt. In addition, the tool was attempted inside infrastructure that hosted pihole - a DNS sinkhole Docker container that filters out unwanted DNS traffic based on common indicates such as reputation for malware and data privacy viotlations.
+While the datastream did show the attack as DNS requests simiarly to Wireshark, it did not take any exception to it besides noting that the root domain was invalid. This is per use case of the tool, and shows that even tailored solutions can miss attacks such as these. THis incicates the importance of a modular deseign, something that these tools implmente well. Rulelists dictate what is and isnt allowed through the network, this attack could potentially be filtered 
+via regex and deeper analysis at the modular level. In reality, detection mechanisms such as those created here are arbitrary and show proof on concept, the analysis part would be a module for an established IDPS with a potential dashbaord for such attacks and the parameters to detect them. Such tools do need nuance - inside a corporate dataset, the room for varaiability is massive and so results should be treated with care. As part of the analysis mechanism, there are many parameters for thresholidng tolerance for different indicators,
+with each indicator then having a weight. This weight itself has a threshold which makes an informed dicision on how legitimate the packet appears in regards to this attack (the lower the score the better). This overall threshold then changes based on if LITE or STRICT mode is used. It is clear that to get the best possible solution, deep research must be conducted with large and diverse datasets. This is statisical analysis with elements of machine learning and is possible scope for expansion of this project. 
 
+
+%insert screenshots somwhow
 
 \chapter{Illustrate proof of concept IDS \& implementation of technologies}
 

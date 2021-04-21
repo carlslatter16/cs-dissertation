@@ -146,18 +146,92 @@ Samples are obtained from well known and trusted github reposititoies, with thos
     \item https://github.com/RamadhanAmizudin/malware
 \end{enumerate}
 
-\chapter{Investigate antivirus systems w/ comparison}
+%\chapter{Investigate antivirus systems w/ comparison}
 %fix wierd quote marks
 
 
-\chapter{Investigate IDS/IPS systems w/ comparison}
+%\chapter{Investigate IDS/IPS systems w/ comparison}
+\chapter{Parameters for Experimentation - IDPS Testing}
+
+\section{PfSense & IDPS Packages}
+PfSense is a 'router' like operating system that is a web gui wrapper for freeBSD. It comes packaged with advanced routing capability, far beyond that of a standard home or office router. It is free for use, and is regualrly updated with qualkity of life and security mofificiations.
+It enables the user to install various offical and community packages to use via the web dashboard on the pfsense port. There are two different but similar IDPS systems available called Snort and Suricata, popular solutions for catching commodity threats that are signature based via the use of rule lists.
+This lists can be imported, modified and bought and often cover different kinds of threats. These may include: privacy, dns, c2, shellcode, shellcode and malware to list a few.
+
+\section{ETOpen Emerging Threats Rules}
+https://rules.emergingthreats.net/OPEN_download_instructions.html
+
+\begin{tcblisting}{listing only}
+emerging.rules.tar.gz
+│
+├───classification.config
+├───compromised-ips.txt
+├───emerging-activex.rules
+├───emerging-attack_response.rules
+├───emerging-botcc.portgrouped.rules
+├───emerging-botcc.rules
+├───emerging-chat.rules
+├───emerging-ciarmy.rules
+├───emerging-compromised.rules
+├───emerging-current_events.rules
+├───emerging-eleted.rules
+├───emerging-dns.rules
+    ├─ Example (Brief)...
+      │ alert udp \$HOME_NET any -> any 53 (msg:"ET DNS DNS Query for a Suspicious Malware Related Numerical .in Domain"; content:"|01|; ...
+      │ alert udp \$HOME_NET any -> \$EXTERNAL_NET 53 (msg:"ET DNS Query to a *.pw domain - Likely Hostile"; content:"|01|"; offset:2; ...
+      │ alert udp \$HOME_NET any -> any 53 (msg:"ET DNS Query to a *.top domain - Likely Hostile"; content:"|01|"; offset:2; depth:1; ...
+      │ alert udp \$HOME_NET any -> \$EXTERNAL_NET 53 (msg:"ET DNS Query to a .tk domain - Likely Hostile"; content:"|01|"; offset:2; ...
+      │ alert udp \$HOME_NET !9987 -> \$EXTERNAL_NET 53 (msg:"ET DNS Non-DNS or Non-Compliant DNS traffic on DNS port Opcode 6 or 7 set"; ...
+      │ alert udp \$HOME_NET any -> \$EXTERNAL_NET 53 (msg:"ET DNS Non-DNS or Non-Compliant DNS traffic on DNS port Opcode 8 through 15 set"; ...
+      │ alert udp \$HOME_NET any -> \$EXTERNAL_NET 53 (msg:"ET DNS Non-DNS or Non-Compliant DNS traffic on DNS port Reserved Bit Set"; content:!"7PYqwfzt"; ...
+      │ ... Ommited
+├───emerging-dos.rules
+├───emerging-drop.rules
+├───emerging-dshield.rules
+├───emerging-exploit.rules
+├───emerging-ftp.rules
+├───emerging-games.rules
+├───emerging-icmp.rules
+├───emerging-icmp_info.rules
+├───emerging-imap.rules
+
+... Ommited
+%the unicode doesnt work, try alternate solutions
+\end{tcblisting}
+
+
+\section{Snort GPLv2 Community Rules}
+https://www.snort.org/downloads
+
+\begin{tcblisting}{listing only}
+Snort GPLv2 Community Rules.gz
+├───snort3-community.rules (All are imported, selectivly enabled)
+    │ alert udp any 53 -> \$DNS_SERVERS any (msg:"ET DNS Excessive DNS Responses with 1 or more RR's (100\+ in 10 seconds) - possible Cache Poisoning Attempt"; ...
+    │ alert udp any 53 -> \$HOME_NET any (msg:"ET DNS Query Responses with 3 RR's set (50+ in 2 seconds) - possible A RR Cache Poisoning Attempt"; ...
+    │ alert udp any 53 -> \$HOME_NET any (msg:"ET DNS Query Responses with 3 RR's set (50+ in 2 seconds) - possible NS RR Cache Poisoning Attempt"; ...
+    │ alert udp \$EXTERNAL_NET any -> \$HOME_NET 53 (msg:"GPL DNS zone transfer UDP"; content:"|00 00 FC|"; offset:14; reference:cve,1999-0532; ...
+    │ alert udp \$EXTERNAL_NET any -> \$HOME_NET 53 (msg:"GPL DNS named version attempt"; content:"|07|version"; offset:12; nocase; ...
+    │ alert udp \$EXTERNAL_NET any -> \$HOME_NET 53 (msg:"GPL DNS named iquery attempt"; content:"|09 80 00 00 00 01 00 00 00 00|"; depth:16; offset:2; ...
+    │ alert udp \$EXTERNAL_NET any -> \$HOME_NET 53 (msg:"GPL DNS named authors attempt"; content:"|07|authors"; offset:12; nocase; content:"|04|bind|00|"; ...
+    │ alert udp \$EXTERNAL_NET any -> \$HOME_NET 53 (msg:"GPL DNS UDP inverse query overflow"; byte_test:1,<,16,2; byte_test:1,&,8,2; isdataat:400; ...
+    ... Ommited
+
+\end{tcblisting}
+
+%need to reference this bit like
+
+\section{Experimentation Results}
 After investigation, the DNSExfiltration tool created bypasses any typical rule list under Suricata and Snort. These are free IDPS systems that are widely used in homelab and industry environmennt. In addition, the tool was attempted inside infrastructure that hosted pihole - a DNS sinkhole Docker container that filters out unwanted DNS traffic based on common indicates such as reputation for malware and data privacy viotlations.
 While the datastream did show the attack as DNS requests simiarly to Wireshark, it did not take any exception to it besides noting that the root domain was invalid. This is per use case of the tool, and shows that even tailored solutions can miss attacks such as these. THis incicates the importance of a modular deseign, something that these tools implmente well. Rulelists dictate what is and isnt allowed through the network, this attack could potentially be filtered 
-via regex and deeper analysis at the modular level. In reality, detection mechanisms such as those created here are arbitrary and show proof on concept, the analysis part would be a module for an established IDPS with a potential dashbaord for such attacks and the parameters to detect them. Such tools do need nuance - inside a corporate dataset, the room for varaiability is massive and so results should be treated with care. As part of the analysis mechanism, there are many parameters for thresholidng tolerance for different indicators,
-with each indicator then having a weight. This weight itself has a threshold which makes an informed dicision on how legitimate the packet appears in regards to this attack (the lower the score the better). This overall threshold then changes based on if LITE or STRICT mode is used. It is clear that to get the best possible solution, deep research must be conducted with large and diverse datasets. This is statisical analysis with elements of machine learning and is possible scope for expansion of this project. 
-
+via regex and deeper analysis at the modular level. It is likely that other detection systems may detect this threat, but they may be closed source and also paid. This both increases the likelyhood of trailing updates and also that IDPS protection would be disregarded as a whole.
 
 %insert screenshots somwhow
 
-\chapter{Illustrate proof of concept IDS \& implementation of technologies}
+In reality, detection mechanisms such as those created here are arbitrary and show proof on concept, the analysis part would be a module for an established IDPS with a potential dashbaord for such attacks and the parameters to detect them. Such tools do need nuance - inside a corporate dataset, the room for varaiability is massive and so results should be treated with care. As part of the analysis mechanism, there are many parameters for thresholidng tolerance for different indicators,
+with each indicator then having a weight. This weight itself has a threshold which makes an informed dicision on how legitimate the packet appears in regards to this attack (the lower the score the better). This overall threshold then changes based on if LITE or STRICT mode is used. It is clear that to get the best possible solution, deep research must be conducted with large and diverse datasets. This is statisical analysis with elements of machine learning and is possible scope for expansion of this project. 
+%maybe not here
+
+
+
+%\chapter{Illustrate proof of concept IDS \& implementation of technologies}
 

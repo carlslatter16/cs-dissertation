@@ -1,10 +1,7 @@
 \chapter {Discussion of Meaningful Defence}
-\section {Social Engineering Resilience}
-%task2
-We cannot patch out human psychology. It is the very thing that distinguishes us from the machine. That would have a disastrous impact on social interaction, innovation and creativity. Baring the idea of a cyborg nation, what can the company do exactly? 
-Employee training can go a long way. Provided training can increase alertness to malicious social encounters. The idea with security is not to eliminate, but to simply mitigate with obstacles. These additional hurdles create hardship that make the golden egg seem less worthwhile [2].
-Training relevant to social engineering resilience would include physical or voice call validation of requests, thorough checking of email headers and the ability to question authority to at least a basic extent. The fact employees meet once a week could be used as a verification for important requests.
-The more alert employees are, the more these kinds of people will be stopped on attempt. An excellent test for this is the physical penetration test. Essentially the idea is to mimic the attacker minus the intent. The company get results, without damage. These results can go a long way in accessing the overall attack surface and the rational of employees [3]. Studies indicate that a penetration test can have yield great progress; care should be taken to adjust company focus and mindset to have security in mind. A penetration test is only as good as how receptive the company is to change, and to hire for security proactively going forward [4].
+As seen via research conducted in this project, no detection is perfect but is significatly more 'perfect' than no solution at all. Detection/prevention can make or break a network, so implementation must be careful. One of the challenges with IDPS systems is the balance of what rules to enable, too many and the system slows down, too few and threats may pass the firewall.
+Most threats are commodity [back this up] in nature, and so signature/behavior based reaction works well for much of threat resistance. This does not mean defence in depth should be disregarded, rather it's just another layer. A hypothetical zeroday would likely pass though assuming there is no other defence in depth measures, some of which are discussed inside this chapter
+
 
 %task2
 \section {Adequatte Use Of Cryptography}
@@ -23,8 +20,49 @@ A team of me and 3 others conducted an experiment in which we tested to see if t
 
 Another common mitigation technique is load balancing. Commonly there would be different IP addresses and domain names for the hosts and services on the network, with each corresponding to a specific machine. We can assign domain names and create a pool of IP addresses for that name. This will mean that when the domain is accessed, it will be resolved in the DNS server as ONE of those IP addresses, in a round robin approach. This shares load and makes it so an attacker must take down all of the hosts at the same time to take down a system fully [15].
 The same philosophy of redundancy must be shared to all aspects of the network, including the DNS architecture because if there is only a single server responsible for everything and that gets taken down then what does the company do? It is incredibly important to have version control of data, with multiple copies. Most common solutions include a local backup, a tape backup off site and then a secure cloud solution. A solution should encompass the CIA triad discussed earlier [16].
+fail2ban?
+
+
+\section{Human Infrastructure}
+Automated systems can work well once configured, however, many are not AI based. This means that they do not learn from their mistakes as easily, and are likely to make more. Human infrastructure is putting the resources into place to create a healthy workforce suited to tackling cyber threats. This would include the CISO, devops, programmers, sysadmins, security architects and any other cyber related role.
+It has been noted that the brain is the world's strongest supercomputer, this can be leveraged with personal experience to great discredionary action and monitoring of network and infrastructure events. Many bugs in the development prcoess [cite] are caused by corporate crunch for time related reasons. This pressure creates an atmosphere of quickly completing the project, this can lead to mistakes and consequenially and CVE.
+It is important to ensure that the workforce are happy, growing and funded.
+
+
+\section{Seperation of Duties & Abstraction}
+Good network design is another component of healthy infrastructure. Defence-in-depth dictates that a security professional must consider the eventuality of compromise at every point in infrastructure. A common question a pentetration tester woould ponder would be how could that access point be leveraged to gain escalated priviledge. This has been discussed previously, and is indicative of exploiting weak infrastructure. 
+This is most applicable to the level of access that hardware or software has to the rest of infrastructure. If compromise is assumed, the ideal way of controlling such intrustion is to isolate the incident, removing it's ability to spread. In terms of the aformentioned ransomware variants, there are versions that target backup infrastructure also, should be be connected. For corporate environments, a backup solution should not be directly attatched to the filesystem.
+Not only is this bad practise for the eventuality of a fire (potentially losing the backup in the process), but it means that the ransomware would have more leverage over the data it has modified and/or stolen.
+
+The other eventuality is access control for user accounts and API calls. Seperation of duties dicates that a user should only be able to access what it actually needs to function, when it needs to function. Following such practise would mean a whitelist approach for API endpoints to specific hosts and services.
+This can be done using VLAN technology, along with IP/MAC checking. These are not certain solutions, as both of these metrics can be spoofed. Cerification which is discussed in the next section is the solution to this.
+
+Abstraction is also important for both user convenience and for security. A reverse proxy is a machine endpoint that is often exposed to the larger internet or forward facing infrastructure. It handles network input and parses it for internal output and vise versa. This parsing process allows for traffic analysis which is important for logging, as well as threat intelligence methodology [??].
+Traffic can be encrypted and cerified using a TLS cerificate, and can be abstracted from inner infrastructure. it is similart to NAT in that the public IP is all that is exposed, often with a port to dicate what service/host is desired. These proxies can be load balanced to create redundancy for the endpoint, and act as an extra barrier to dential of service attacks. As discussed previouosly, Cloudflare is popular for this as it provides such service with deeper inspection additionally.
+This can lessen the amount of reconssance that can be conducted externally, especially if internal ports are not exposed outside of the infrastructure they are nessesary for. Nginx is a locally hosted solution that is widely used and functional for large infrastructure.
+
+
+\section{Cerificated Domain Whitelists}
+As discussed, IP and MAC addressing are not absolute metrics of host validity, but should still be implemented for defence-in-depth. Domains are useful for resoliving to specific IP addresses that have the respective cerifciates to prove their credability. These certiciates would be verified by an outside cerficiate authority, and mean that DNS spoofing and HTTP cloning attacks should prove ineffective compared to simply using IP addresses for infrastructure. If the host fingerprint changes, 
+client software typically detects thi sand alerts the user that something is potentially wrong. This includes browsers, ssh clients, RDP sessions among many others. The advent of this implementation has made man-in-the-middle attacks and ARP spoofing less effective, hardening infrastructure as a result.
+
+\section{Developmental & Honeypot Infrastructure}
+A branch of the discussion of proper security funding, it is important to ensure that the right infrastructure is in place. In terms of infrastructure deployment, services often do not work on install and so configuration must take place. Such configurations must be tested anf verified, with the same going for software updates. The reason for this is that due to the nature of software, it can break due to bugs in the code or misuse. 
+This should be done on dedicated developmental infrastructure before it is pushed to the producted line, otherwise the whole endpoint could potentially collapse.
+
+In the same vein, it is important to monitor present security threats that perhaps have not been documented as of yet. A honeypot allows for a security team to view how an attack behaves in a host or network, and what techniques and tools are leveraged. Proactive action can be taken as a result, potentially saving the real infrastructure
+from later compromise. These must be isolated and convincing, often in the public internet via an exposed port. Cowrie is a SSH honeyport that adverises a fake SSH port with weak credentials that lets the analyst view credential attempts and the commands used via a PHPmyAdmin database. The choice of honeyport pertains to the infrastructure used in the deployment in question.
+
+\section {Social Engineering Resilience}
+%task2
+We cannot patch out human psychology. It is the very thing that distinguishes us from the machine. That would have a disastrous impact on social interaction, innovation and creativity. Baring the idea of a cyborg nation, what can the company do exactly? 
+Employee training can go a long way. Provided training can increase alertness to malicious social encounters. The idea with security is not to eliminate, but to simply mitigate with obstacles. These additional hurdles create hardship that make the golden egg seem less worthwhile [2].
+Training relevant to social engineering resilience would include physical or voice call validation of requests, thorough checking of email headers and the ability to question authority to at least a basic extent. The fact employees meet once a week could be used as a verification for important requests.
+The more alert employees are, the more these kinds of people will be stopped on attempt. An excellent test for this is the physical penetration test. Essentially the idea is to mimic the attacker minus the intent. The company get results, without damage. These results can go a long way in accessing the overall attack surface and the rational of employees [3]. Studies indicate that a penetration test can have yield great progress; care should be taken to adjust company focus and mindset to have security in mind. A penetration test is only as good as how receptive the company is to change, and to hire for security proactively going forward [4].
+
 
 %need more - this is where I get lots of words!
+
 
 \chapter{Evaluation Of Project}
 The project has notably changed in scope and direction. The plan initially was to analyse malware and compare them to their respective defence technologies but that grew to be too large in scope when focus was put onto the attack I deemed most interesting. I preferred to go deeper into DNS exfiltration after the research process.

@@ -2,6 +2,7 @@
 As seen via research conducted in this project, no detection is perfect but is significatly more 'perfect' than no solution at all. Detection/prevention can make or break a network, so implementation must be careful. One of the challenges with IDPS systems is the balance of what rules to enable, too many and the system slows down, too few and threats may pass the firewall.
 Most threats are commodity [back this up] in nature, and so signature/behavior based reaction works well for much of threat resistance. This does not mean defence in depth should be disregarded, rather it's just another layer. A hypothetical zeroday would likely pass though assuming there is no other defence in depth measures, some of which are discussed inside this chapter
 
+%Talk wireless pivotting - careful about wifi - it can sniff, it can DoS - Rouge APs
 
 %task2
 \section {Adequatte Use Of Cryptography}
@@ -29,7 +30,7 @@ It has been noted that the brain is the world's strongest supercomputer, this ca
 It is important to ensure that the workforce are happy, growing and funded.
 
 
-\section{Seperation of Duties & Abstraction}
+\section{Seperation of Duties \& Abstraction}
 Good network design is another component of healthy infrastructure. Defence-in-depth dictates that a security professional must consider the eventuality of compromise at every point in infrastructure. A common question a pentetration tester woould ponder would be how could that access point be leveraged to gain escalated priviledge. This has been discussed previously, and is indicative of exploiting weak infrastructure. 
 This is most applicable to the level of access that hardware or software has to the rest of infrastructure. If compromise is assumed, the ideal way of controlling such intrustion is to isolate the incident, removing it's ability to spread. In terms of the aformentioned ransomware variants, there are versions that target backup infrastructure also, should be be connected. For corporate environments, a backup solution should not be directly attatched to the filesystem.
 Not only is this bad practise for the eventuality of a fire (potentially losing the backup in the process), but it means that the ransomware would have more leverage over the data it has modified and/or stolen.
@@ -46,7 +47,7 @@ This can lessen the amount of reconssance that can be conducted externally, espe
 As discussed, IP and MAC addressing are not absolute metrics of host validity, but should still be implemented for defence-in-depth. Domains are useful for resoliving to specific IP addresses that have the respective cerifciates to prove their credability. These certiciates would be verified by an outside cerficiate authority, and mean that DNS spoofing and HTTP cloning attacks should prove ineffective compared to simply using IP addresses for infrastructure. If the host fingerprint changes, 
 client software typically detects thi sand alerts the user that something is potentially wrong. This includes browsers, ssh clients, RDP sessions among many others. The advent of this implementation has made man-in-the-middle attacks and ARP spoofing less effective, hardening infrastructure as a result.
 
-\section{Developmental & Honeypot Infrastructure}
+\section{Developmental \& Honeypot Infrastructure}
 A branch of the discussion of proper security funding, it is important to ensure that the right infrastructure is in place. In terms of infrastructure deployment, services often do not work on install and so configuration must take place. Such configurations must be tested anf verified, with the same going for software updates. The reason for this is that due to the nature of software, it can break due to bugs in the code or misuse. 
 This should be done on dedicated developmental infrastructure before it is pushed to the producted line, otherwise the whole endpoint could potentially collapse.
 
@@ -67,7 +68,7 @@ The more alert employees are, the more these kinds of people will be stopped on 
 \chapter{Evaluation Of Project}
 The project has notably changed in scope and direction. The plan initially was to analyse malware and compare them to their respective defence technologies but that grew to be too large in scope when focus was put onto the attack I deemed most interesting. I preferred to go deeper into DNS exfiltration after the research process.
 The malware environment does operate as a good virtual machine hub and as such was suitible for hobbyist malware testing and tool development alike. The discussion of defence technologies stands as the focus of the project is still on the bigger picture, with a case study given to the scope of the project to illustate such issues that are present.
-This project was also conducted under COVID-19 restrcitions which has slowed progress on all stages of research. The project has changed in direction, structure and also what is provided at the end (for the better). The project has been useful for identifyubg various kinds of mechanisms that malware can employ, and the arms race to defence as a result. 
+This project was also conducted under COVID-19 restrcitions which has slowed progress on all stages of research. The project has changed in direction, structure and also what is provided at the end (for the better). The project has been useful for identifyubg various kinds of mechanisms that malware can employ, and the arms race to defence as a result. %talk time limits and scope can onlybe so large
 
 \chapter{Future Recommendations}
 This project is a good illustration of the arms race - one side innvoates, the other side is then forced to as well, lest they be weakened. There was a fair amount of programming inside this project considering it is investgative, and as such there is much in terms of varaiability.

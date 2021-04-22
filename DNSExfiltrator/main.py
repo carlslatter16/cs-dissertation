@@ -9,7 +9,7 @@ import time
 #sudo apt install python3-pip
 #sudo pip3 install pycryptodome
 
-dnsServer = "192.168.1.50"
+dnsServer = "192.168.1.1"
 dnsPort = 53
 aesEncrypt = False
 fileMode = False
@@ -120,13 +120,9 @@ if __name__ == "__main__":
     switchCheck = argparse.ArgumentParser()
     switchCheck.add_argument("-d", "--domain", help="Domain required to append malformed subdomain to") 
     switchCheck.add_argument("-f", "--filename", help="Optional - Instead of a static phrase, a file can be segmented and pushed")
-    switchCheck.add_argument("-a", "--aesencrypt", help="Apply AES encryption before base64, specifying a 16 bit key") 
+    switchCheck.add_argument("-a", "--aesencrypt", help="Apply AES encryption before base64, specifying a 16 bit key - e.g give1stclassPlss") 
     switchCheck.add_argument("-t", "--senddelay", help="Slow rate of fire of UDP messages (seconds)") 
     args = switchCheck.parse_args()
-
-    if len(sys.argv) == 1:
-        switchCheck.print_help()
-        sys.exit()
 
     if str(args.domain) == "None":
         autoDomain = True

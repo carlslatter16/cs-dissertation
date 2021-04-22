@@ -1,5 +1,7 @@
 %!TeX root=Dissertation.tex
 
+%for pilhole, if same domain is used, it could be blocked??
+
 \chapter{Threat tool development}
 \section{Language Choice}
 Planning was essential to the tool development process. Any program needs a problem(s) to solve represented by a set of requirements, a flow diagram to roughly represent the algorithm path in pseudo code and a language of choice.
@@ -11,7 +13,12 @@ more elaborate logic. Python3 is the newer itteration which comes with slight la
 C is the lanaguage that some others are built on, python uses some C libraries in the background with a nice wrapper. The advantage of C is the freedom of memory access which can be useful for finer tuned programming. The problem dictates the language, threat tools that aren't buffer overflow based are usually suited to python3.
 They are compact, easier to understand and has well documented libraries. If the memory access or speed is not needed, then python3 is preferble. For detection tools that scale up, C is preferable as python conveniences stack up and become efficency hinderances. These hinderances can undermine the goal of the program in the first place, in which case a C variant is preferble.
 
-\section{Python Libraries & Methods}
+
+%performance metrics??
+%rename main.py - it needs a help page!!
+%list rest of params?
+
+\section{Python Libraries \& Methods}
 \subsection{Notable code credit}
 \begin{enumerate}
     \item https://pypi.org/project/pycryptodome/
@@ -21,7 +28,7 @@ They are compact, easier to understand and has well documented libraries. If the
 \end{enumerate}
 %more sections
 
-\section{C Libraries & Methods}
+\section{C Libraries \& Methods}
 \subsection{Notable code credit}
 \begin{enumerate}
     \item https://elf11.github.io/2017/01/22/libpcap-in-C.html
@@ -30,6 +37,148 @@ They are compact, easier to understand and has well documented libraries. If the
     \item https://www.devdungeon.com/content/using-libpcap-c
     \item https://www.codeproject.com/Tips/465850/Scanning-a-PCAP-dump-to-find-DNS-and-NETBIOS-queri
 \end{enumerate}
+
+
+
+\section{Threat Tool Usage}
+%talk how it can send a hardcoded message that the user could change with nano, but its really meant for files - hardcoded ip too.
+
+\begin{tcblisting}{listing only}
+cd DNSExfiltrator
+python3 main.py -h
+usage: main.py [-h] [-d DOMAIN] [-f FILENAME] [-a AESENCRYPT] [-t SENDDELAY]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d DOMAIN, --domain DOMAIN
+                        Domain required to append malformed subdomain to
+  -f FILENAME, --filename FILENAME
+                        Optional - Instead of a static phrase, a file can be segmented and pushed
+  -a AESENCRYPT, --aesencrypt AESENCRYPT
+                        Apply AES encryption before base64, specifying a 16 bit key - e.g give1stclassPlss
+  -t SENDDELAY, --senddelay SENDDELAY
+                        Slow rate of fire of UDP messages (seconds)
+
+                        
+python3 main.py -f SecretDoc.docx
+
+TRANSMISSION MAY HALT FOR A SECOND OR SO OCCASIONALLY, BE PATIENT!
+
+FILE TUNNEL MODE ENABLED - THE FILE WILL BE TRANSMITTED VIA DNS REQUESTS
+
+...
+
+\end{tcblisting}
+
+\section{IDS Capture Tool Usage}
+
+\begin{tcblisting}{listing only}
+./IDS
+################################# USAGE ###################################
+-i = list available interfaces
+-b = bind to chosen interface
+-f = pcap file for input
+###########################################################################
+
+./IDS -i
+
+%fix
+
+sudo ./IDS -b eth0
+Interface Connected Successfully: ens33
+Scanning... CTRL+C To Stop Packet Capture 
+---> ./rawCap.log   (\& if pcapSave is on dnsCap.pcap)
+
+rawCap.log
+    YidQS1x4MDNceDA0XG4n.irsjryp.com:192.168.126.128:192.168.1.1:1619089298
+    YidceDAwXHgwMFx4MDBceDAwXHgwMFx4ODdOXHhlMkBceDAwJw==.pwhsufhy.com:192.168.126.128:192.168.1.1:1619089298
+    YidceDAwXHgwMFx4MDBceDAwXHgwMFx4MDBceDAwXHgwMFx4MDBceDAwJw==.ygrynag.com:192.168.126.128:192.168.1.1:1619089298
+    YidceDAwXHRceDAwXHgwMFx4MDBkb2NQcic=.vuuknqvnqj.com:192.168.126.128:192.168.1.1:1619089298
+    YidvcHMvUEtceDAzXHgwNFx4MTRceDAwJw==.zeulph.com:192.168.126.128:192.168.1.1:1619089298
+    YidceDAwXHgwMFx4MDhceDAwXHg4N05ceGUyQFx4OTVceGRkJw==.gvhbcgvvys.com:192.168.126.128:192.168.1.1:1619089298
+    YidHX1xcXHgwMVx4MDBceDAwcFx4MDJceDAwXHgwMCc=.fqlbgu.com:192.168.126.128:192.168.1.1:1619089298
+    YidceDEwXHgwMFx4MDBceDAwZG9jUHJvJw==.ocunht.com:192.168.126.128:192.168.1.1:1619089298
+    Yidwcy9hcHAueG1sJw==.fgceihg.com:192.168.126.128:192.168.1.1:1619089299
+    YidceDlkXHg5MVx4YzFuXHhjMjBceDEwRFx4ZWZceDk1Jw==.cejtcdwnic.com:192.168.126.128:192.168.1.1:1619089299
+    YidceGZhXHgwZlFceGVlXHg4OVx4OWRAXHg4MCJjJw==.cdfwkz.com:192.168.126.128:192.168.1.1:1619089299
+    YidEQzlVLVx4MTJceGExXHgxY1x4OTFceGU1Jw==.csjifv.com:192.168.126.128:192.168.1.1:1619089299
+    YicsXHhjNGpiW1x4YjZBXHhmMFx4Zjd1Jw==.tdifwdixs.com:192.168.126.128:192.168.1.1:1619089299
+    YidIXHgwNVx4ZTlceGI1XHhiN1x4OWRZeVx4ZmNceGI0Jw==.mumqe.com:192.168.126.128:192.168.1.1:1619089299
+    YidDXHhlNlx4OTdceGE2XHgwZVx4Y2VgXHhhY1ByJw==.rfihd.com:192.168.126.128:192.168.1.1:1619089299
+    YidceDE2JjFceDBlXHgwM1x4OTBcXFx4OTVCXHgxZSc=.vnbygr.com:192.168.126.128:192.168.1.1:1619089299
+    ...
+
+
+./IDS -f dnsCap.pcap
+%dodgy as far as 22/04/21 - I might need to roll the IDS back a bit and test it - seg fault
+\end{tcblisting}
+
+
+\section{IDS Analysis Tool Usage}
+
+\begin{tcblisting}{listing only}
+python3 netAnalysis.py > analysisOutput.txt
+
+--------------------------------------------------------------------------
+Subdomain Segment:  vortex
+Root Domain Segment:  data.microsoft.com
+Source:  192.168.126.128
+Destination:  192.168.126.2
+Timestamp : Thu Apr 22 04:13:04 2021
+
+
+   # THIS IS LIKELY NOT A MALICIOUS DNS Packet! - Score:  0 #
+
+--------------------------------------------------------------------------
+Subdomain Segment:  YidQS1x4MDNceDA0XHgxNFx4MDBceDA4XHgwOFx4MDhceDAwJw==
+Root Domain Segment:  bksoxtdn.com
+Source:  192.168.126.128
+Destination:  192.168.1.1
+Timestamp : Thu Apr 22 04:13:40 2021
+   Abnormal length of subdomain fragment: 52   Possible Base64! ( = or + or / Present)    Abnormal occurances of capitals: 26   Abnormal occurances of numbers: 6   Abnormal occurances of case changes: 21
+
+   # THIS IS LIKELY A MALICIOUS UDP DNS PACKET! - Score:  14 #
+
+--------------------------------------------------------------------------
+Subdomain Segment:  YidceDFhXFxhUlx4MDBceDAwXHgwMFx4MDBceDAwXHgwMCc=
+Root Domain Segment:  qjobhslts.com
+Source:  192.168.126.128
+Destination:  192.168.1.1
+Timestamp : Thu Apr 22 04:13:40 2021
+   Abnormal length of subdomain fragment: 48   Possible Base64! ( = or + or / Present)    Abnormal occurances of capitals: 24   Abnormal occurances of numbers: 2   Abnormal occurances of case changes: 23
+
+   # THIS IS LIKELY A MALICIOUS UDP DNS PACKET! - Score:  14 #
+
+--------------------------------------------------------------------------
+Subdomain Segment:  YidceDAwXHgwMFx4MDBceDAwXHgwMFx4MDBceDBiXHgwMFx4MDBceDAwJw==
+Root Domain Segment:  knvjzxjwq.com
+Source:  192.168.126.128
+Destination:  192.168.1.1
+Timestamp : Thu Apr 22 04:13:40 2021
+   Abnormal length of subdomain fragment: 60   Possible Base64! ( = or + or / Present)    Abnormal occurances of capitals: 31   Abnormal occurances of numbers: 3   Abnormal occurances of case changes: 29
+
+   # THIS IS LIKELY A MALICIOUS UDP DNS PACKET! - Score:  14 #
+
+--------------------------------------------------------------------------
+
+....
+
+▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▃ OVERALL ANALYSIS ▃▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆
+▆ Analysis Weighting Mode: STRICT
+▆ Timestamp: Thu Apr 22 04:18:52 2021
+▆ Total packets in capture:  703
+▆ Total suspicous packets in capture:  686
+▆ Total abnormalities in capture:  3398
+▆ WARNING - Excessive requests to the same root domain: --- data.microsoft.com : 6
+▆ INVESTIGATE - Excessive suspicious traffic from: --- 192.168.126.128 : 703
+▆ INVESTIGATE - Excessive suspicious traffic to: --- 192.168.126.2 : 11
+▆ INVESTIGATE - Excessive suspicious traffic to: --- 192.168.1.1 : 692
+▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆
+
+%have wierd unicode build errors
+\end{tcblisting}
+
+%change because microsoft is getting tagged as sus, its actually not but there is no seperator here
 
 \section{Logic Explanation}
 \subsection{Python DNS Exfiltrator}
@@ -64,6 +213,9 @@ To illustrate the concepts of attack development and eventual detection/preventi
 Specifically, the headers are stripped down to Ethernet-->IP-->UDP-->DNS-->DNSPayload. The logic to support this is that a UDP request is connectionless and as such, is a prime candidate to abuse protocol payload normality. UDP is monitored as the above tool leverages it for the attack, with knowledge of that attack helping to create this tool. This is the typical workflow of attack versus defence and is reproduced here.
 Once the headers are stripped into structs, memory must be traversed as per DNS specification to extract the needed data. The offset must be found to be able to do this, which in this case is 32 octets. Once these values are found, values are formatted into a log for later analysis. The respective datastream can be saved at runtime to a pcap file for achieval purposes also. Data parsed includes source/destination IP address, DNS request (subdomain and root label)
 and timestamp. These values allow the analysis process to find patterns that might indicate malicous activity.
+
+
+%not software devellpment and its poc so it will only be so polished
 
 \subsection{Python3 DNS Exfiltration Detection}
 This is behavioural analysis of the data stream and as such, sensible characteristcs must be chosen to accuralty identify a potential threat. This is less strict that an outright intrusion prevention system in which automated action is taken that could be damaging to infrastructure workflow. The intention of a full developed implemetation of this proof of cocentpt would be to have as part of a SIEM or threat board and have manual action taken. This means that both digitial and human cognition can work together in unison for greatest effect.
@@ -153,7 +305,9 @@ Samples are obtained from well known and trusted github reposititoies, with thos
 
 %\chapter{Investigate IDS/IPS systems w/ comparison}
 \chapter{Parameters for Experimentation - IDPS Testing}
-\section{PfSense & IDPS Packages}
+
+%talk pihole too!
+\section{PfSense \& IDPS Packages}
 PfSense is a 'router' like operating system that is a web gui wrapper for freeBSD. It comes packaged with advanced routing capability, far beyond that of a standard home or office router. It is free for use, and is regualrly updated with qualkity of life and security mofificiations.
 It enables the user to install various offical and community packages to use via the web dashboard on the pfsense port. There are two different but similar IDPS systems available called Snort and Suricata, popular solutions for catching commodity threats that are signature based via the use of rule lists.
 This lists can be imported, modified and bought and often cover different kinds of threats. These may include: privacy, dns, c2, shellcode, shellcode and malware to list a few.

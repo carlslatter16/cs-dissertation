@@ -12,9 +12,6 @@
 #include <time.h>
 #include <stdbool.h>
 
-bool dnsExfilMode = false;
-bool ICMPMode = false;
-
 /*
 Add prototypes and split into header files
 Add requirements for mapping of switches
@@ -32,13 +29,7 @@ void printUsage()
     printf("################################# USAGE ###################################\n");
     printf("-i = list available interfaces\n");
     printf("-b = bind to chosen interface\n");
-    printf("-d = look for DNS exfiltration behaviours\n");
-    printf("-I = look for IMCP DoS behaviours\n");
-    printf("-p = pcap file for input\n");
-    printf("-c = capture live transmissions\n");
-    printf("-o = output to pcap (requires -c)\n");
-    printf("-l = threat logging to chosen file\n");
-    printf("-v = Verbosity\n");
+    printf("-f = pcap file for input\n");
     printf("###########################################################################\n");
 }
 
@@ -55,12 +46,6 @@ void switchHandler(int argCount, char *argText[])
     {
         switch (argSwitch)
         {
-            //seemingly cannot use 'b' for example
-            //compare the two examples, comment the other out
-
-        case 'd':
-            dnsExfilMode = true;
-            break;
         case 'f':
             //printInterfaces();
             readPCAP(argText[2]);
@@ -70,8 +55,7 @@ void switchHandler(int argCount, char *argText[])
             bindInt(argText[2]);
             break;
         case 'i':
-            //printInterfaces();
-            bindInt(argText[2]);
+            printInterfaces();
             break;
         }
     }

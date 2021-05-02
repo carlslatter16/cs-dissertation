@@ -8,15 +8,15 @@
 #include <time.h>
 #include "captureEngine.c"
 
-char dnsFilter[] = "udp[10:2] == 0x0100"; //https://www.tcpdump.org/manpages/pcap-filter.7.html there are issues if there are other flags I suppose - might add more dns scoping too!
+char dnsFilter[] = "udp[10:2] == 0x0100"; //https://www.tcpdump.org/manpages/pcap-filter.7.html DNS Request Filter
 bpf_u_int32 net;
 struct bpf_program fp;
 
-int bindInt(char *interface)
+int bindInt(char *interface)  //Attaches to chosen interface and starts libpcap bindings
 {
     char error_buffer[PCAP_ERRBUF_SIZE];
     pcap_t *conn;
-    int timeout_limit = 100; /* In milliseconds */
+    int timeout_limit = 100; //Tick cycle for detection
 
     if (interface == NULL)
     {
@@ -24,7 +24,6 @@ int bindInt(char *interface)
         return 1;
     }
 
-    /* Open device for live capture */
     conn = pcap_open_live(
         interface,
         BUFSIZ,
@@ -46,14 +45,12 @@ int bindInt(char *interface)
     pcapCapFile = pcap_dump_open(conn, "dnsCap.pcap"); //https://stackoverflow.com/questions/10133017/stop-capture-data-with-libpcap-and-save-it-in-a-file
 
     pcap_loop(conn, 0, packetProcessor, NULL); //I use distpatch for one and not the other??
-    //make conditional on other flags
-
     pcap_dump_close(pcapCapFile);
 
     return 0;
 }
 
-int readPCAP(char *pcapFile)
+int readPCAP(char *pcapFile)  //reads an inputted pcap file and processes the contents similarly to live capture.
 {
     //used for pcap file usage sytnax
     //https://www.devdungeon.com/content/using-libpcap-c

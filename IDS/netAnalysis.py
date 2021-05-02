@@ -4,6 +4,7 @@ import time #credit - https://docs.python.org/3/library/time.html
 
 #Best Usage: python3 netAnalysis.py > analysis.log
 
+#Parameters that can change the accuracy of detection - Mode also can be used to alter weightings - Future project scope for parameter choice.
 capThreshold = 3
 numThreshold = 2
 lenThreshold = 10
@@ -16,6 +17,7 @@ rootDomsDict = {}
 srcIPDict = {}
 dstIPDict = {}
 
+#Log created from the capture engine
 capLogPath = 'rawCap.log'
 capLogFile = open(capLogPath,'r')
 
@@ -23,6 +25,7 @@ def main():
     totalAbnormalities = malCount = totalPackets = 0
 
     for line in capLogFile:
+        #Resetting many variables at a time to the end value
         capThresholdBool = numThresholdBool = base64Bool = caseChangeThresholdBool = False
         abnormalityWeight = abnormalityCount = numCount = caseChangeCount = capCount = domSrcNum = srcIPNum  = dstIPNum = 0
         subdomain = rootDom = prevCap = srcIP = dstIP = unixTime = ""
@@ -34,14 +37,14 @@ def main():
                 subdomain+=char
 
                 if char.isalpha():
-                    if (prevCap == "UPPER" and char.islower() == True) or (prevCap == "LOWER" and char.isupper() == True):
+                    if (prevCap == "UPPER" and char.islower() == True) or (prevCap == "LOWER" and char.isupper() == True):  #logic to sense case changes
                         caseChangeCount += 1
                         if caseChangeCount >= caseChangeThreshold:
                             caseChangeThresholdBool = True
                         
-                if char == "=" or char == "/" or char == "+":
+                if char == "=" or char == "/" or char == "+": #base64 chars
                     base64Bool = True
-                if char.isupper() == True:
+                if char.isupper() == True: 
                     capCount+=1
                     prevCap = "UPPER"
                     if capCount >= capThreshold: 
@@ -163,7 +166,7 @@ def main():
             abnormalityWeight+=1
             abnormalityCount+=1
         
-        if strictMode==True:
+        if strictMode==True: #Mode weighting setting
             abnormalityScoreThreshold = 7
         else:
             abnormalityScoreThreshold = 12
@@ -207,19 +210,18 @@ def main():
         for element in list(srcIPDict.keys()): #SrcIP checker
             srcIPNum = srcIPDict[element]
             if srcIPNum >= srcIPThreshold:
-                print("▆ INVESTIGATE - Excessive suspicious traffic from: --- ", end='')
+                print("▆ INVESTIGATE - Excessive traffic from: --- ", end='')
                 print(element, ": ",  end='')
                 print(srcIPNum)
 
         for element in list(dstIPDict.keys()): #DstIP checker 
             dstIPNum = dstIPDict[element]
             if dstIPNum >= dstIPThreshold:
-                print("▆ INVESTIGATE - Excessive suspicious traffic to: --- ", end='')
+                print("▆ INVESTIGATE - Excessive traffic to: --- ", end='')
                 print(element, ": ",  end='')
                 print(dstIPNum)
-
-        #NEED SOME FLAG OF SUSPICOUS TRAFFIC - One of these might be off a tad too, but could be a mistake in the data!
     
+
     print("▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆\n\n")
 
 if __name__ == "__main__":

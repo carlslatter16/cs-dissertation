@@ -1,6 +1,13 @@
 /* Compile with: gcc args.c -o IDS -lpcap */
 //Requires - sudo apt-get install libpcap-dev
 
+/*
+Future TOOD:
+Add prototypes and split into header files
+Add requirements for mapping of switches
+*/
+
+
 #include <stdio.h>
 #include <unistd.h>
 #include "interfaces.c"
@@ -12,22 +19,11 @@
 #include <time.h>
 #include <stdbool.h>
 
-/*
-Add prototypes and split into header files
-Add requirements for mapping of switches
-Fix needing specific chars for getops
-Tidy up code
-*/
-
-//Eventually required together
-// sudo ./IDS -b eth0 -c
-
 struct addr;
 
 void printUsage()
 {
     printf("################################# USAGE ###################################\n");
-    printf("-i = list available interfaces\n");
     printf("-b = bind to chosen interface\n");
     printf("-f = pcap file for input\n");
     printf("###########################################################################\n");
@@ -42,20 +38,17 @@ void switchHandler(int argCount, char *argText[])
         printUsage();
     }
 
-    while ((argSwitch = getopt(argCount, argText, "dfbi")) != -1)
+    while ((argSwitch = getopt(argCount, argText, "dfb")) != -1)
     {
         switch (argSwitch)
         {
         case 'f':
-            //printInterfaces();
+            pcapUsed = true;
             readPCAP(argText[2]);
             break;
         case 'b':
-            //printInterfaces();
+            pcapUsed = false;
             bindInt(argText[2]);
-            break;
-        case 'i':
-            printInterfaces();
             break;
         }
     }
@@ -63,7 +56,7 @@ void switchHandler(int argCount, char *argText[])
 
 int main(int argc, char *argv[])
 {
-    if (remove(captureLog) == 0)
+    if (remove(captureLog) == 0)  //avoids comflicting logs
     {
         printf("Previous Session Detected - Removing Prior Log!\n");
     }

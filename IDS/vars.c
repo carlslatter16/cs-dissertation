@@ -3,4 +3,4 @@
 
 
 pcap_dumper_t *pcapCapFile;
-bool pcapUsed = false;
+pcapUsed = false;  //important to avoid pcap input producing pcap output.

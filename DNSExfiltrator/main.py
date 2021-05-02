@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import base64, sys, argparse
-from Crypto.Cipher import AES #aes 128
+from Crypto.Cipher import AES
 import random
 import sendUDP
 import time
@@ -17,7 +17,7 @@ autoDomain = False
 sampleRequest = "Super secret data"
 fireRateDelay =  0
 
-def requestFormer(data):
+def requestFormer(data):  #creates the dns request label and will handle encryption if present
     
     if autoDomain == True:
         global domain
@@ -95,7 +95,6 @@ def requestFormer(data):
         except:
             print("An error occured\n")
 
-#put dupe stuff in own function!!!! <3
 
 def filePrep(filename):
     f = open(filename, "rb")
@@ -151,5 +150,3 @@ if __name__ == "__main__":
     else:
         requestFormer(sampleRequest)
     
-#aes after, choice of base64 and aes256??
-#play with lengths for efficiency, splitting base64 and aes strings too!

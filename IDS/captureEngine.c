@@ -25,7 +25,6 @@ char captureLog[] = "rawCap.log";
 /*
 ##############################################
 Credit for original code: 
-
 https://www.devdungeon.com/content/using-libpcap-c
 https://elf11.github.io/2017/01/22/libpcap-in-C.html
 https://www.codeproject.com/Tips/465850/Scanning-a-PCAP-dump-to-find-DNS-and-NETBIOS-queri
@@ -33,7 +32,7 @@ https://www.codeproject.com/Tips/465850/Scanning-a-PCAP-dump-to-find-DNS-and-NET
 ##############################################
 */
 
-void packetProcessor(u_char *userData, const struct pcap_pkthdr *pkthdr, const u_char *packet)
+void packetProcessor(u_char *userData, const struct pcap_pkthdr *pkthdr, const u_char *packet)  //strips each DNS packet down and parses them into different labels to be written into a temporary log file
 {
     packetCount += 1;
     int fqdnLen = 0;
@@ -101,8 +100,8 @@ void packetProcessor(u_char *userData, const struct pcap_pkthdr *pkthdr, const u
                 fqdn[z] = DNSquery[z];
                 fqdnLen += 1;
             }
-            else if (!ispunct(DNSquery[z]))
-            { //replaces to a period delimter - seems the data stream doesnt have . as an actual char - so i'll wildcard it out to allow other symbols
+            else if (!ispunct(DNSquery[z]))   //replaces to a period delimter - seems the data stream doesnt have . as an actual char - so i'll wildcard it out to allow other symbols
+            {                                 
                 fqdn[z] = 46;
                 periodCount += 1;
                 fqdnLen += 1;
